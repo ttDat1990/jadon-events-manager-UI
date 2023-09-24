@@ -1,58 +1,92 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
 import { slidesApi } from '~/components/ApiUrl';
+import classNames from 'classnames/bind';
+import styles from './SlideShow.module.scss';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const SlideShow = () => {
+const cx = classNames.bind(styles);
+
+function SlideShow() {
     const [slides, setSlides] = useState([]);
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
     const nextSlide = useCallback(() => {
-        setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, [slides]);
+        if (currentSlideIndex < slides.length - 1) {
+            setCurrentSlideIndex(currentSlideIndex + 1);
+        } else {
+            setCurrentSlideIndex(0);
+        }
+    }, [currentSlideIndex, slides]);
 
     const prevSlide = useCallback(() => {
-        setCurrentSlide((prevSlide) => (prevSlide === 0 ? slides.length - 1 : prevSlide - 1));
-    }, [slides]);
+        if (currentSlideIndex > 0) {
+            setCurrentSlideIndex(currentSlideIndex - 1);
+        } else {
+            setCurrentSlideIndex(slides.length - 1);
+        }
+    }, [currentSlideIndex, slides]);
 
     useEffect(() => {
-        // Gọi API để lấy dữ liệu slides
-        axios
-            .get(slidesApi)
-            .then((response) => {
-                setSlides(response.data.slides);
+        fetch(slidesApi)
+            .then((response) => response.json())
+            .then((data) => {
+                setSlides(data);
             })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
+            .catch((error) => console.error('Error:', error));
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const slideInterval = setInterval(() => {
             nextSlide();
         }, 5000);
 
-        return () => {
-            clearTimeout(timer); // Xóa timer nếu component unmount hoặc currentSlide thay đổi
-        };
-    }, [currentSlide, nextSlide]);
+        return () => clearInterval(slideInterval);
+    }, [nextSlide]);
 
     if (slides.length === 0) {
         return <div>Loading...</div>;
     }
 
-    const currentSlideData = slides[currentSlide];
+    const currentSlide = slides[currentSlideIndex];
+    const nextSlideIndex = (currentSlideIndex + 1) % slides.length;
+    const nextSlideItem = slides[nextSlideIndex];
 
     return (
-        <div className="slideshow">
-            <div className="slide">
-                <img src={currentSlideData.image_url} alt={currentSlideData.title} />
-                <h2>{currentSlideData.title}</h2>
-                <p>{currentSlideData.content}</p>
+        <div className={cx('slide-show')}>
+            <div className={cx('slide', 'active')}>
+                <img src={currentSlide.image_url} alt={currentSlide.title} />
+                <div className={cx('overlay')}>
+                    <h2>{currentSlide.title}</h2>
+                    <p>{currentSlide.content}</p>
+                    <div>
+                        <Link to={'/contact-us'} className={cx('get-planning-button')}>
+                            Get Planning
+                        </Link>
+                    </div>
+                </div>
             </div>
-            <button onClick={prevSlide}>Previous</button>
-            <button onClick={nextSlide}>Next</button>
+            <div className={cx('slide')}>
+                <img src={nextSlideItem.image_url} alt={nextSlideItem.title} />
+                <div className={cx('overlay')}>
+                    <h2>{nextSlideItem.title}</h2>
+                    <p>{nextSlideItem.content}</p>
+                    <div>
+                        <Link to={'/contact-us'} className={cx('get-planning-button')}>
+                            Get Planning
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <button onClick={prevSlide}>
+                <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <button onClick={nextSlide}>
+                <FontAwesomeIcon icon={faChevronRight} />
+            </button>
         </div>
     );
-};
+}
 
 export default SlideShow;

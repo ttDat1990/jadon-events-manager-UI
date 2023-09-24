@@ -13,6 +13,8 @@ import AdminEventsAddPage from '~/pages/AdminEventsAddPage';
 import AdminEventsListPage from '~/pages/AdminEventsListPage';
 import AdminUsersListPage from '~/pages/AdminUsersListPage';
 import AdminUsersAddPage from '~/pages/AdminUsersAddPage';
+import EventsGallery from '~/pages/EventsGallery';
+import PressPage from '~/pages/PressPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -23,6 +25,8 @@ const publicRoutes = [
     { path: '/weddings', component: Weddings },
     { path: '/non-profit', component: NonProfit },
     { path: '/portfolio', component: Portfolio },
+    { path: '/events-gallery', component: EventsGallery },
+    { path: '/press', component: PressPage },
     { path: '/admin/login', component: AdminLogin, layout: null },
 ];
 

@@ -120,14 +120,14 @@ function NavigationBar() {
                         </Link>
                         <ul className={dropdownClasses}>
                             <li>
-                                <a className={cx('dropdown-item')} href="/">
+                                <Link className={cx('dropdown-item')} to={'/events-gallery'}>
                                     EVENT GALLERY
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a className={cx('dropdown-item')} href="/">
+                                <Link className={cx('dropdown-item')} to={'/press'}>
                                     PRESS
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a className={cx('dropdown-item')} href="/">

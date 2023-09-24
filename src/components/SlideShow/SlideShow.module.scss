@@ -1,0 +1,127 @@
+/* SlideShow.module.scss */
+
+.slide-show {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Chiếm toàn bộ chiều cao của màn hình */
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    /* Ban đầu ẩn slide */
+    transition: opacity 0.5s ease-in-out;
+    /* Hiệu ứng chuyển đổi opacity trong 0.5 giây */
+}
+
+.slide.active {
+    opacity: 1;
+    /* Khi active, hiển thị slide với opacity đầy đủ */
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Hiển thị hình ảnh mà không bị căn chỉnh */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Màu nền của overlay với độ mờ 50% */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Màu văn bản trên overlay */
+    text-align: left;
+    z-index: 1;
+
+    /* Đảm bảo overlay nằm phía trên hình ảnh */
+    h2 {
+        width: 60%;
+        line-height: 8rem;
+        font-size: 8rem;
+        font-weight: 500;
+        margin: 35px 0;
+        color: transparent !important;
+        text-shadow: .3rem .3rem 0 var(--primary-color);
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: var(--white-color);
+    }
+
+    p {
+        width: 60%;
+        font-size: 2.5rem;
+        font-weight: 400;
+    }
+
+    div {
+        width: 60%;
+        text-align: left;
+        padding: 30px 0 0;
+
+        .get-planning-button {
+            background-color: var(--primary-color);
+            /* Màu nền của nút */
+            color: white;
+            /* Màu chữ trên nút */
+            font-size: 1.6rem;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /* Hiệu ứng hover */
+
+            /* Khoảng cách từ nút đến văn bản dưới overlay */
+        }
+
+        .get-planning-button:hover {
+            background-color: var(--primary-hover-color);
+        }
+    }
+
+
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    color: #999;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+
+    &:hover {
+        color: var(--white-color);
+    }
+}
+
+button:first-child {
+    left: 20px;
+}
+
+button:last-child {
+    right: 20px;
+}

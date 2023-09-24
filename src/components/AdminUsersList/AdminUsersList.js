@@ -15,7 +15,7 @@ const AdminUsersList = () => {
     const [usersPerPage] = useState(10);
     const [totalUsers, setTotalUsers] = useState(0);
     const [pages, setPages] = useState([]);
-    const [noResults, setNoResults] = useState(false); // Thêm trạng thái noResults
+    const [noResults, setNoResults] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,10 +24,10 @@ const AdminUsersList = () => {
                 const response = await axios.get(
                     `${userApi}?page=${currentPage}&per_page=${usersPerPage}&name=${searchByName}&email=${searchByEmail}`,
                 );
-                setUsers(response.data.users);
-                setTotalUsers(response.data.total);
+                setUsers(response.data.users.data);
+                setTotalUsers(response.data.users.total);
                 setIsLoading(false);
-                setNoResults(response.data.users.length === 0); // Kiểm tra xem có kết quả không
+                setNoResults(response.data.users.data.length === 0);
 
                 const totalPages = Math.ceil(totalUsers / usersPerPage);
                 const pagesArray = [];
@@ -87,7 +87,7 @@ const AdminUsersList = () => {
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,7 +97,6 @@ const AdminUsersList = () => {
                                         <td>{user.email}</td>
                                         <td className={cx('action')}>
                                             <div>
-                                                <button className={cx('detail-button')}>Edit</button>
                                                 <button className={cx('delete-button')}>Delete</button>
                                             </div>
                                         </td>
@@ -106,12 +105,13 @@ const AdminUsersList = () => {
                             </tbody>
                         </table>
                     )}
-                    <div>
+                    <div className={cx('pagination')}>
                         {pages.map((pageNumber) => (
                             <button
                                 key={pageNumber}
                                 onClick={() => paginate(pageNumber)}
                                 disabled={currentPage === pageNumber}
+                                className={currentPage === pageNumber ? cx('active') : ''}
                             >
                                 {pageNumber}
                             </button>

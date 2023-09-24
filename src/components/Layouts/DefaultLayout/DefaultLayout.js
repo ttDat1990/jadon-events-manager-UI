@@ -1,4 +1,5 @@
 import NavigationBar from '~/components/Layouts/components/NavigationBar';
+import Footer from '~/components/Layouts/components/Footer';
 
 function DefaultLayout({ children }) {
     return (
@@ -7,6 +8,9 @@ function DefaultLayout({ children }) {
                 <NavigationBar />
             </header>
             <div className="container">{children}</div>
+            <footer>
+                <Footer />
+            </footer>
         </div>
     );
 }
