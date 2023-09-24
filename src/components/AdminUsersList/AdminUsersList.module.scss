@@ -1,0 +1,86 @@
+.container {
+    width: 800px;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+
+}
+
+.search-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    input {
+        width: 30%;
+        font-size: 1.6rem;
+        outline: none;
+        border: 1px solid #e9e9e9;
+        height: 20px;
+        padding: 20px 10px;
+        color: var(--primary-admin-color);
+    }
+}
+
+.user-table {
+    width: 100%;
+    font-size: 1.6rem;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: #f2f2f2;
+}
+
+.detail-button {
+    width: 80px;
+    padding: 5px;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    outline: none;
+    text-decoration: none;
+    color: var(--green);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--green);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--green);
+        color: var(--white-color);
+    }
+}
+
+.delete-button {
+    width: 80px;
+    padding: 5px;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    outline: none;
+    text-decoration: none;
+    color: var(--red);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--red);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--red);
+        color: var(--white-color);
+    }
+}
+
+.action {
+    width: 205px;
+}

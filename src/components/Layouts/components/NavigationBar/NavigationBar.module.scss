@@ -1,7 +1,14 @@
 .main-nav-container {
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
     height: 90px;
+    background-color: transparent;
 }
 
 .navbar {
@@ -19,8 +26,84 @@
 }
 
 .logo {
-    width: 150px;
-    text-align: center;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--white-color);
+    cursor: pointer;
+}
+
+.name {
+    font-size: 2.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name-sticky {
+    font-size: 2.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+.name-1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 75px;
+        width: 40px;
+        height: 1px;
+        background-color: var(--white-color);
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        right: 75px;
+        width: 40px;
+        height: 1px;
+        background-color: var(--white-color);
+    }
+}
+
+.name-1-sticky {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-color);
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 75px;
+        width: 40px;
+        height: 1px;
+        background-color: var(--black-color);
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        right: 75px;
+        width: 40px;
+        height: 1px;
+        background-color: var(--black-color);
+    }
 }
 
 .navbar-nav {
@@ -38,35 +121,136 @@
     position: relative;
 
     &:hover .dropdown-menu {
-        display: block;
-        animation: dropdownMenuIn 300ms ease-in-out forwards;
-        transform-origin: center center;
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+        pointer-events: auto;
     }
+
+    &:hover .nav-link::after {
+        transform: scaleX(1);
+    }
+
+    &:hover .nav-link {
+        color: var(--white-color);
+    }
+
+    &:hover .nav-link-sticky::after {
+        transform: scaleX(1);
+    }
+
+    &:hover .nav-link-sticky {
+        color: var(--primary-color);
+    }
+
+
 }
 
 .nav-link {
+    position: relative;
     text-decoration: none;
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 500;
     color: #999;
     cursor: pointer;
     display: flex;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: var(--white-color);
+
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--white-color);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease;
+        bottom: -4px;
+    }
+}
+
+.nav-link-active {
+    color: var(--white-color);
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--white-color);
+        bottom: -4px;
+        transform: scaleX(1);
+    }
+}
+
+.nav-link-sticky {
+    position: relative;
+    text-decoration: none;
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: #999;
+    cursor: pointer;
+    display: flex;
+    transition: color 0.3s ease;
 
     &:hover {
         color: var(--primary-color);
+
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease;
+        bottom: -4px;
+    }
+}
+
+.nav-link-sticky-active {
+    color: var(--primary-color);
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        bottom: -4px;
+        transform: scaleX(1);
     }
 }
 
 .dropdown-menu {
-    display: none;
     position: absolute;
-    top: 35px;
+    top: 55px;
     border-radius: var(--border-radius-default);
     background-color: var(--white-color);
     min-width: 240px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding-left: 0;
-    padding: 16px 10px;
+    padding: 16px 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    visibility: hidden;
+    pointer-events: none;
 
     li {
         height: 35px;
@@ -88,10 +272,10 @@
         content: "";
         display: block;
         position: absolute;
-        top: -20px;
+        top: -35px;
         left: 0;
-        width: 200px;
-        height: 20px;
+        width: 100%;
+        height: 35px;
     }
 
     li {
@@ -107,19 +291,17 @@
     padding: 6.4px 16px;
 }
 
-@keyframes dropdownMenuIn {
-    0% {
-        transform: transLateY(15px);
-        opacity: 0;
-    }
+.fadeIn {
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    80% {
-        transform: transLateY(0px);
-        opacity: 0.5;
-    }
+.fadeOut {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
 
-    100% {
-        transform: transLateY(0px);
-        opacity: 1;
-    }
+.nav-link-clicked {
+    color: red;
 }

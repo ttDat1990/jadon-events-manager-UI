@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { userRoutes, publicRoutes } from '~/routes'; // adminRoutes,
-import { DefaultLayout } from '~/components/Layouts';
+import { adminRoutes, userRoutes, publicRoutes } from '~/routes';
+import { DefaultLayout, AdminDefaultLayout } from '~/components/Layouts';
 import { AuthProvider } from './components/AuthContext/AuthContext';
 import RequireAuth from '~/components/RequireAuth/RequireAuth';
 
@@ -33,7 +33,7 @@ function App() {
                             );
                         })}
 
-                        {/* <Route
+                        <Route
                             path="/admin/*"
                             element={
                                 <RequireAuth requiredRole="admin">
@@ -62,7 +62,7 @@ function App() {
                                     </Routes>
                                 </RequireAuth>
                             }
-                        /> */}
+                        />
 
                         <Route
                             path="/user/*"
