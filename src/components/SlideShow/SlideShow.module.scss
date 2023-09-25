@@ -72,6 +72,13 @@
     /* Hiển thị hình ảnh mà không bị căn chỉnh */
 }
 
+.slide-loading img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Hiển thị hình ảnh mà không bị căn chỉnh */
+}
+
 .overlay {
     position: absolute;
     top: 0;

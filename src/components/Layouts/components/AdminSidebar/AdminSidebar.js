@@ -70,7 +70,13 @@ const AdminSidebar = () => {
             <div className={cx('sidebar-item')}>
                 <Link to={'/admin/listCategory'} className={cx('item-title')}>
                     <FontAwesomeIcon icon={faBox} />
-                    <span>Category Manager</span>
+                    <span>Categories Manager</span>
+                </Link>
+            </div>
+            <div className={cx('sidebar-item')}>
+                <Link to={'/admin/listSlide'} className={cx('item-title')}>
+                    <FontAwesomeIcon icon={faBox} />
+                    <span>Slides Manager</span>
                 </Link>
             </div>
             <div className={cx('sidebar-item')} onClick={logout}>

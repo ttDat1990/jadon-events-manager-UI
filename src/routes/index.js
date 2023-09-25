@@ -16,6 +16,7 @@ import AdminUsersAddPage from '~/pages/AdminUsersAddPage';
 import EventsGallery from '~/pages/EventsGallery';
 import PressPage from '~/pages/PressPage';
 import Corporate from '~/pages/Corporate';
+import AdminSlidesListPage from '~/pages/AdminSlidesListPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -35,6 +36,7 @@ const publicRoutes = [
 const adminRoutes = [
     { path: '/home', component: Admin },
     { path: '/listCategory', component: AdminCategoriesListPage },
+    { path: '/listSlide', component: AdminSlidesListPage },
     { path: '/addEvent', component: AdminEventsAddPage },
     { path: '/listEvents', component: AdminEventsListPage },
     { path: '/listUsers', component: AdminUsersListPage },

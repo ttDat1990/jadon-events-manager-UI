@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { categoryApi } from '~/components/ApiUrl';
+import { slidesApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
-import styles from './AdminCategoriesList.module.scss';
+import styles from './AdminSlidesList.module.scss';
 
 const cx = classNames.bind(styles);
 
-const AdminCategoriesList = () => {
-    const [categories, setCategories] = useState([]);
+const AdminSlidesList = () => {
+    const [slides, setSlides] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [editCategoryId, setEditCategoryId] = useState(null);
-    const [editedData, setEditedData] = useState({ title: '', name: '', image: null });
+    const [editSlideId, setEditSlideId] = useState(null);
+    const [editedData, setEditedData] = useState({ title: '', content: '', image: null });
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const fetchSlides = async () => {
             try {
-                const response = await axios.get(categoryApi);
-                setCategories(response.data);
+                const response = await axios.get(slidesApi);
+                setSlides(response.data.slides);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
@@ -25,26 +25,26 @@ const AdminCategoriesList = () => {
             }
         };
 
-        fetchCategories();
+        fetchSlides();
     }, []);
 
-    const handleEditClick = (categoryId) => {
-        setEditCategoryId(categoryId);
+    const handleEditClick = (slideId) => {
+        setEditSlideId(slideId);
 
-        // Initialize the editedData state with the current category data
-        const categoryToEdit = categories.find((category) => category.id === categoryId);
-        if (categoryToEdit) {
+        // Initialize the editedData state with the current slide data
+        const slideToEdit = slides.find((slide) => slide.id === slideId);
+        if (slideToEdit) {
             setEditedData({
-                title: categoryToEdit.title,
-                name: categoryToEdit.name,
+                title: slideToEdit.title,
+                content: slideToEdit.content,
                 image: null, // Set to null or the existing image URL if needed
             });
         }
     };
 
     const handleCancelEdit = () => {
-        setEditCategoryId(null);
-        setEditedData({ title: '', name: '', image: null });
+        setEditSlideId(null);
+        setEditedData({ title: '', content: '', image: null });
     };
 
     const handleEditChange = (field, value) => {
@@ -62,22 +62,22 @@ const AdminCategoriesList = () => {
         }));
     };
 
-    const handleSaveEdit = async (categoryId, updatedData) => {
+    const handleSaveEdit = async (slideId, updatedData) => {
         try {
             const formData = new FormData();
             formData.append('title', updatedData.title);
-            formData.append('name', updatedData.name);
+            formData.append('content', updatedData.content);
             if (updatedData.image) {
                 formData.append('image', updatedData.image);
             }
 
-            // Make an API call to update the category with the formData
-            await axios.post(`${categoryApi}/${categoryId}`, formData);
-            // Refresh the category list
-            const response = await axios.get(categoryApi);
-            setCategories(response.data);
-            setEditCategoryId(null);
-            setEditedData({ title: '', name: '', image: null });
+            // Make an API call to update the slide with the formData
+            await axios.post(`${slidesApi}/${slideId}`, formData);
+            // Refresh the slide list
+            const response = await axios.get(slidesApi);
+            setSlides(response.data.slides);
+            setEditSlideId(null);
+            setEditedData({ title: '', content: '', image: null });
         } catch (error) {
             console.error(error);
             // Handle errors if necessary.
@@ -86,7 +86,7 @@ const AdminCategoriesList = () => {
 
     return (
         <div className={cx('container')}>
-            <h2 className={cx('title')}>List of Categories</h2>
+            <h2 className={cx('title')}>List of Slides</h2>
             {loading ? (
                 <div>Loading...</div>
             ) : (
@@ -95,56 +95,56 @@ const AdminCategoriesList = () => {
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
-                            <th>Name</th>
+                            <th>Content</th>
                             <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category) => (
-                            <tr key={category.id}>
-                                <td className={cx('id-column')}>{category.id}</td>
+                        {slides.map((slide) => (
+                            <tr key={slide.id}>
+                                <td className={cx('id-column')}>{slide.id}</td>
                                 <td className={cx('title-column')}>
-                                    {editCategoryId === category.id ? (
+                                    {editSlideId === slide.id ? (
                                         <input
                                             type="text"
                                             value={editedData.title}
                                             onChange={(e) => handleEditChange('title', e.target.value)}
                                         />
                                     ) : (
-                                        category.title
+                                        slide.title
                                     )}
                                 </td>
                                 <td className={cx('name-column')}>
-                                    {editCategoryId === category.id ? (
+                                    {editSlideId === slide.id ? (
                                         <input
                                             type="text"
-                                            value={editedData.name}
-                                            onChange={(e) => handleEditChange('name', e.target.value)}
+                                            value={editedData.content}
+                                            onChange={(e) => handleEditChange('content', e.target.value)}
                                         />
                                     ) : (
-                                        category.name
+                                        slide.content
                                     )}
                                 </td>
                                 <td className={cx('img-column')}>
-                                    {editCategoryId === category.id ? (
+                                    {editSlideId === slide.id ? (
                                         <input type="file" accept="image/*" onChange={handleImageChange} />
                                     ) : (
-                                        category.img_url && (
+                                        slide.img_url && (
                                             <img
-                                                src={category.img_url}
-                                                alt={category.name}
+                                                src={slide.img_url}
+                                                alt={slide.title}
                                                 width="100"
-                                                className={cx('category-image')}
+                                                className={cx('slide-image')}
                                             />
                                         )
                                     )}
                                 </td>
                                 <td className={cx('action-container')}>
-                                    {editCategoryId === category.id ? (
+                                    {editSlideId === slide.id ? (
                                         <>
                                             <button
-                                                onClick={() => handleSaveEdit(category.id, editedData)}
+                                                onClick={() => handleSaveEdit(slide.id, editedData)}
                                                 className={cx('save-button')}
                                             >
                                                 Save
@@ -154,10 +154,7 @@ const AdminCategoriesList = () => {
                                             </button>
                                         </>
                                     ) : (
-                                        <button
-                                            onClick={() => handleEditClick(category.id)}
-                                            className={cx('edit-button')}
-                                        >
+                                        <button onClick={() => handleEditClick(slide.id)} className={cx('edit-button')}>
                                             Edit
                                         </button>
                                     )}
@@ -171,4 +168,4 @@ const AdminCategoriesList = () => {
     );
 };
 
-export default AdminCategoriesList;
+export default AdminSlidesList;

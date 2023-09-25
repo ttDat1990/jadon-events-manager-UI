@@ -13,7 +13,7 @@ function SlideShow() {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
     const nextSlide = useCallback(() => {
-        if (currentSlideIndex < slides.length - 1) {
+        if (currentSlideIndex < slides.slides.length - 1) {
             setCurrentSlideIndex(currentSlideIndex + 1);
         } else {
             setCurrentSlideIndex(0);
@@ -24,7 +24,7 @@ function SlideShow() {
         if (currentSlideIndex > 0) {
             setCurrentSlideIndex(currentSlideIndex - 1);
         } else {
-            setCurrentSlideIndex(slides.length - 1);
+            setCurrentSlideIndex(slides.slides.length - 1);
         }
     }, [currentSlideIndex, slides]);
 
@@ -53,19 +53,20 @@ function SlideShow() {
                         src="https://takeheartevents.com/wp-content/uploads/2020/09/JC-935.jpg"
                         alt="Loading Slide Show"
                     />
+                    <div className={cx('overlay')}></div>
                 </div>
             </div>
         );
     }
 
-    const currentSlide = slides[currentSlideIndex];
-    const nextSlideIndex = (currentSlideIndex + 1) % slides.length;
-    const nextSlideItem = slides[nextSlideIndex];
+    const currentSlide = slides.slides[currentSlideIndex];
+    const nextSlideIndex = (currentSlideIndex + 1) % slides.slides.length;
+    const nextSlideItem = slides.slides[nextSlideIndex];
 
     return (
         <div className={cx('slide-show')}>
             <div className={cx('slide', 'active')}>
-                <img src={currentSlide.image_url} alt={currentSlide.title} />
+                <img src={currentSlide.img_url} alt={currentSlide.title} />
                 <div className={cx('overlay')}>
                     <h2>{currentSlide.title}</h2>
                     <p>{currentSlide.content}</p>
@@ -77,7 +78,7 @@ function SlideShow() {
                 </div>
             </div>
             <div className={cx('slide')}>
-                <img src={nextSlideItem.image_url} alt={nextSlideItem.title} />
+                <img src={nextSlideItem.img_url} alt={nextSlideItem.title} />
                 <div className={cx('overlay')}>
                     <h2>{nextSlideItem.title}</h2>
                     <p>{nextSlideItem.content}</p>
