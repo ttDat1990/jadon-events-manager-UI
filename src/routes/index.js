@@ -15,11 +15,13 @@ import AdminUsersListPage from '~/pages/AdminUsersListPage';
 import AdminUsersAddPage from '~/pages/AdminUsersAddPage';
 import EventsGallery from '~/pages/EventsGallery';
 import PressPage from '~/pages/PressPage';
+import Corporate from '~/pages/Corporate';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/about', component: About },
     { path: '/contact-us', component: ContactUs },
+    { path: '/corporate', component: Corporate },
     { path: '/feedback', component: Feedback },
     { path: '/social', component: Social },
     { path: '/weddings', component: Weddings },

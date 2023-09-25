@@ -46,7 +46,16 @@ function SlideShow() {
     }, [nextSlide]);
 
     if (slides.length === 0) {
-        return <div>Loading...</div>;
+        return (
+            <div className={cx('slide-show')}>
+                <div className={cx('slide-loading')}>
+                    <img
+                        src="https://takeheartevents.com/wp-content/uploads/2020/09/JC-935.jpg"
+                        alt="Loading Slide Show"
+                    />
+                </div>
+            </div>
+        );
     }
 
     const currentSlide = slides[currentSlideIndex];

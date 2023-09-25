@@ -1,0 +1,374 @@
+.home_container {}
+
+.home_message {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5rem;
+    margin-top: 20px;
+}
+
+.home_preface {
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.home_preface h1,
+.home_preface h3 {
+    line-height: 6rem;
+}
+
+.home_preface h3 {
+    color: #444444;
+    font-weight: 400;
+    word-spacing: .3rem;
+
+}
+
+.home_preface p {
+    font-size: 1.8rem;
+    color: #444;
+    word-spacing: .3rem;
+    width: 68%;
+    text-align: center;
+}
+
+.home_values_container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.home_values {
+    line-height: 6.5rem;
+}
+
+.home_values h4 {
+    font-weight: 500;
+    font-size: 1.8rem;
+    color: #444;
+}
+
+.home_values_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.home_values_icon a {
+    text-decoration: none;
+}
+
+.home_values_icon i {
+    font-size: 3.5rem;
+    width: 95px;
+    height: 95px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    color: var(--primary-color);
+}
+
+.home_values_word {
+    line-height: 3.5rem;
+    font-size: 1.9rem;
+}
+
+.home_values_word div {
+    color: #444;
+    text-align: left;
+    margin-left: 2rem;
+
+}
+
+.home_values_word i {
+    color: var(--primary-color);
+    padding-right: 1.4rem;
+}
+
+/* ----------------------------------- */
+.home_portfolio_gallery {}
+
+.home_portfolio_gallery_section {
+    width: 100%;
+    height: 14.2rem;
+    background-color: #ae81f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+}
+
+.home_portfolio_gallery_section a {
+    text-decoration: none;
+    color: white;
+}
+
+.home_portfolio_gallery_link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.home_portfolio_gallery_img_link {
+    text-decoration: none;
+    width: 25%;
+    overflow: hidden;
+    transform: scale(1);
+}
+
+.home_portfolio_gallery_img1 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/Overture_202205-0535.jpg);
+}
+
+.home_portfolio_gallery_img2 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/46EEA66E-A254-465C-AD67-AA40909D7098_1_105_c.jpeg);
+}
+
+.home_portfolio_gallery_img3 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/IMG_7428.jpeg);
+}
+
+.home_portfolio_gallery_img4 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/02/080B9EE3-23F1-4942-8BC0-FF1F20BBA968_1_201_a.jpg);
+}
+
+.home_portfolio_gallery_img {
+    background-repeat: no-repeat;
+    background-size: 100% 25.3rem;
+    height: 25.3rem;
+    position: relative;
+    transition: 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.home_portfolio_gallery_img:hover {
+    transform: scale(1.1);
+}
+
+.home_portfolio_gallery_img:hover .home_portfolio_gallery_img_overlay {
+    display: none;
+}
+
+.home_portfolio_gallery_img span {
+    z-index: 3;
+    position: absolute;
+    bottom: 40%;
+    color: white;
+    font-size: larger;
+    width: 90%;
+}
+
+.home_portfolio_gallery_img_overlay {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ---------------------------------------------------- */
+.home_review {
+    width: 100%;
+    height: 59.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home_review_icon {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem 3.3rem;
+}
+
+.home_review_icon i {
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid gray;
+}
+
+.home_review_slide {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home_review_slide_cmt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1100px;
+    line-height: 3rem;
+}
+
+.home_review_slide_cmt p {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    width: 90%;
+    word-spacing: .3rem;
+}
+
+.home_review_slide_cmt h5 {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+}
+
+.home_review_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40%;
+    margin-bottom: 4rem;
+    line-height: 4rem;
+    overflow: hidden;
+    transform: scale(1);
+
+}
+
+.home_review_btn a {
+    background-color: #ae81f9;
+    border: none;
+    cursor: pointer;
+    border-radius: .5rem;
+    padding: .2rem 5rem;
+    overflow: hidden;
+    transition: background-color 0.4s ease;
+}
+
+.home_review_btn a span {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.home_review_btn a i {
+    margin-left: 1rem;
+    color: white;
+    display: none;
+    transition: opacity 0.4s ease;
+}
+
+.home_review_btn>a:hover i {
+    display: inline-block;
+    opacity: 1;
+}
+
+.home_review_btn>a:hover {
+    background-color: #c6a1ff;
+    /* Lighter shade of purple */
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------- */
+.home_events_press {
+    background-color: #2e2e2e;
+    height: 90.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.home_events_press_flex {
+    width: 100rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home_events_title {
+    margin: 6rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 1.8rem;
+    list-style: none;
+}
+
+.home_events_press_flex h1 {
+    color: white;
+    margin-top: 8rem;
+}
+
+.home_events_press_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.home_events_press_divide {
+    width: 30%;
+    height: 100%;
+}
+
+.home_events_press_content {
+    width: 100%;
+    line-height: 4rem;
+}
+
+.home_events_press_content_img {
+    background-repeat: no-repeat;
+    background-size: 100% 23.6rem;
+    height: 19rem;
+}
+
+.home_events_press_content_img1 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.36.01-AM-600x403.png);
+
+}
+
+.home_events_press_content_img2 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.32.57-AM-600x403.png);
+
+}
+
+.home_events_press_content_img3 {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.24.46-AM.png);
+
+}
+
+.home_events_press_title {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 1.6rem;
+}
+
+.home_events_press_link {
+    text-decoration: none;
+    color: #9999;
+    font-size: 1.1rem;
+    transition: color 0.4s ease;
+}
+
+.home_events_press_link:hover {
+    color: var(--primary-color);
+}
+
+.home_events_press_p {
+    color: white;
+    display: block;
+    letter-spacing: -0.2px;
+    text-align: justify;
+}

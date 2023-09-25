@@ -82,8 +82,8 @@ function NavigationBar() {
                     </li>
 
                     <li className={cx('nav-item')}>
-                        <Link to={'/feedback'} className={navLink('/feedback')}>
-                            FEEDBACK
+                        <Link to={'/corporate'} className={navLink('/corporate')}>
+                            CORPORATE
                         </Link>
                     </li>
                 </ul>

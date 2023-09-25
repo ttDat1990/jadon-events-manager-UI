@@ -1,0 +1,285 @@
+.container {
+    width: 100%;
+    position: relative;
+}
+
+.contact_img {
+    width: 100vW;
+    height: 100vh;
+
+}
+
+.img_container {
+    background-color: #2E2E2E;
+    width: 100%;
+    height: 1128px;
+}
+
+.contact_img {
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/06/TH-contact-header.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 1128px;
+    height: 100%;
+}
+
+/* -------------------------------------- */
+.contact_container {
+    height: 540px;
+    background-color: #2E2E2E;
+}
+
+.contact_content {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.contact_info {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.contact_info h3 {
+    color: white;
+    text-align: center;
+    font-family: var(--font-family);
+    font-size: 1.9rem;
+    font-weight: 400;
+}
+
+.contact_info_review,
+.contact_info_phone,
+.contact_info_mail,
+.contact_info_social {
+    h3 {
+        margin-bottom: 10px;
+    }
+}
+
+.contact_info_review_btn {
+    display: flex;
+    justify-content: center;
+}
+
+.contact_info_review_btn button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    width: 124px;
+    height: 50px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.contact_info_review_btn button:hover {
+    background-color: var(--red);
+}
+
+.contact_info_detail {
+    height: 100%;
+    line-height: 40px;
+}
+
+.contact_info_detail a {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.6s ease;
+    text-decoration: none;
+}
+
+.contact_info_detail a i {
+    padding-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.contact_info_social_icon {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 2.8rem;
+}
+
+.contact_info_social_icon a {
+    color: var(--red);
+
+    &:hover {
+        color: var(--white-color);
+    }
+}
+
+.contact_info_phone a:hover,
+.contact_info_mail a:hover {
+    color: white;
+    cursor: pointer;
+
+}
+
+
+
+/* ----------------------------------------- */
+.form_container {
+    position: absolute;
+    width: 100%;
+    top: 150px;
+}
+
+
+.contact_form_content {
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.contact_title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 3.4rem;
+    line-height: 44px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.contact_form_flex {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.contact_form {
+    background-color: white;
+    width: 726px;
+    height: 964px;
+    border-radius: 15px;
+}
+
+.contact_input_flex {
+    width: 100%;
+    height: 100%;
+    padding: 30px 30px;
+}
+
+.contact_input {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    margin-bottom: 20px;
+}
+
+.contact_input input {
+    width: 48%;
+    height: 100%;
+    padding: 15px;
+    background-color: #f1f1f1;
+    color: #555;
+    box-shadow: none;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    border-radius: 0;
+    transition: border-color 0.6s ease;
+    outline: none;
+}
+
+/* .contact_input input[type="text"]:focus,
+.contact_input input[type="mail"]:focus,
+.contact_input input[type="number"]:focus{
+    font-size: 30px;
+} */
+
+.contact_event_type {
+    font-size: 1.6rem;
+    line-height: 26px;
+    font-family: var(--font-family);
+    color: #444;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.contact_event_type_flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contact_date {
+    margin-bottom: 20px;
+}
+
+.contact_textarea {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 40%;
+}
+
+.contact_word {
+    margin-bottom: 20px;
+}
+
+.contact_captcha {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.contact_date input,
+.contact_textarea textarea,
+.contact_captcha input {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background-color: #f1f1f1;
+    color: #555;
+    box-shadow: none;
+    border: none;
+    border-bottom: 3px solid #e0e0e0;
+    border-radius: 0;
+    transition: border-color 0.6s ease;
+    outline: none;
+}
+
+.contact_input input::placeholder,
+.contact_date input::placeholder,
+.contact_textarea textarea::placeholder,
+.contact_captcha input {
+    font-size: 1.4rem;
+    font-family: var(--font-family);
+    letter-spacing: 1px;
+}
+
+.contact_input input:focus,
+.contact_date input:focus,
+.contact_textarea textarea:focus,
+.contact_captcha input:focus {
+    border-bottom-color: var(--red);
+}
+
+.contact_btn button {
+    background-color: var(--red);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    width: 124px;
+    height: 50px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.contact_btn button:hover {
+    background-color: var(--red);
+}
