@@ -68,6 +68,24 @@ const AdminSidebar = () => {
                 )}
             </div>
             <div className={cx('sidebar-item')}>
+                <div className={cx('item-title')} onClick={() => toggleDropdown(3)}>
+                    <FontAwesomeIcon icon={faTable} />
+                    <span>Press-reviews Manager</span>
+                </div>
+                {openDropdownIndex === 3 && (
+                    <div className={cx('dropdown-content')}>
+                        <Link to={'/admin/addPressReview'}>
+                            <FontAwesomeIcon icon={faSquarePlus} />
+                            <span>Add new Press-Review</span>
+                        </Link>
+                        <Link to={'/admin/listPressReview'}>
+                            <FontAwesomeIcon icon={faRectangleList} />
+                            <span>List of Press-Review</span>
+                        </Link>
+                    </div>
+                )}
+            </div>
+            <div className={cx('sidebar-item')}>
                 <Link to={'/admin/listCategory'} className={cx('item-title')}>
                     <FontAwesomeIcon icon={faBox} />
                     <span>Categories Manager</span>

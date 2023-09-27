@@ -1,0 +1,195 @@
+/* AdminEventsAdd.module.scss */
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.error-message {
+    color: var(--red);
+    margin-bottom: 10px;
+}
+
+.form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.input-img {
+    display: none;
+}
+
+.label-img {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    height: 40px;
+    color: var(--primary-admin-color);
+    cursor: pointer;
+    border: 1px solid var(--primary-admin-color);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--primary-admin-color);
+        color: var(--white-color);
+    }
+}
+
+.selected-images {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    img {
+        width: 150px;
+        margin: 5px 5px;
+    }
+}
+
+.selected-image-container {
+    position: relative;
+}
+
+.remove-image-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: var(--red);
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    cursor: pointer;
+}
+
+.date,
+.cate-user {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .form-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .input {
+            width: 90%;
+        }
+    }
+
+}
+
+.add-ons-title {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.add-on {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.add-on-label {
+    font-weight: 500;
+    padding-right: 10px;
+}
+
+.add-on-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.remove-button {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    height: 32px;
+    color: var(--red);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--red);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--red);
+        color: var(--white-color);
+    }
+}
+
+.add-button {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    height: 40px;
+    color: var(--green);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--green);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--green);
+        color: var(--white-color);
+    }
+}
+
+.submit-button {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 1.8rem;
+    font-weight: 500;
+    background-color: var(--white-color);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--blue);
+        color: var(--white-color);
+    }
+}
+
+.input-text {
+    height: 450px;
+}
+
+.selected-image {
+    width: 150px;
+}

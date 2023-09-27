@@ -39,6 +39,7 @@
 
 .user-table th {
     background-color: #f2f2f2;
+    text-align: center;
 }
 
 .detail-button {
@@ -81,6 +82,66 @@
     }
 }
 
+.edit-button {
+    width: 80px;
+    padding: 5px;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    outline: none;
+    text-decoration: none;
+    color: var(--yellow);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--yellow);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--yellow);
+        color: var(--white-color);
+    }
+}
+
+.save-button {
+    width: 80px;
+    padding: 5px;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    outline: none;
+    text-decoration: none;
+    color: var(--green);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--green);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--green);
+        color: var(--white-color);
+    }
+}
+
+.cancel-button {
+    width: 80px;
+    padding: 5px;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    outline: none;
+    text-decoration: none;
+    color: var(--grey);
+    cursor: pointer;
+    background-color: var(--white-color);
+    border: 1px solid var(--grey);
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--grey);
+        color: var(--white-color);
+    }
+}
+
 .action {
     width: 100px;
 }
@@ -105,4 +166,15 @@
     background-color: var(--primary-admin-color);
     color: var(--white-color);
     cursor: default;
+}
+
+.column-action {
+    width: 205px;
+}
+
+.input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-top: 5px;
 }

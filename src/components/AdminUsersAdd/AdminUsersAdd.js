@@ -46,14 +46,12 @@ function AdminUsersAdd() {
             setSuccessMessage('Create User successful');
             clearForm();
 
-            // Tự động ẩn thông báo successMessage sau 3 giây
             setTimeout(() => {
                 setSuccessMessage(null);
             }, 3000);
         } catch (err) {
             setError(err.message);
 
-            // Tự động ẩn thông báo error sau 3 giây
             setTimeout(() => {
                 setError(null);
             }, 3000);

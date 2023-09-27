@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { eventApi } from '~/components/ApiUrl';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './AdminEventsList.module.scss';
 
@@ -16,6 +17,7 @@ const AdminEventsList = () => {
     const [eventsPerPage] = useState(10);
     const [totalEvents, setTotalEvents] = useState(0);
     const [pages, setPages] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,6 +60,26 @@ const AdminEventsList = () => {
         setCurrentPage(1);
     };
 
+    const handleUpdate = (id) => {
+        navigate(`/admin/detailEvent/${id}`);
+    };
+
+    const handleDeleteEvent = async (eventId) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this event?');
+
+        if (isConfirmed) {
+            axios
+                .delete(`${eventApi}/${eventId}`)
+                .then(() => {
+                    const updatedEvents = events.filter((event) => event.id !== eventId);
+                    setEvents(updatedEvents);
+                })
+                .catch((error) => {
+                    console.error('Error deleting event:', error);
+                });
+        }
+    };
+
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -90,7 +112,7 @@ const AdminEventsList = () => {
                                 <th>Category</th>
                                 <th>Images</th>
                                 <th>Add-ons</th>
-                                <th>Actions</th>
+                                <th className={cx('column-action')}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,12 +124,22 @@ const AdminEventsList = () => {
                                     <td>{event.start_date}</td>
                                     <td>{event.end_date}</td>
                                     <td>{event.category.name}</td>
-                                    <td>{`${event.images?.length || 0} Images`}</td>
-                                    <td>{`${event.add_on?.length || 0} Add On`}</td>
+                                    <td>{`${event.images?.length || 0}`}</td>
+                                    <td>{`${event.add_ons?.length || 0}`}</td>
                                     <td>
-                                        <div>
-                                            <button className={cx('detail-button')}>Detail</button>
-                                            <button className={cx('delete-button')}>Delete</button>
+                                        <div className={cx('button-container')}>
+                                            <button
+                                                className={cx('detail-button')}
+                                                onClick={() => handleUpdate(event.id)}
+                                            >
+                                                Detail
+                                            </button>
+                                            <button
+                                                className={cx('delete-button')}
+                                                onClick={() => handleDeleteEvent(event.id)}
+                                            >
+                                                Delete
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

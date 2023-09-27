@@ -17,6 +17,10 @@ import EventsGallery from '~/pages/EventsGallery';
 import PressPage from '~/pages/PressPage';
 import Corporate from '~/pages/Corporate';
 import AdminSlidesListPage from '~/pages/AdminSlidesListPage';
+import AdminPressReviewsAddPage from '~/pages/AdminPressReviewsAddPage';
+import AdminPressReviewsListPage from '~/pages/AdminPressReviewsListPage';
+import AdminPressReviewsUpdatePage from '~/pages/AdminPressReviewsUpdatePage';
+import AdminEventsDetailPage from '~/pages/AdminEventsDetailPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -39,8 +43,12 @@ const adminRoutes = [
     { path: '/listSlide', component: AdminSlidesListPage },
     { path: '/addEvent', component: AdminEventsAddPage },
     { path: '/listEvents', component: AdminEventsListPage },
-    { path: '/listUsers', component: AdminUsersListPage },
+    { path: '/detailEvent/:id', component: AdminEventsDetailPage },
     { path: '/addUser', component: AdminUsersAddPage },
+    { path: '/listUsers', component: AdminUsersListPage },
+    { path: '/addPressReview', component: AdminPressReviewsAddPage },
+    { path: '/listPressReview', component: AdminPressReviewsListPage },
+    { path: '/updatePressReview/:id', component: AdminPressReviewsUpdatePage },
 ];
 
 const userRoutes = [];

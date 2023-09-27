@@ -8,6 +8,8 @@ const eventApi = 'http://127.0.0.1:8000/api/events';
 
 const userApi = 'http://127.0.0.1:8000/api/users';
 
+const pressReviewApi = 'http://127.0.0.1:8000/api/press-review';
+
 const adminDeleteProducts = 'http://127.0.0.1:8000/api/products/';
 const adminGetAllProducts = 'http://127.0.0.1:8000/api/products';
 const adminAddProduct = 'http://127.0.0.1:8000/api/products';
@@ -49,4 +51,5 @@ export {
     categoryApi,
     eventApi,
     userApi,
+    pressReviewApi,
 };

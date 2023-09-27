@@ -16,6 +16,8 @@ const AdminUsersList = () => {
     const [totalUsers, setTotalUsers] = useState(0);
     const [pages, setPages] = useState([]);
     const [noResults, setNoResults] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
+    const [updatedUser, setUpdatedUser] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,6 +56,53 @@ const AdminUsersList = () => {
         setCurrentPage(1);
     };
 
+    const handleDelete = (id) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this User?');
+
+        if (confirmDelete) {
+            axios
+                .delete(`${userApi}/${id}`)
+                .then((response) => {
+                    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    };
+
+    const handleUpdate = (user) => {
+        setEditingUser(user);
+        setUpdatedUser({ ...user });
+    };
+
+    const handleEditInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedUser((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleSave = (user) => {
+        // Send an API request to update the user with updatedUser data
+        axios
+            .post(`${userApi}/${user.id}`, updatedUser)
+            .then((response) => {
+                // Update the users array with the new data
+                const updatedUsers = users.map((u) => (u.id === user.id ? { ...u, ...updatedUser } : u));
+                setUsers(updatedUsers);
+                setEditingUser(null);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+    const handleCancelEdit = () => {
+        setEditingUser(null);
+    };
+
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -87,17 +136,71 @@ const AdminUsersList = () => {
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th></th>
+                                    <th className={cx('column-action')}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
                                     <tr key={user.id}>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
+                                        <td>
+                                            {editingUser && editingUser.id === user.id ? (
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    value={updatedUser.name}
+                                                    onChange={handleEditInputChange}
+                                                    className={cx('input')}
+                                                />
+                                            ) : (
+                                                user.name
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingUser && editingUser.id === user.id ? (
+                                                <input
+                                                    type="text"
+                                                    name="email"
+                                                    value={updatedUser.email}
+                                                    onChange={handleEditInputChange}
+                                                    className={cx('input')}
+                                                />
+                                            ) : (
+                                                user.email
+                                            )}
+                                        </td>
                                         <td className={cx('action')}>
                                             <div>
-                                                <button className={cx('delete-button')}>Delete</button>
+                                                {editingUser && editingUser.id === user.id ? (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleSave(user)}
+                                                            className={cx('save-button')}
+                                                        >
+                                                            Save
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleCancelEdit()}
+                                                            className={cx('cancel-button')}
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleUpdate(user)}
+                                                            className={cx('edit-button')}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete(user.id)}
+                                                            className={cx('delete-button')}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
