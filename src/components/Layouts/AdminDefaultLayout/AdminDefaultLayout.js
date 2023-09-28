@@ -10,6 +10,7 @@ function AdminDefaultLayout({ children }) {
             <header className={cx('sidebar')}>
                 <AdminSidebar />
             </header>
+
             <div className={cx('content')}>{children}</div>
         </div>
     );

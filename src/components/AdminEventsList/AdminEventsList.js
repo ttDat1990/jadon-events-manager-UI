@@ -14,7 +14,7 @@ const AdminEventsList = () => {
     const [categoryName, setCategoryName] = useState('');
     const [userName, setUserName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(10);
+    const [eventsPerPage] = useState(5);
     const [totalEvents, setTotalEvents] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ const AdminEventsList = () => {
         setCurrentPage(1);
     };
 
-    const handleUpdate = (id) => {
+    const handleDetail = (id) => {
         navigate(`/admin/detailEvent/${id}`);
     };
 
@@ -130,7 +130,7 @@ const AdminEventsList = () => {
                                         <div className={cx('button-container')}>
                                             <button
                                                 className={cx('detail-button')}
-                                                onClick={() => handleUpdate(event.id)}
+                                                onClick={() => handleDetail(event.id)}
                                             >
                                                 Detail
                                             </button>

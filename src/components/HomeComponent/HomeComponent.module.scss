@@ -91,7 +91,9 @@
 }
 
 /* ----------------------------------- */
-.home_portfolio_gallery {}
+.home_portfolio_gallery {
+    width: 100%;
+}
 
 .home_portfolio_gallery_section {
     width: 100%;
@@ -102,75 +104,17 @@
     align-items: center;
     color: white;
 
-}
+    h1 {
+        margin-right: 30px;
+        padding-right: 30px;
+        border-right: 2px solid var(--white-color);
+    }
 
-.home_portfolio_gallery_section a {
-    text-decoration: none;
-    color: white;
-}
-
-.home_portfolio_gallery_link {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.home_portfolio_gallery_img_link {
-    text-decoration: none;
-    width: 25%;
-    overflow: hidden;
-    transform: scale(1);
-}
-
-.home_portfolio_gallery_img1 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/Overture_202205-0535.jpg);
-}
-
-.home_portfolio_gallery_img2 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/46EEA66E-A254-465C-AD67-AA40909D7098_1_105_c.jpeg);
-}
-
-.home_portfolio_gallery_img3 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/IMG_7428.jpeg);
-}
-
-.home_portfolio_gallery_img4 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/02/080B9EE3-23F1-4942-8BC0-FF1F20BBA968_1_201_a.jpg);
-}
-
-.home_portfolio_gallery_img {
-    background-repeat: no-repeat;
-    background-size: 100% 25.3rem;
-    height: 25.3rem;
-    position: relative;
-    transition: 0.4s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.home_portfolio_gallery_img:hover {
-    transform: scale(1.1);
-}
-
-.home_portfolio_gallery_img:hover .home_portfolio_gallery_img_overlay {
-    display: none;
-}
-
-.home_portfolio_gallery_img span {
-    z-index: 3;
-    position: absolute;
-    bottom: 40%;
-    color: white;
-    font-size: larger;
-    width: 90%;
-}
-
-.home_portfolio_gallery_img_overlay {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    span {
+        cursor: pointer;
+        font-size: xx-large;
+        font-weight: bolder;
+    }
 }
 
 /* ---------------------------------------------------- */
@@ -277,98 +221,169 @@
     overflow: hidden;
 }
 
-/* ---------------------------------------------------- */
-.home_events_press {
-    background-color: #2e2e2e;
-    height: 90.4rem;
+//content
+
+.content-container {
+    width: 100%;
+}
+
+//list item
+.items-container {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.item-detail {
+    width: 25%;
+    height: 300px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover .overlay {
+        opacity: 0;
+    }
+
+    &:hover .item-name div {
+        color: var(--primary-color);
+    }
+
+    &:hover .item-image img {
+        transform: scale(1.2);
+    }
 
 }
 
-.home_events_press_flex {
-    width: 100rem;
+.item-image {
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
 }
 
-.home_events_title {
-    margin: 6rem 0;
+.item-name {
+    padding: 10px;
+    position: absolute;
     width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-    color: white;
-    font-size: 1.8rem;
-    list-style: none;
-}
-
-.home_events_press_flex h1 {
-    color: white;
-    margin-top: 8rem;
-}
-
-.home_events_press_container {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.home_events_press_divide {
-    width: 30%;
     height: 100%;
-}
+    top: 0;
 
-.home_events_press_content {
-    width: 100%;
-    line-height: 4rem;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.home_events_press_content_img {
-    background-repeat: no-repeat;
-    background-size: 100% 23.6rem;
-    height: 19rem;
-}
-
-.home_events_press_content_img1 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.36.01-AM-600x403.png);
+    div {
+        font-size: 2.5rem;
+        color: var(--white-color);
+        transition: color 0.5s ease;
+    }
 
 }
 
-.home_events_press_content_img2 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.32.57-AM-600x403.png);
-
-}
-
-.home_events_press_content_img3 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.24.46-AM.png);
-
-}
-
-.home_events_press_title {
-    text-decoration: none;
-    color: var(--primary-color);
+.item-name1 {
+    color: #444444;
     font-size: 1.6rem;
+    font-weight: 400;
+    transition: color 0.5s ease;
+    padding-top: 10px;
+
+    div {
+        margin-bottom: 10px;
+    }
 }
 
-.home_events_press_link {
-    text-decoration: none;
-    color: #9999;
-    font-size: 1.1rem;
-    transition: color 0.4s ease;
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
 
-.home_events_press_link:hover {
-    color: var(--primary-color);
+.active1 {
+    color: var(--primary-color) !important;
 }
 
-.home_events_press_p {
-    color: white;
-    display: block;
-    letter-spacing: -0.2px;
-    text-align: justify;
+//press
+
+.content-container1 {
+    width: 100%;
+    height: 750px;
+    background-color: #333333;
+
+
+    h1 {
+        text-align: center;
+        padding: 30px 0;
+        color: var(--white-color);
+        cursor: pointer;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
+}
+
+.items-container1 {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    .item-detail {
+        width: 33%;
+        height: 250px;
+        padding: 15px;
+        cursor: pointer;
+
+        &:hover .overlay {
+            opacity: 0;
+        }
+
+        &:hover .item-name div {
+            color: var(--primary-color);
+        }
+
+        &:hover .item-image img {
+            transform: scale(1.2);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.5s ease;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                transition: transform 0.5s ease;
+            }
+        }
+
+
+        .item-name1 {
+            color: var(--white-color);
+            font-size: 1.6rem;
+            font-weight: 400;
+            transition: color 0.5s ease;
+            padding-top: 10px;
+
+            div {
+                margin-bottom: 10px;
+            }
+        }
+    }
 }

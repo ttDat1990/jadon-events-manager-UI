@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { eventApi } from '~/components/ApiUrl';
+import React, { useState, useEffect } from 'react';
+import { eventApi, categoryApi, userApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
 import styles from './AdminEventsAdd.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,10 +16,29 @@ function AdminEventsAdd() {
         user_id: '',
         images: [],
         add_ons: [],
+        searchUserEmail: '',
     };
 
     const [formData, setFormData] = useState(initialFormData);
     const [errorMessage, setErrorMessage] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [filteredEmails, setFilteredEmails] = useState([]);
+
+    useEffect(() => {
+        fetch(categoryApi)
+            .then((response) => response.json())
+            .then((data) => setCategories(data));
+
+        fetch(userApi)
+            .then((response) => response.json())
+            .then((data) => setUsers(data.users.data));
+
+        const filtered = users.filter((user) =>
+            user.email.toLowerCase().includes(formData.searchUserEmail.toLowerCase()),
+        );
+        setFilteredEmails(filtered);
+    }, [formData.searchUserEmail, users]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -82,8 +101,6 @@ function AdminEventsAdd() {
             });
 
             if (response.status === 200) {
-                // Event created successfully
-                // You can redirect or perform any other action here
                 console.log('Event created successfully');
                 clearFormData();
             } else {
@@ -101,7 +118,6 @@ function AdminEventsAdd() {
             <h2 className={cx('title')}>Create Event</h2>
             {errorMessage && <div className={cx('error-message')}>{errorMessage}</div>}
             <form onSubmit={handleSubmit} className={cx('form')}>
-                {/* Form fields and inputs go here */}
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Name:</label>
                     <input
@@ -139,25 +155,45 @@ function AdminEventsAdd() {
                 </div>
                 <div className={cx('cate-user')}>
                     <div className={cx('form-group')}>
-                        <label className={cx('label')}>Category ID:</label>
-                        <input
-                            type="number"
+                        <label className={cx('label')}>Category:</label>
+                        <select
                             name="category_id"
                             value={formData.category_id}
                             onChange={handleInputChange}
                             required
                             className={cx('input')}
-                        />
+                        >
+                            <option value="">Select Category</option>
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                    <div className={cx('form-group')}>
-                        <label className={cx('label')}>User ID:</label>
-                        <input
-                            type="number"
+                    <div className="form-group">
+                        <label className="label">User Email:</label>
+                        <select
                             name="user_id"
                             value={formData.user_id}
                             onChange={handleInputChange}
                             required
-                            className={cx('input')}
+                            className="input"
+                        >
+                            <option value="">Select User Email</option>
+                            {filteredEmails.map((email) => (
+                                <option key={email.id} value={email.id}>
+                                    {email.email}
+                                </option>
+                            ))}
+                        </select>
+                        <input
+                            type="text"
+                            name="searchUserEmail"
+                            value={formData.searchUserEmail}
+                            onChange={handleInputChange}
+                            placeholder="Search User Email"
+                            className="input"
                         />
                     </div>
                 </div>

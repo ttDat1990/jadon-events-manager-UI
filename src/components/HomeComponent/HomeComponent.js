@@ -1,4 +1,8 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { eventApi, pressReviewApi } from '~/components/ApiUrl';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './HomeComponent.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +12,59 @@ import { faMartiniGlass, faPeopleGroup, faQuoteLeft } from '@fortawesome/free-so
 const cx = classNames.bind(styles);
 
 function HomeComponent() {
+    const [events, setEvents] = useState([]);
+    const [presses, setPresses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`${eventApi}?page=${1}&per_page=${4}`);
+                setEvents(response.data.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleEventDetail = (id) => {
+        navigate(`/event-details/${id}`);
+    };
+
+    const handlePressDetail = (id) => {
+        navigate(`/press-details/${id}`);
+    };
+
+    const handleToGallery = () => {
+        navigate(`/events-gallery`);
+    };
+
+    const handleToPress = () => {
+        navigate(`/press-review`);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`${pressReviewApi}?page=${1}&per_page=${3}`);
+                setPresses(response.data.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div className={cx('home_container')}>
             <div className={cx('home_message')}>
@@ -154,47 +211,31 @@ function HomeComponent() {
             </div>
             <div className={cx('home_portfolio_gallery')}>
                 <div className={cx('home_portfolio_gallery_section')}>
-                    <h1>
-                        Our Event Portfolio <a href="/"> View Event Gallery</a>
-                    </h1>
+                    <h1>Our Event Portfolio</h1>
+                    <span onClick={() => handleToGallery()}>View Entire Gallery</span>
                 </div>
-                <div className={cx('home_portfolio_gallery_link')}>
-                    <a
-                        className={cx('home_portfolio_gallery_img_link')}
-                        href="https://takeheartevents.com/event-gallery/overture-2022/"
-                    >
-                        <div className={cx('home_portfolio_gallery_img', 'home_portfolio_gallery_img1')}>
-                            <div className={cx('home_portfolio_gallery_img_overlay')}></div>
-                            <span>Overtune 2022</span>
+                <div className={cx('content-container')}>
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <div className={cx('items-container')}>
+                            {events.map((event) => (
+                                <div
+                                    key={event.id}
+                                    className={cx('item-detail')}
+                                    onClick={() => handleEventDetail(event.id)}
+                                >
+                                    <div className={cx('item-image')}>
+                                        <img src={event.images[0].image_url} alt="" />
+                                        <div className={cx('overlay')}></div>
+                                    </div>
+                                    <div className={cx('item-name')}>
+                                        <div>{event.name}</div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    </a>
-                    <a
-                        className={cx('home_portfolio_gallery_img_link')}
-                        href="https://takeheartevents.com/event-gallery/chili-bowl-2022-2/"
-                    >
-                        <div className={cx('home_portfolio_gallery_img', 'home_portfolio_gallery_img2')}>
-                            <div className={cx('home_portfolio_gallery_img_overlay')}></div>
-                            <span>New Smyrna NASCAR Roots FloRacing Fan Zone 2022</span>
-                        </div>
-                    </a>
-                    <a
-                        className={cx('home_portfolio_gallery_img_link')}
-                        href="https://takeheartevents.com/event-gallery/chili-bowl-2022-2/"
-                    >
-                        <div className={cx('home_portfolio_gallery_img', 'home_portfolio_gallery_img3')}>
-                            <div className={cx('home_portfolio_gallery_img_overlay')}></div>
-                            <span>Tulsa Chili Bowl FloRacing Fan Zone 2022</span>
-                        </div>
-                    </a>
-                    <a
-                        className={cx('home_portfolio_gallery_img_link')}
-                        href="https://takeheartevents.com/event-gallery/chili-bowl-2022-2/"
-                    >
-                        <div className={cx('home_portfolio_gallery_img', 'home_portfolio_gallery_img4')}>
-                            <div className={cx('home_portfolio_gallery_img_overlay')}></div>
-                            <span>BKL-FEST 2021</span>
-                        </div>
-                    </a>
+                    )}
                 </div>
             </div>
             <div className={cx('home_review')}>
@@ -222,110 +263,32 @@ function HomeComponent() {
                     </a>
                 </div>
             </div>
-            <div className={cx('home_events_press')}>
-                <div className={cx('home_events_press_flex')}>
-                    <h1>Recent Events & Press</h1>
-                    <div className={cx('home_events_title')}>
-                        <li>
-                            Bike MS 2014 <br />
-                            (National MS Society)
-                        </li>
-                        <li>
-                            Superhero Soiree 2019
-                            <br />
-                            (Child Abuse Net Work)
-                        </li>
-                        <li>
-                            Somewhere in time 2016
-                            <br />
-                            (RSVP of Tusla)
-                        </li>
-                    </div>
-                    <div className={cx('home_events_press_container')}>
-                        <div className={cx('home_events_press_divide')}>
-                            <a href="/">
-                                <div
-                                    className={cx('home_events_press_content_img', 'home_events_press_content_img1')}
-                                ></div>
-                            </a>
-                            <div className={cx('home_events_press_content')}>
-                                <div className={cx('home_events_press_content')}>
-                                    <a className={cx('home_events_press_title')} href="/">
-                                        Sustainable Tulsa Presents “Recharge”
-                                    </a>
-                                    <br />
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        Jadon Events |
-                                    </a>
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        Press |
-                                    </a>
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        No Comments
-                                    </a>
-                                    <p className={cx('home_events_press_p')}>
-                                        SEPTEMBER 14TH, 6:30PM (VIP COCKTAIL HOUR 5:30PM) CAIN'S BALLROOM 423 N. MAIN
-                                        ST. 918-808-6576 WWW.SUSTAINABLETULSAINC.ORG Watch Full Video Here
-                                    </p>
+            <div className={cx('content-container1')}>
+                <h1 onClick={() => handleToPress()}>Recent Events & Press</h1>
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <div className={cx('items-container1')}>
+                        {presses.map((press) => (
+                            <div
+                                key={press.id}
+                                className={cx('item-detail')}
+                                onClick={() => handlePressDetail(press.id)}
+                            >
+                                <div className={cx('item-image')}>
+                                    <img src={press.img_url} alt={press.title} />
+                                    <div className={cx('overlay')}></div>
+                                </div>
+
+                                <div className={cx('item-name1')}>
+                                    <div>{press.title}</div>
+                                    <div>By {press.author}</div>
+                                    <div dangerouslySetInnerHTML={{ __html: press.content }}></div>
                                 </div>
                             </div>
-                        </div>
-                        <div className={cx('home_events_press_divide')}>
-                            <a href="/">
-                                <div
-                                    className={cx('home_events_press_content_img', 'home_events_press_content_img2')}
-                                ></div>
-                            </a>
-                            <div className={cx('home_events_press_content')}>
-                                <div className={cx('home_events_press_content')}>
-                                    <a className={cx('home_events_press_title')} href="/">
-                                        Sustainable Tulsa gets set to ‘Recharge’ with fundraiser at Cain’s Ballroom
-                                    </a>
-                                    <br />
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        Jadon Events |
-                                    </a>
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        Press |
-                                    </a>
-                                    <a className={cx('home_events_press_link')} href="/">
-                                        No Comments
-                                    </a>
-                                    <p className={cx('home_events_press_p')}>
-                                        “Recharge” is designed to help guests explore the “Three Ps of Sustainability,”
-                                        namely “people, profit and planet,” through an immersive…
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('home_events_press_divide')}>
-                            <a href="/">
-                                <div
-                                    className={cx('home_events_press_content_img', 'home_events_press_content_img3')}
-                                ></div>
-                            </a>
-                            <div className={cx('home_events_press_content')}>
-                                <a className={cx('home_events_press_title')} href="/">
-                                    WH Tulsa: Are You Smarter than a KIPPster? 2018
-                                </a>
-                                <br />
-                                <a className={cx('home_events_press_link')} href="/">
-                                    Jadon Events |
-                                </a>
-                                <a className={cx('home_events_press_link')} href="/">
-                                    Press |
-                                </a>
-                                <a className={cx('home_events_press_link')} href="/">
-                                    No Comments
-                                </a>
-                                <p className={cx('home_events_press_p')}>
-                                    GET IN THE GAME! Be a part of our LIVE studio audience, as Tulsa’s top community
-                                    leaders compete against KIPP…
-                                </p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

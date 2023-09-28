@@ -2,8 +2,11 @@
     display: flex;
 }
 
-.sidebar {}
+.sidebar {
+    position: relative;
+}
 
 .content {
     margin: 0 auto;
+
 }

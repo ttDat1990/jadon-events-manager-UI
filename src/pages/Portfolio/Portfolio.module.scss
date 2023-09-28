@@ -1,300 +1,211 @@
-.portfolio_container {
+.container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+//header
+.img-header {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+}
+
+.img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Điều chỉnh màu sắc và độ trong suốt tại đây */
+    z-index: 1;
+    /* Đảm bảo lớp overlay nằm phía trên hình ảnh */
+}
+
+.big-title {
+    position: absolute;
+    font-size: 5rem;
+    color: var(--white-color);
+    font-weight: 500;
+    z-index: 2;
+    top: -120px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    div {
+        display: flex;
+        justify-content: center;
+        margin-top: 200px;
+    }
+}
+
+//pagination
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 5px 12px;
+    color: var(--primary-admin-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    border: 1px solid var(--primary-admin-color);
+    background-color: var(--white-color);
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: var(--primary-admin-color);
+    color: var(--white-color);
+    cursor: default;
+}
+
+
+//content
+
+.content-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+//filter-bar
+
+.title {
+    padding: 33px 0 0;
+    color: #444444;
+    font-size: 3.4rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        cursor: pointer;
+        transition: color 0.5s ease;
+        font-size: 2rem;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
+
+}
+
+//list item
+.items-container {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
 
-    .img-header {
+.item-detail {
+    width: 33.333%;
+    height: 300px;
+    padding: 15px;
+    position: relative;
+
+    &:hover .overlay {
+        opacity: 1;
+    }
+
+    &:hover .item-button {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    &:hover .item-name {
+        color: var(--primary-color);
+    }
+
+    &:hover .item-image img {
+        transform: scale(1.2);
+    }
+
+}
+
+.item-image {
+    width: 100%;
+    height: 80%;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+    position: relative;
+
+    img {
         width: 100%;
-        height: 500px;
-        overflow: hidden;
-        position: relative;
+        transition: transform 0.5s ease;
+    }
+}
 
-        .img-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
+.item-button {
+    position: absolute;
+    top: 110px;
+    left: 35%;
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
 
-        .big-title {
-            position: absolute;
-            font-size: 5rem;
-            color: var(--white-color);
-            font-weight: 500;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
 
-            div {
-                display: flex;
-                justify-content: center;
-                margin-top: 200px;
-            }
-        }
+    button {
+        border: none;
+        outline: none;
+        color: var(--white-color);
+        background-color: var(--primary-color);
+        margin: 0 10px;
+        padding: 5px 10px;
+        cursor: pointer;
 
-        img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
+        &:hover {
+            background-color: var(--red);
         }
     }
 }
 
-.portfolio_left_right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 105.6rem;
-}
-
-.portfolio_1 {
-    width: 100%;
-    height: 41.2rem;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.portfolio_1_title {
-    width: 100%;
-}
-
-.portfolio_1_title h1 {
-    width: 100%;
-    background-color: white;
-}
-
-.portfolio_1_content {}
-
-.portfolio_1_img {
-    display: flex;
-    justify-content: space-between;
-}
-
-.portfolio_img_link {
-    width: 32%;
-    overflow: hidden;
-    transform: scale(1);
-}
-
-.portfolio_img1 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/Overture_202205-0535.jpg);
-}
-
-.portfolio_img2 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/46EEA66E-A254-465C-AD67-AA40909D7098_1_105_c.jpeg);
-}
-
-.portfolio_img3 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2022/07/IMG_7428.jpeg);
-}
-
-.portfolio_img {
-    background-repeat: no-repeat;
-    background-size: 100% 26.4rem;
-    height: 26.4rem;
-    position: relative;
-    transition: 0.4s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.portfolio_img:hover {
-    transform: scale(1.1);
-}
-
-.portfolio_img:hover .portfolio_img_overlay {
-    display: none;
-}
-
-.portfolio_img_overlay {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.portfolio_img_link span {
-    z-index: 3;
-    position: absolute;
-    bottom: 40%;
-    color: white;
-    font-size: larger;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-
-/* ---------------------------------------------- */
-.portfolio_2 {
-    width: 100%;
-    height: 65rem;
-    background-color: #e2e2e2;
-    display: flex;
-    justify-content: center;
-}
-
-.portfolio_2_title {
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-}
-
-.portfolio_2_flex {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-}
-
-.portfolio_2_container {
-    width: 23%;
-    height: 100%;
-}
-
-.portfolio_2_img {
-    background-repeat: no-repeat;
-    background-size: 100% 17.288rem;
-    height: 17.288rem;
-}
-
-.portfolio_2_img1 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.36.01-AM-600x403.png);
-}
-
-.portfolio_2_img2 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.32.57-AM-600x403.png);
-}
-
-.portfolio_2_img3 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.24.46-AM.png);
-}
-
-.portfolio_2_img4 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.20.39-AM-400x269.png);
-}
-
-.portfolio_2_content {
-    height: 100%;
-    width: 100%;
-}
-
-.portfolio_2_press {
-    height: 100%;
-    width: 100%;
-    line-height: 2.5rem;
-    margin-top: 2rem;
-}
-
-.portfolio_2_press_title {
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: 1.6rem;
-}
-
-.portfolio_2_press_link {
-    text-decoration: none;
-    color: #999;
-    transition: color 0.4s ease;
-}
-
-.portfolio_2_press_link:hover {
-    color: var(--primary-color);
-}
-
-.portfolio_2_press_p {
-    color: #676767;
-    font-size: 1.6rem;
-    line-height: 3rem;
-    margin-top: 1.5rem;
-}
-
-/* ---------------------------------------------- */
-.portfolio_3 {
-    width: 100%;
-    height: 65rem;
-    background-color: var(--white-color);
-    display: flex;
-    justify-content: center;
-}
-
-.portfolio_3_img1 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2020/09/imageedit_1_4889212990-600x403.jpg);
-}
-
-.portfolio_3_img2 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/Screen-Shot-2019-01-06-at-7.32.57-AM-600x403.png);
-}
-
-.portfolio_3_img3 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2020/09/Screen-Shot-2020-03-13-at-5.33.26-PM.png);
-}
-
-.portfolio_3_img4 {
-    background-image: url(https://takeheartevents.com/wp-content/uploads/2015/01/Wil-24-600x403.jpg);
-}
-
-/* ---------------------------------------------- */
-.portfolio_4 {
-    background-color: var(--primary-color);
-    width: 100%;
-    height: 20rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.portfolio_4_btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.portfolio_4_btn h1 {
-    color: var(--white-color);
-    margin-bottom: 2rem;
-}
-
-.portfolio_4_btn a {
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: .4rem;
-    color: var(--white-color);
-    width: 30%;
-    font-size: 1.4rem;
-    padding: 1.5rem 0 1.5rem 1rem;
+.item-name {
+    color: #444444;
+    font-size: 1.8rem;
     font-weight: 600;
-
-}
-
-.portfolio_4_btn_icon {
     display: flex;
-    align-items: center;
-    color: var(--white-color);
-    margin-left: 1rem;
+    justify-content: space-between;
+    transition: color 0.5s ease;
+    padding-top: 10px;
 
+}
+
+.item-name1 {
+    color: #444444;
+    font-size: 1.6rem;
+    font-weight: 400;
+    transition: color 0.5s ease;
+    padding-top: 10px;
+
+    div {
+        margin-bottom: 10px;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    transform: translateX(-100%);
-    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+    transition: opacity 0.5s ease;
 }
 
-.portfolio_4_btn a:hover .portfolio_4_btn_icon {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.portfolio_4_btn a:hover .portfolio_4_btn_word {
-    opacity: 1;
-    transform: translateX(-10%);
-    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+.active1 {
+    color: var(--primary-color) !important;
 }

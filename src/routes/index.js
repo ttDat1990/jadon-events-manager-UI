@@ -14,13 +14,15 @@ import AdminEventsListPage from '~/pages/AdminEventsListPage';
 import AdminUsersListPage from '~/pages/AdminUsersListPage';
 import AdminUsersAddPage from '~/pages/AdminUsersAddPage';
 import EventsGallery from '~/pages/EventsGallery';
-import PressPage from '~/pages/PressPage';
 import Corporate from '~/pages/Corporate';
 import AdminSlidesListPage from '~/pages/AdminSlidesListPage';
 import AdminPressReviewsAddPage from '~/pages/AdminPressReviewsAddPage';
 import AdminPressReviewsListPage from '~/pages/AdminPressReviewsListPage';
 import AdminPressReviewsUpdatePage from '~/pages/AdminPressReviewsUpdatePage';
 import AdminEventsDetailPage from '~/pages/AdminEventsDetailPage';
+import EventDetailPage from '~/pages/EventDetailPage';
+import PressReview from '~/pages/PressReview';
+import PressDetailPage from '~/pages/PressDetailPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -33,7 +35,9 @@ const publicRoutes = [
     { path: '/non-profit', component: NonProfit },
     { path: '/portfolio', component: Portfolio },
     { path: '/events-gallery', component: EventsGallery },
-    { path: '/press', component: PressPage },
+    { path: '/event-details/:id', component: EventDetailPage },
+    { path: '/press-review', component: PressReview },
+    { path: '/press-details/:id', component: PressDetailPage },
     { path: '/admin/login', component: AdminLogin, layout: null },
 ];
 
