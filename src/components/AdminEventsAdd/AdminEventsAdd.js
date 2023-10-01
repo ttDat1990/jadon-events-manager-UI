@@ -16,29 +16,17 @@ function AdminEventsAdd() {
         user_id: '',
         images: [],
         add_ons: [],
-        searchUserEmail: '',
     };
 
     const [formData, setFormData] = useState(initialFormData);
     const [errorMessage, setErrorMessage] = useState('');
     const [categories, setCategories] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [filteredEmails, setFilteredEmails] = useState([]);
 
     useEffect(() => {
         fetch(categoryApi)
             .then((response) => response.json())
             .then((data) => setCategories(data));
-
-        fetch(userApi)
-            .then((response) => response.json())
-            .then((data) => setUsers(data.users.data));
-
-        const filtered = users.filter((user) =>
-            user.email.toLowerCase().includes(formData.searchUserEmail.toLowerCase()),
-        );
-        setFilteredEmails(filtered);
-    }, [formData.searchUserEmail, users]);
+    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -172,28 +160,15 @@ function AdminEventsAdd() {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label className="label">User Email:</label>
-                        <select
+                        <label className={cx('label')}>User ID:</label>
+                        <input
+                            type="number"
                             name="user_id"
                             value={formData.user_id}
                             onChange={handleInputChange}
                             required
-                            className="input"
-                        >
-                            <option value="">Select User Email</option>
-                            {filteredEmails.map((email) => (
-                                <option key={email.id} value={email.id}>
-                                    {email.email}
-                                </option>
-                            ))}
-                        </select>
-                        <input
-                            type="text"
-                            name="searchUserEmail"
-                            value={formData.searchUserEmail}
-                            onChange={handleInputChange}
-                            placeholder="Search User Email"
-                            className="input"
+                            placeholder="User ID"
+                            className={cx('input')}
                         />
                     </div>
                 </div>

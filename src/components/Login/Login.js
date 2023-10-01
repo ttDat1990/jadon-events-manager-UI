@@ -20,10 +20,10 @@ function Login() {
         try {
             const loginSuccessful = await login(email, password, 'admin');
             if (!loginSuccessful) {
-                setError('Đăng nhập không thành công. Vui lòng kiểm tra thông tin đăng nhập.');
+                setError('Login error. Please check your username and password.');
             }
         } catch (err) {
-            setError('Đăng nhập không thành công. Vui lòng kiểm tra thông tin đăng nhập.');
+            setError('Login error. Please check your username and password.');
         }
     };
 

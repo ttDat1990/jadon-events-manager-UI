@@ -8,6 +8,12 @@ import { faFacebook, faThreads, faTwitter } from '@fortawesome/free-brands-svg-i
 const cx = classNames.bind(styles);
 
 function ContactUs() {
+    const emailAddress = 'thanhdattran.fly@gmail.com';
+    const emailLink = `mailto:${emailAddress}`;
+
+    const phoneNumber = '+84378353938';
+    const phoneLink = `tel:${phoneNumber}`;
+
     return (
         <div className={cx('container')}>
             <div className={cx('form_container')}>
@@ -86,10 +92,16 @@ function ContactUs() {
                 <div className={cx('contact_content')}>
                     <div className={cx('contact_info')}>
                         <div className={cx('contact_info_review')}>
-                            <h3>How did we do? Leave us a review!</h3>
+                            <h3>Our Location</h3>
                             <div className={cx('small_divide')}></div>
                             <div className={cx('contact_info_review_btn')}>
-                                <button>Review us</button>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d504.2376801748411!2d106.71365481497526!3d10.80640075915104!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529ed00409f09%3A0x11f7708a5c77d777!2zQXB0ZWNoIENvbXB1dGVyIEVkdWNhdGlvbiAtIEjhu4cgVGjhu5FuZyDEkMOgbyB04bqhbyBM4bqtcCBUcsOsbmggVmnDqm4gUXXhu5FjIHThur8gQXB0ZWNo!5e0!3m2!1svi!2s!4v1696173508052!5m2!1svi!2s"
+                                    title="Google Maps"
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    className={cx('iframeStyle')}
+                                ></iframe>
                             </div>
                         </div>
                         <div className={cx('contact_info_phone')}>
@@ -99,8 +111,8 @@ function ContactUs() {
                                 <a href="/">
                                     <FontAwesomeIcon icon={faMobileScreenButton} />
                                 </a>
-                                <a href="/">Chelsea: 918-695-6958</a>
-                                <a href="/">Copy: 918-260-6624</a>
+                                <a href={phoneLink}>Chelsea: +84-378-353938</a>
+                                <a href={phoneLink}>Copy: +84-378-353938</a>
                             </div>
                         </div>
                         <div className={cx('contact_info_mail')}>
@@ -110,8 +122,8 @@ function ContactUs() {
                                 <a href="/">
                                     <FontAwesomeIcon icon={faEnvelope} />
                                 </a>
-                                <a href="/">chelsea@jadonevents.com</a>
-                                <a href="/">copy@takeheartevents.com</a>
+                                <a href={emailLink}>thanhdattran.fly@gmail.com</a>
+                                <a href={emailLink}>thanhdattran.fly@gmail.com</a>
                             </div>
                         </div>
                         <div className={cx('contact_info_social')}>

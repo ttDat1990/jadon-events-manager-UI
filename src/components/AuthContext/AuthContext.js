@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState();
     const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,11 +34,12 @@ export const AuthProvider = ({ children }) => {
             });
 
             if (response.status === 200) {
-                const { userToken, token, user_id } = response.data;
+                const { userToken, token, user_id, user_name } = response.data;
 
                 if (userToken && userType !== 'admin') {
                     localStorage.setItem('userToken', userToken);
                     setRole('user');
+                    setUserName(user_name);
                     setUserId(user_id);
                     navigate('/');
                 } else {
@@ -107,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, role, userId, login, logout, register }}>
+        <AuthContext.Provider value={{ isLoggedIn, role, userId, userName, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     );

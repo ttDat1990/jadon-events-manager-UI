@@ -20,7 +20,7 @@
 }
 
 .grid {
-    width: 970px;
+    width: 1100px;
     max-width: 100%;
     margin: 0 auto;
 }
@@ -115,6 +115,7 @@
     margin: 0 10px;
     list-style: none;
     z-index: 1;
+    text-decoration: none;
 }
 
 .dropdown {
@@ -262,8 +263,10 @@
 
             background-color: rgba(6, 106, 201, 0.1);
 
-            a {
+            a,
+            div {
                 color: var(--primary-color);
+                cursor: pointer;
             }
         }
     }
@@ -304,4 +307,13 @@
 
 .nav-link-clicked {
     color: red;
+}
+
+.nav-item-size {
+    font-size: 1.8rem;
+}
+
+.text {
+    text-decoration: none;
+    padding-left: 5px;
 }
