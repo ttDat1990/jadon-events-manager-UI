@@ -72,15 +72,24 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+}
 
+.modal {
+    width: 30%;
+    height: 200px;
+    margin: 15px;
+
+    div {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .selected-image-container {
     position: relative;
     overflow: hidden;
-    width: 30%;
-    height: 200px;
-    margin: 15px;
+    width: 100%;
+
 
     img {
         width: 100%;

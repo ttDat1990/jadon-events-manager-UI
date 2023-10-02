@@ -4,6 +4,7 @@ import axios from 'axios';
 import { eventApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
 import styles from './EventsDetail.module.scss';
+import ModalSlideShow from '~/components/ModalSlideShow';
 
 const cx = classNames.bind(styles);
 
@@ -33,6 +34,7 @@ function EventDetail() {
             </div>
         );
     }
+    console.log(eventData.images);
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
@@ -61,12 +63,14 @@ function EventDetail() {
                     <div className={cx('selected-images')}>
                         {eventData.images &&
                             eventData.images.map((image, index) => (
-                                <div key={index} className={cx('selected-image-container')}>
-                                    <img
-                                        src={image.image_url || URL.createObjectURL(image)}
-                                        alt={`Selected img ${index}`}
-                                    />
-                                </div>
+                                <ModalSlideShow imagePaths={eventData.images} buttonClassName={cx('modal')}>
+                                    <div key={index} className={cx('selected-image-container')}>
+                                        <img
+                                            src={image.image_url || URL.createObjectURL(image)}
+                                            alt={`Selected img ${index}`}
+                                        />
+                                    </div>
+                                </ModalSlideShow>
                             ))}
                     </div>
                 </div>

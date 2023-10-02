@@ -112,7 +112,6 @@ function EventsGallery() {
                                     <div className={cx('overlay')}></div>
                                 </div>
                                 <div className={cx('item-button')}>
-                                    <button>View Lager</button>
                                     <button onClick={() => handleUpdate(event.id)}>More Details</button>
                                 </div>
                                 <div className={cx('item-name')}>
