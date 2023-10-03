@@ -91,7 +91,6 @@ function PressReview() {
                                     <div className={cx('overlay')}></div>
                                 </div>
                                 <div className={cx('item-button')}>
-                                    <button>View Lager</button>
                                     <button onClick={() => handleDetail(press.id)}>More Details</button>
                                 </div>
                                 <div className={cx('item-name')}>

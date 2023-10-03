@@ -101,23 +101,8 @@ function NavigationBar() {
                         <div className={name1}>events</div>
                     </div>
                 </Link>
-                <ul className={cx('navbar-nav')}>
-                    <li className={cx('nav-item')}>
-                        <Link to={'/about'} className={navLink('/about')}>
-                            ABOUT
-                        </Link>
-                    </li>
 
-                    <li className={cx('nav-item')}>
-                        <Link to={'/contact-us'} className={navLink('/contact-us')}>
-                            CONTACT US
-                        </Link>
-                    </li>
-                    <li className={cx('nav-item')}>
-                        <Link to={'/feedback'} className={navLink('/feedback')}>
-                            FEEDBACK
-                        </Link>
-                    </li>
+                <ul className={cx('navbar-nav')}>
                     <li className={cx('nav-item', 'dropdown')}>
                         <Link
                             to={'/portfolio'}
@@ -140,6 +125,23 @@ function NavigationBar() {
                             </li>
                         </ul>
                     </li>
+
+                    <li className={cx('nav-item')}>
+                        <Link to={'/contact-us'} className={navLink('/contact-us')}>
+                            CONTACT US
+                        </Link>
+                    </li>
+                    <li className={cx('nav-item')}>
+                        <Link to={'/feedback'} className={navLink('/feedback')}>
+                            FEEDBACK
+                        </Link>
+                    </li>
+                    <li className={cx('nav-item')}>
+                        <Link to={'/about'} className={navLink('/about')}>
+                            ABOUT
+                        </Link>
+                    </li>
+
                     {isLoggedIn ? (
                         <li className={cx('nav-item', 'dropdown')}>
                             <div

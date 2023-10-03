@@ -70,11 +70,11 @@ const AdminSlidesList = () => {
             if (updatedData.image) {
                 formData.append('image', updatedData.image);
             }
-
             // Make an API call to update the slide with the formData
             await axios.post(`${slidesApi}/${slideId}`, formData);
             // Refresh the slide list
             const response = await axios.get(slidesApi);
+            console.log(response.data.slides);
             setSlides(response.data.slides);
             setEditSlideId(null);
             setEditedData({ title: '', content: '', image: null });

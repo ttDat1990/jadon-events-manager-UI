@@ -4,6 +4,7 @@ import axios from 'axios';
 import { pressReviewApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
 import styles from './PressDetail.module.scss';
+import Comment from '~/components/Comment';
 
 const cx = classNames.bind(styles);
 
@@ -52,6 +53,9 @@ function PressDetail() {
             <div className={cx('content-container')}>
                 {errorMessage && <div className={cx('error-message')}>{errorMessage}</div>}
                 <div className={cx('content')} dangerouslySetInnerHTML={{ __html: pressData.content }}></div>
+            </div>
+            <div className={cx('comment-container')}>
+                <Comment pressId={id} />
             </div>
         </div>
     );

@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
                     setRole('user');
                     setUserName(user_name);
                     setUserId(user_id);
-                    navigate('/');
+                    window.history.back();
                 } else {
                     localStorage.setItem('token', token);
                     setRole('admin');
