@@ -14,6 +14,8 @@ const userEventsApi = 'http://127.0.0.1:8000/api/user-events';
 
 const commentApi = 'http://127.0.0.1:8000/api/comment';
 
+const likeApi = 'http://127.0.0.1:8000/api/like';
+
 const adminDeleteProducts = 'http://127.0.0.1:8000/api/products/';
 const adminGetAllProducts = 'http://127.0.0.1:8000/api/products';
 const adminAddProduct = 'http://127.0.0.1:8000/api/products';
@@ -58,4 +60,5 @@ export {
     pressReviewApi,
     userEventsApi,
     commentApi,
+    likeApi,
 };

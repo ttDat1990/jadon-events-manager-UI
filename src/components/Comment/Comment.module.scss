@@ -45,7 +45,7 @@
         border: none;
         background-color: #f0f2f5;
         color: #1c1e21;
-        font-size: 2.5rem;
+        font-size: 2rem;
         padding: 5px 10px;
         cursor: pointer;
         border-radius: 0 10px 10px 0;
@@ -58,18 +58,20 @@
     }
 }
 
-
-
 .comments-container {
     margin-top: 50px;
+    max-height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .comment-detail {
-    margin-left: 20px;
+    margin-left: 0;
+    padding-left: 20px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     .avatar {
         display: flex;
@@ -81,11 +83,28 @@
         border-radius: 50%;
         color: var(--primary-color);
         background-color: #f0f2f5;
-        margin-right: 10px;
+        margin-right: 5px;
+    }
+
+    &.level-1 {
+        margin-left: 40px;
+    }
+
+    &.level-2 {
+        margin-left: 80px;
+    }
+
+    &.level-3 {
+        margin-left: 120px;
+    }
+
+    &.level-4 {
+        margin-left: 160px;
     }
 }
 
 .content {
+    position: relative;
     background-color: #f0f2f5;
     padding: 8px 12px;
     border-radius: 10px;
@@ -101,4 +120,43 @@
     font-size: 1.5rem;
     color: #050505;
     font-weight: 400;
+}
+
+.button-1 {
+    position: absolute;
+    top: 60px;
+    display: flex;
+    width: 100%;
+
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background-color: transparent;
+        margin-right: 10px;
+        color: #65676B;
+        font-weight: 600;
+        font-size: 1.2rem;
+
+        &:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+    }
+
+    div {
+        background-color: transparent;
+        color: #65676B;
+        font-size: 1.2rem;
+    }
+}
+
+.likes-count {
+    position: absolute;
+    right: -15px;
+    top: -25px;
+    padding: 2px 5px;
+    border-radius: 15px;
+    background-color: var(--white-color) !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
