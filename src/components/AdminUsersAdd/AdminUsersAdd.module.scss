@@ -14,17 +14,21 @@
 }
 
 .error-message {
+    height: 15px;
     color: var(--red);
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    height: 15px;
+    color: var(--green);
 }
 
 .form {
     width: 100%;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
+.form-group {}
 
 .label {
     font-weight: 500;

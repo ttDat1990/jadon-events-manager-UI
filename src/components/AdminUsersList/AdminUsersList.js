@@ -12,12 +12,13 @@ const AdminUsersList = () => {
     const [searchByName, setSearchByName] = useState('');
     const [searchByEmail, setSearchByEmail] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(10);
+    const [usersPerPage] = useState(6);
     const [totalUsers, setTotalUsers] = useState(0);
     const [pages, setPages] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [updatedUser, setUpdatedUser] = useState({});
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,31 +77,45 @@ const AdminUsersList = () => {
         setUpdatedUser({ ...user });
     };
 
-    const handleEditInputChange = (e) => {
-        const { name, value } = e.target;
+    const handleEditInputChange = (field, value) => {
         setUpdatedUser((prevState) => ({
             ...prevState,
-            [name]: value,
+            [field]: value,
         }));
     };
 
     const handleSave = (user) => {
-        // Send an API request to update the user with updatedUser data
         axios
             .post(`${userApi}/${user.id}`, updatedUser)
             .then((response) => {
-                // Update the users array with the new data
                 const updatedUsers = users.map((u) => (u.id === user.id ? { ...u, ...updatedUser } : u));
-                setUsers(updatedUsers);
-                setEditingUser(null);
+
+                if (response.status === 200) {
+                    setFormErrors('');
+                    setUsers(updatedUsers);
+                    setEditingUser(null);
+                } else {
+                    const errorResponse = response.data;
+                    if (errorResponse.errors) {
+                        setFormErrors(errorResponse.errors);
+                    } else {
+                        throw new Error('Error.');
+                    }
+                }
             })
-            .catch((error) => {
-                console.error('Error:', error);
+            .catch((err) => {
+                if (err.response && err.response.data && err.response.data.errors) {
+                    const errorMessages = err.response.data.errors;
+                    setFormErrors(errorMessages);
+                } else {
+                    setFormErrors({ general: 'Errors!' });
+                }
             });
     };
 
     const handleCancelEdit = () => {
         setEditingUser(null);
+        setFormErrors('');
     };
 
     const paginate = (pageNumber) => {
@@ -116,16 +131,25 @@ const AdminUsersList = () => {
                     placeholder="Search by Name"
                     value={searchByName}
                     onChange={handleSearchByNameChange}
+                    autoComplete="name"
+                    name="name"
+                    id="name"
                 />
                 <input
                     type="text"
                     placeholder="Search by Email"
                     value={searchByEmail}
                     onChange={handleSearchByEmailChange}
+                    name="email"
+                    id="email"
+                    autoComplete="email"
                 />
             </div>
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
             {isLoading ? (
-                <p>Loading...</p>
+                <div className={cx('loading-container')}>
+                    <div className={cx('loading')}></div>
+                </div>
             ) : (
                 <div>
                     {noResults ? (
@@ -134,7 +158,7 @@ const AdminUsersList = () => {
                         <table className={cx('user-table')}>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th className={cx('column-name')}>Name</th>
                                     <th>Email</th>
                                     <th className={cx('column-action')}>Action</th>
                                 </tr>
@@ -144,26 +168,41 @@ const AdminUsersList = () => {
                                     <tr key={user.id}>
                                         <td>
                                             {editingUser && editingUser.id === user.id ? (
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    value={updatedUser.name}
-                                                    onChange={handleEditInputChange}
-                                                    className={cx('input')}
-                                                />
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="names"
+                                                        id="names"
+                                                        value={updatedUser.name}
+                                                        onChange={(e) => handleEditInputChange('name', e.target.value)}
+                                                        className={cx('input')}
+                                                    />
+                                                    {formErrors.name && (
+                                                        <div className={cx('error-message')}>{formErrors.name}</div>
+                                                    )}
+                                                    {!formErrors.name && <div className={cx('error-message')}></div>}
+                                                </div>
                                             ) : (
                                                 user.name
                                             )}
                                         </td>
                                         <td>
                                             {editingUser && editingUser.id === user.id ? (
-                                                <input
-                                                    type="text"
-                                                    name="email"
-                                                    value={updatedUser.email}
-                                                    onChange={handleEditInputChange}
-                                                    className={cx('input')}
-                                                />
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="emails"
+                                                        id="emails"
+                                                        value={updatedUser.email}
+                                                        onChange={(e) => handleEditInputChange('email', e.target.value)}
+                                                        className={cx('input')}
+                                                        autoComplete="email"
+                                                    />
+                                                    {formErrors.email && (
+                                                        <div className={cx('error-message')}>{formErrors.email}</div>
+                                                    )}
+                                                    {!formErrors.email && <div className={cx('error-message')}></div>}
+                                                </div>
                                             ) : (
                                                 user.email
                                             )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { eventApi, categoryApi, userApi } from '~/components/ApiUrl';
+import axios from 'axios';
+import { eventApi, categoryApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
 import styles from './AdminEventsAdd.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +20,8 @@ function AdminEventsAdd() {
     };
 
     const [formData, setFormData] = useState(initialFormData);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [formErrors, setFormErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -83,28 +85,45 @@ function AdminEventsAdd() {
         });
 
         try {
-            const response = await fetch(eventApi, {
-                method: 'POST',
-                body: formDataToSend,
+            const response = await axios.post(eventApi, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
-
             if (response.status === 200) {
-                console.log('Event created successfully');
+                setFormErrors('');
+                setSuccessMessage('Event created successfully');
                 clearFormData();
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
             } else {
-                const data = await response.json();
-                setErrorMessage(data.message);
+                const errorResponse = response.data;
+                if (errorResponse.errors) {
+                    setFormErrors(errorResponse.errors);
+                } else {
+                    throw new Error('Error.');
+                }
             }
-        } catch (error) {
-            console.error('An error occurred:', error.message);
-            setErrorMessage('An error occurred. Please try again later.');
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.errors) {
+                const errorMessages = err.response.data.errors;
+                setFormErrors(errorMessages);
+            } else {
+                setFormErrors({ general: 'Errors!' });
+            }
+            // setTimeout(() => {
+            //     setFormErrors('');
+            // }, 3000);
         }
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>Create Event</h2>
-            {errorMessage && <div className={cx('error-message')}>{errorMessage}</div>}
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
+            {successMessage && <div className={cx('success-message')}>{successMessage}</div>}
+            {!successMessage && <div className={cx('success-message')}></div>}
             <form onSubmit={handleSubmit} className={cx('form')}>
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Name:</label>
@@ -113,9 +132,10 @@ function AdminEventsAdd() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        required
                         className={cx('input')}
                     />
+                    {formErrors.name && <div className={cx('error-message')}>{formErrors.name}</div>}
+                    {!formErrors.name && <div className={cx('error-message')}></div>}
                 </div>
                 <div className={cx('date')}>
                     <div className={cx('form-group')}>
@@ -125,10 +145,12 @@ function AdminEventsAdd() {
                             name="start_date"
                             value={formData.start_date}
                             onChange={handleInputChange}
-                            required
                             className={cx('input')}
                         />
+                        {formErrors.start_date && <div className={cx('error-message')}>{formErrors.start_date}</div>}
+                        {!formErrors.start_date && <div className={cx('error-message')}></div>}
                     </div>
+
                     <div className={cx('form-group')}>
                         <label className={cx('label')}>End Date:</label>
                         <input
@@ -136,9 +158,10 @@ function AdminEventsAdd() {
                             name="end_date"
                             value={formData.end_date}
                             onChange={handleInputChange}
-                            required
                             className={cx('input')}
                         />
+                        {formErrors.end_date && <div className={cx('error-message')}>{formErrors.end_date}</div>}
+                        {!formErrors.end_date && <div className={cx('error-message')}></div>}
                     </div>
                 </div>
                 <div className={cx('cate-user')}>
@@ -148,7 +171,6 @@ function AdminEventsAdd() {
                             name="category_id"
                             value={formData.category_id}
                             onChange={handleInputChange}
-                            required
                             className={cx('input')}
                         >
                             <option value="">Select Category</option>
@@ -158,6 +180,8 @@ function AdminEventsAdd() {
                                 </option>
                             ))}
                         </select>
+                        {formErrors.category_id && <div className={cx('error-message')}>{formErrors.category_id}</div>}
+                        {!formErrors.category_id && <div className={cx('error-message')}></div>}
                     </div>
                     <div className="form-group">
                         <label className={cx('label')}>User ID:</label>
@@ -166,10 +190,11 @@ function AdminEventsAdd() {
                             name="user_id"
                             value={formData.user_id}
                             onChange={handleInputChange}
-                            required
                             placeholder="User ID"
                             className={cx('input')}
                         />
+                        {formErrors.user_id && <div className={cx('error-message')}>{formErrors.user_id}</div>}
+                        {!formErrors.user_id && <div className={cx('error-message')}></div>}
                     </div>
                 </div>
                 <div className={cx('form-group')}>
@@ -204,6 +229,14 @@ function AdminEventsAdd() {
                         </div>
                     ))}
                 </div>
+                {Object.keys(formErrors).map(
+                    (key, index) =>
+                        key.startsWith('images.') && (
+                            <div key={index} className={cx('error-message')}>
+                                {formErrors[key][0]}
+                            </div>
+                        ),
+                )}
                 <div className={cx('add-ons')}>
                     <h3 className={cx('add-ons-title')}>Add-ons</h3>
                     {formData.add_ons.map((addOn, index) => (

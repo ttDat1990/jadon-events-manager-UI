@@ -11,6 +11,7 @@ const AdminSlidesList = () => {
     const [loading, setLoading] = useState(true);
     const [editSlideId, setEditSlideId] = useState(null);
     const [editedData, setEditedData] = useState({ title: '', content: '', image: null });
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         const fetchSlides = async () => {
@@ -20,7 +21,6 @@ const AdminSlidesList = () => {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                // Handle errors if necessary.
                 setLoading(false);
             }
         };
@@ -31,18 +31,18 @@ const AdminSlidesList = () => {
     const handleEditClick = (slideId) => {
         setEditSlideId(slideId);
 
-        // Initialize the editedData state with the current slide data
         const slideToEdit = slides.find((slide) => slide.id === slideId);
         if (slideToEdit) {
             setEditedData({
                 title: slideToEdit.title,
                 content: slideToEdit.content,
-                image: null, // Set to null or the existing image URL if needed
+                image: null,
             });
         }
     };
 
     const handleCancelEdit = () => {
+        setFormErrors('');
         setEditSlideId(null);
         setEditedData({ title: '', content: '', image: null });
     };
@@ -70,23 +70,37 @@ const AdminSlidesList = () => {
             if (updatedData.image) {
                 formData.append('image', updatedData.image);
             }
-            // Make an API call to update the slide with the formData
-            await axios.post(`${slidesApi}/${slideId}`, formData);
-            // Refresh the slide list
-            const response = await axios.get(slidesApi);
-            console.log(response.data.slides);
-            setSlides(response.data.slides);
-            setEditSlideId(null);
-            setEditedData({ title: '', content: '', image: null });
-        } catch (error) {
-            console.error(error);
-            // Handle errors if necessary.
+
+            const response = await axios.post(`${slidesApi}/${slideId}`, formData);
+
+            if (response.status === 200) {
+                setFormErrors('');
+                const response1 = await axios.get(slidesApi);
+                setSlides(response1.data.slides);
+                setEditSlideId(null);
+                setEditedData({ title: '', content: '', image: null });
+            } else {
+                const errorResponse = response.data;
+                if (errorResponse.errors) {
+                    setFormErrors(errorResponse.errors);
+                } else {
+                    throw new Error('Error.');
+                }
+            }
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.errors) {
+                const errorMessages = err.response.data.errors;
+                setFormErrors(errorMessages);
+            } else {
+                setFormErrors({ general: 'Errors!' });
+            }
         }
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>List of Slides</h2>
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
             {loading ? (
                 <div>Loading...</div>
             ) : (
@@ -106,29 +120,47 @@ const AdminSlidesList = () => {
                                 <td className={cx('id-column')}>{slide.id}</td>
                                 <td className={cx('title-column')}>
                                     {editSlideId === slide.id ? (
-                                        <input
-                                            type="text"
-                                            value={editedData.title}
-                                            onChange={(e) => handleEditChange('title', e.target.value)}
-                                        />
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={editedData.title}
+                                                onChange={(e) => handleEditChange('title', e.target.value)}
+                                            />
+                                            {formErrors.title && (
+                                                <div className={cx('error-message')}>{formErrors.title}</div>
+                                            )}
+                                            {!formErrors.title && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         slide.title
                                     )}
                                 </td>
                                 <td className={cx('name-column')}>
                                     {editSlideId === slide.id ? (
-                                        <input
-                                            type="text"
-                                            value={editedData.content}
-                                            onChange={(e) => handleEditChange('content', e.target.value)}
-                                        />
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={editedData.content}
+                                                onChange={(e) => handleEditChange('content', e.target.value)}
+                                            />
+                                            {formErrors.content && (
+                                                <div className={cx('error-message')}>{formErrors.content}</div>
+                                            )}
+                                            {!formErrors.content && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         slide.content
                                     )}
                                 </td>
                                 <td className={cx('img-column')}>
                                     {editSlideId === slide.id ? (
-                                        <input type="file" accept="image/*" onChange={handleImageChange} />
+                                        <div>
+                                            <input type="file" accept="image/*" onChange={handleImageChange} />
+                                            {formErrors.image && (
+                                                <div className={cx('error-message')}>{formErrors.image}</div>
+                                            )}
+                                            {!formErrors.image && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         slide.img_url && (
                                             <img

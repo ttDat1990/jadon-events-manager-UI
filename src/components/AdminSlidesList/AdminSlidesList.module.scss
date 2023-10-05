@@ -74,9 +74,9 @@
 }
 
 .error-message {
-    color: red;
-    font-weight: bold;
-    margin-top: 10px;
+    color: var(--red);
+    margin-bottom: 10px;
+    height: 15px;
 }
 
 .edit-button,

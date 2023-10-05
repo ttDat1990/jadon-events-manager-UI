@@ -21,7 +21,9 @@ function HomeComponent() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`${eventApi}?page=${1}&per_page=${4}`);
+                const response = await axios.get(
+                    `${eventApi}?event_name=&category_name=&user_name=&page=${1}&per_page=${4}`,
+                );
                 setEvents(response.data.data);
                 setIsLoading(false);
             } catch (error) {
@@ -64,7 +66,6 @@ function HomeComponent() {
 
         fetchData();
     }, []);
-
     return (
         <div className={cx('home_container')}>
             <div className={cx('home_message')}>

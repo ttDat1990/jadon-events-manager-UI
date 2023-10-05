@@ -50,19 +50,23 @@ function AdminUsersAdd() {
                 setSuccessMessage(null);
             }, 3000);
         } catch (err) {
-            setError(err.message);
-
-            setTimeout(() => {
-                setError(null);
-            }, 3000);
+            if (err.response && err.response.data && err.response.data.errors) {
+                const errorMessages = err.response.data.errors;
+                setError(errorMessages);
+            } else {
+                setError('Có lỗi xảy ra.');
+            }
+            // setTimeout(() => {
+            //     setError(null);
+            // }, 3000);
         }
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>Create User</h2>
-            {error && <div className={cx('error-message')}>{error}</div>}
             {successMessage && <div className={cx('success-message')}>{successMessage}</div>}
+            {!successMessage && <div className={cx('success-message')}></div>}
             <form onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
                     <label className={cx('label')} htmlFor="name">
@@ -74,24 +78,26 @@ function AdminUsersAdd() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        required
                         className={cx('input')}
                     />
                 </div>
+                {error && <div className={cx('error-message')}>{error.name && <p>{error.name}</p>}</div>}
+                {!error && <div className={cx('error-message')}></div>}
                 <div className={cx('form-group')}>
                     <label className={cx('label')} htmlFor="email">
                         Email:
                     </label>
                     <input
-                        type="email"
+                        type="text"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        required
                         className={cx('input')}
                     />
                 </div>
+                {error && <div className={cx('error-message')}>{error.email && <p>{error.email}</p>}</div>}
+                {!error && <div className={cx('error-message')}></div>}
                 <div className={cx('form-group')}>
                     <label className={cx('label')} htmlFor="password">
                         Password:
@@ -102,10 +108,11 @@ function AdminUsersAdd() {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        required
                         className={cx('input')}
                     />
                 </div>
+                {error && <div className={cx('error-message')}>{error.password && <p>{error.password}</p>}</div>}
+                {!error && <div className={cx('error-message')}></div>}
                 <div>
                     <button type="submit" className={cx('submit-button')}>
                         Create

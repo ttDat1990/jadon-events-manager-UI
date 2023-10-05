@@ -1,5 +1,5 @@
 .container {
-    width: 800px;
+    width: 1000px;
     margin: auto;
     text-align: center;
     margin-top: 20px;
@@ -40,6 +40,16 @@
 .user-table th {
     background-color: #f2f2f2;
     text-align: center;
+}
+
+.user-table tr {
+    height: 120px;
+}
+
+.user-table thead {
+    tr {
+        height: 50px;
+    }
 }
 
 .detail-button {
@@ -172,9 +182,45 @@
     width: 205px;
 }
 
+.column-name {
+    width: 380px;
+}
+
 .input {
     padding: 10px;
     border: 1px solid #ccc;
     width: 100%;
     margin-top: 5px;
+}
+
+.error-message {
+    color: var(--red);
+    margin-bottom: 10px;
+    height: 15px;
+}
+
+/* Loading Animation */
+.loading-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.loading {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--primary-color);
+    border-top: 5px solid var(--white-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -19,7 +19,9 @@ function Portfolio() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`${eventApi}?page=${1}&per_page=${3}`);
+                const response = await axios.get(
+                    `${eventApi}?event_name=&category_name=&user_name=&page=${1}&per_page=${3}`,
+                );
                 setEvents(response.data.data);
                 setIsLoading(false);
             } catch (error) {

@@ -11,6 +11,7 @@ const AdminCategoriesList = () => {
     const [loading, setLoading] = useState(true);
     const [editCategoryId, setEditCategoryId] = useState(null);
     const [editedData, setEditedData] = useState({ title: '', name: '', image: null });
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -20,7 +21,6 @@ const AdminCategoriesList = () => {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                // Handle errors if necessary.
                 setLoading(false);
             }
         };
@@ -31,18 +31,18 @@ const AdminCategoriesList = () => {
     const handleEditClick = (categoryId) => {
         setEditCategoryId(categoryId);
 
-        // Initialize the editedData state with the current category data
         const categoryToEdit = categories.find((category) => category.id === categoryId);
         if (categoryToEdit) {
             setEditedData({
                 title: categoryToEdit.title,
                 name: categoryToEdit.name,
-                image: null, // Set to null or the existing image URL if needed
+                image: null,
             });
         }
     };
 
     const handleCancelEdit = () => {
+        setFormErrors('');
         setEditCategoryId(null);
         setEditedData({ title: '', name: '', image: null });
     };
@@ -71,22 +71,36 @@ const AdminCategoriesList = () => {
                 formData.append('image', updatedData.image);
             }
 
-            // Make an API call to update the category with the formData
-            await axios.post(`${categoryApi}/${categoryId}`, formData);
-            // Refresh the category list
-            const response = await axios.get(categoryApi);
-            setCategories(response.data);
-            setEditCategoryId(null);
-            setEditedData({ title: '', name: '', image: null });
-        } catch (error) {
-            console.error(error);
-            // Handle errors if necessary.
+            const response = await axios.post(`${categoryApi}/${categoryId}`, formData);
+
+            if (response.status === 200) {
+                setFormErrors('');
+                const response1 = await axios.get(categoryApi);
+                setCategories(response1.data);
+                setEditCategoryId(null);
+                setEditedData({ title: '', name: '', image: null });
+            } else {
+                const errorResponse = response.data;
+                if (errorResponse.errors) {
+                    setFormErrors(errorResponse.errors);
+                } else {
+                    throw new Error('Error.');
+                }
+            }
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.errors) {
+                const errorMessages = err.response.data.errors;
+                setFormErrors(errorMessages);
+            } else {
+                setFormErrors({ general: 'Errors!' });
+            }
         }
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>List of Categories</h2>
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
             {loading ? (
                 <div>Loading...</div>
             ) : (
@@ -106,29 +120,47 @@ const AdminCategoriesList = () => {
                                 <td className={cx('id-column')}>{category.id}</td>
                                 <td className={cx('title-column')}>
                                     {editCategoryId === category.id ? (
-                                        <input
-                                            type="text"
-                                            value={editedData.title}
-                                            onChange={(e) => handleEditChange('title', e.target.value)}
-                                        />
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={editedData.title}
+                                                onChange={(e) => handleEditChange('title', e.target.value)}
+                                            />
+                                            {formErrors.title && (
+                                                <div className={cx('error-message')}>{formErrors.title}</div>
+                                            )}
+                                            {!formErrors.title && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         category.title
                                     )}
                                 </td>
                                 <td className={cx('name-column')}>
                                     {editCategoryId === category.id ? (
-                                        <input
-                                            type="text"
-                                            value={editedData.name}
-                                            onChange={(e) => handleEditChange('name', e.target.value)}
-                                        />
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={editedData.name}
+                                                onChange={(e) => handleEditChange('name', e.target.value)}
+                                            />
+                                            {formErrors.name && (
+                                                <div className={cx('error-message')}>{formErrors.name}</div>
+                                            )}
+                                            {!formErrors.name && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         category.name
                                     )}
                                 </td>
                                 <td className={cx('img-column')}>
                                     {editCategoryId === category.id ? (
-                                        <input type="file" accept="image/*" onChange={handleImageChange} />
+                                        <div>
+                                            <input type="file" accept="image/*" onChange={handleImageChange} />
+                                            {formErrors.image && (
+                                                <div className={cx('error-message')}>{formErrors.image}</div>
+                                            )}
+                                            {!formErrors.image && <div className={cx('error-message')}></div>}
+                                        </div>
                                     ) : (
                                         category.img_url && (
                                             <img

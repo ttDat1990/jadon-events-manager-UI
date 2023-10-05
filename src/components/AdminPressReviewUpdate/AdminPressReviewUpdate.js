@@ -14,6 +14,8 @@ function AdminPressReviewUpdate() {
     const [imageFile, setImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState('');
     const navigate = useNavigate();
+    const [formErrors, setFormErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
 
     const [pressReview, setPressReview] = useState({
         title: '',
@@ -70,17 +72,38 @@ function AdminPressReviewUpdate() {
         }
 
         try {
-            await axios.post(`${pressReviewApi}/${id}`, formDataToSend);
-            // Cập nhật thành công, điều hướng về danh sách press review hoặc trang khác
-            navigate('/admin/listPressReview');
-        } catch (error) {
-            console.error('Lỗi:', error);
+            const response = await axios.post(`${pressReviewApi}/${id}`, formDataToSend);
+            if (response.status === 200) {
+                setFormErrors('');
+                setSuccessMessage('Event updated successfully');
+                setTimeout(() => {
+                    setSuccessMessage('');
+                    navigate('/admin/listPressReview');
+                }, 2000);
+            } else {
+                const errorResponse = response.data;
+                if (errorResponse.errors) {
+                    setFormErrors(errorResponse.errors);
+                } else {
+                    throw new Error('Error.');
+                }
+            }
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.errors) {
+                const errorMessages = err.response.data.errors;
+                setFormErrors(errorMessages);
+            } else {
+                setFormErrors({ general: 'Errors!' });
+            }
         }
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>Update Press Review</h2>
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
+            {successMessage && <div className={cx('success-message')}>{successMessage}</div>}
+            {!successMessage && <div className={cx('success-message')}></div>}
             <form onSubmit={handleSubmit} className={cx('form')}>
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Title:</label>
@@ -91,6 +114,8 @@ function AdminPressReviewUpdate() {
                         value={pressReview.title}
                         onChange={handleChange}
                     />
+                    {formErrors.title && <div className={cx('error-message')}>{formErrors.title}</div>}
+                    {!formErrors.title && <div className={cx('error-message')}></div>}
                 </div>
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Author:</label>
@@ -101,6 +126,8 @@ function AdminPressReviewUpdate() {
                         value={pressReview.author}
                         onChange={handleChange}
                     />
+                    {formErrors.author && <div className={cx('error-message')}>{formErrors.author}</div>}
+                    {!formErrors.author && <div className={cx('error-message')}></div>}
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="new_image" className={cx('label-img')}>
@@ -119,6 +146,8 @@ function AdminPressReviewUpdate() {
                 <div className={cx('form-group')}>
                     <img src={previewImage} className={cx('selected-image')} alt="Preview" />
                 </div>
+                {formErrors.image && <div className={cx('error-message')}>{formErrors.image}</div>}
+                {!formErrors.image && <div className={cx('error-message')}></div>}
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Content:</label>
                     <CKEditor
@@ -129,6 +158,8 @@ function AdminPressReviewUpdate() {
                             handleContentChange(editorData);
                         }}
                     />
+                    {formErrors.content && <div className={cx('error-message')}>{formErrors.content}</div>}
+                    {!formErrors.content && <div className={cx('error-message')}></div>}
                 </div>
                 {/* Thêm các trường dữ liệu cần cập nhật ở đây */}
                 <div>

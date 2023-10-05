@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { pressReviewApi } from '~/components/ApiUrl';
-import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './AdminPressReviewAdd.module.scss';
 
 const cx = classNames.bind(styles);
 
 function AdminPressReviewAdd() {
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         title: '',
         content: '',
         author: '',
         image: null,
-        imageURL: '', // Thêm imageURL để lưu URL tạm thời của hình ảnh
-    });
+        imageURL: '',
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [formErrors, setFormErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -38,7 +41,7 @@ function AdminPressReviewAdd() {
             content: '',
             author: '',
             image: null,
-            imageURL: '', // Đặt lại imageURL khi reset form
+            imageURL: '',
         });
     };
 
@@ -57,18 +60,39 @@ function AdminPressReviewAdd() {
         axios
             .post(pressReviewApi, formDataToSend)
             .then((response) => {
-                console.log(response.data.message);
-                resetForm();
-                navigate('/admin/listPressReview');
+                if (response.status === 200) {
+                    setFormErrors('');
+                    setSuccessMessage('Event created successfully');
+                    resetForm();
+                    setTimeout(() => {
+                        setSuccessMessage('');
+                        navigate('/admin/listPressReview');
+                    }, 2000);
+                } else {
+                    const errorResponse = response.data;
+                    if (errorResponse.errors) {
+                        setFormErrors(errorResponse.errors);
+                    } else {
+                        throw new Error('Error.');
+                    }
+                }
             })
-            .catch((error) => {
-                console.error('Lỗi:', error);
+            .catch((err) => {
+                if (err.response && err.response.data && err.response.data.errors) {
+                    const errorMessages = err.response.data.errors;
+                    setFormErrors(errorMessages);
+                } else {
+                    setFormErrors({ general: 'Errors!' });
+                }
             });
     };
 
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>Create Press Review</h2>
+            {formErrors.general && <div className={cx('error-message')}>{formErrors.general}</div>}
+            {successMessage && <div className={cx('success-message')}>{successMessage}</div>}
+            {!successMessage && <div className={cx('success-message')}></div>}
             <form onSubmit={handleSubmit} className={cx('form')}>
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Title:</label>
@@ -78,8 +102,9 @@ function AdminPressReviewAdd() {
                         value={formData.title}
                         onChange={handleInputChange}
                         className={cx('input')}
-                        required
                     />
+                    {formErrors.title && <div className={cx('error-message')}>{formErrors.title}</div>}
+                    {!formErrors.title && <div className={cx('error-message')}></div>}
                 </div>
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Author:</label>
@@ -89,8 +114,9 @@ function AdminPressReviewAdd() {
                         value={formData.author}
                         onChange={handleInputChange}
                         className={cx('input')}
-                        required
                     />
+                    {formErrors.author && <div className={cx('error-message')}>{formErrors.author}</div>}
+                    {!formErrors.author && <div className={cx('error-message')}></div>}
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="images" className={cx('label-img')}>
@@ -103,7 +129,6 @@ function AdminPressReviewAdd() {
                         accept="image/*"
                         onChange={handleImageChange}
                         className={cx('input-img')}
-                        required
                     />
                 </div>
                 {formData.imageURL && (
@@ -111,6 +136,8 @@ function AdminPressReviewAdd() {
                         <img src={formData.imageURL} alt="Selected img" className={cx('selected-image')} />
                     </div>
                 )}
+                {formErrors.image && <div className={cx('error-message')}>{formErrors.image}</div>}
+                {!formErrors.image && <div className={cx('error-message')}></div>}
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Content:</label>
                     <CKEditor
@@ -122,6 +149,8 @@ function AdminPressReviewAdd() {
                         }}
                         className={cx('input-text')}
                     />
+                    {formErrors.content && <div className={cx('error-message')}>{formErrors.content}</div>}
+                    {!formErrors.content && <div className={cx('error-message')}></div>}
                 </div>
                 <div>
                     <button type="submit" className={cx('submit-button')}>

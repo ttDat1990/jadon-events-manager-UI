@@ -98,20 +98,22 @@ const AdminEventsList = () => {
                 <input type="text" placeholder="Search by User Name" value={userName} onChange={handleUserNameChange} />
             </div>
             {isLoading ? (
-                <p>Loading...</p>
+                <div className={cx('loading-container')}>
+                    <div className={cx('loading')}></div>
+                </div>
             ) : (
                 <div>
                     <table className={cx('event-table')}>
                         <thead>
                             <tr>
-                                <th>Event Name</th>
+                                <th className={cx('name-colum')}>Event Name</th>
                                 <th>User Name</th>
-                                <th>User Email</th>
+                                <th className={cx('email-colum')}>User Email</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Category</th>
-                                <th>Images</th>
-                                <th>Add-ons</th>
+                                <th>Img</th>
+                                <th>Add</th>
                                 <th className={cx('column-action')}>Actions</th>
                             </tr>
                         </thead>
@@ -119,13 +121,13 @@ const AdminEventsList = () => {
                             {events.map((event) => (
                                 <tr key={event.id}>
                                     <td>{event.name}</td>
-                                    <td>{event.user.name}</td>
-                                    <td>{event.user.email}</td>
+                                    <td>{event.user ? event.user.name : 'N/A'}</td>
+                                    <td>{event.user ? event.user.email : 'N/A'}</td>
                                     <td>{event.start_date}</td>
                                     <td>{event.end_date}</td>
                                     <td>{event.category.name}</td>
-                                    <td>{`${event.images?.length || 0}`}</td>
-                                    <td>{`${event.add_ons?.length || 0}`}</td>
+                                    <td>{`${event.images?.length || 0} img`}</td>
+                                    <td>{`${event.add_ons?.length || 0} add`}</td>
                                     <td>
                                         <div className={cx('button-container')}>
                                             <button

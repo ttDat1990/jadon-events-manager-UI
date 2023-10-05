@@ -34,7 +34,6 @@ function EventDetail() {
             </div>
         );
     }
-    console.log(eventData.images);
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
@@ -51,7 +50,7 @@ function EventDetail() {
                     <p>Start Date: {eventData.start_date}</p>
                     <p>End Date: {eventData.end_date}</p>
                     <p>Event type: {eventData.category.name}</p>
-                    <p>User ID: {eventData.user.name}</p>
+                    <p>User Name: {eventData.user ? eventData.user.name : 'N/A'}</p>
 
                     {eventData.add_ons &&
                         eventData.add_ons.map((addOn, index) => (
@@ -63,8 +62,8 @@ function EventDetail() {
                     <div className={cx('selected-images')}>
                         {eventData.images &&
                             eventData.images.map((image, index) => (
-                                <ModalSlideShow imagePaths={eventData.images} buttonClassName={cx('modal')}>
-                                    <div key={index} className={cx('selected-image-container')}>
+                                <ModalSlideShow imagePaths={eventData.images} buttonClassName={cx('modal')} key={index}>
+                                    <div className={cx('selected-image-container')}>
                                         <img
                                             src={image.image_url || URL.createObjectURL(image)}
                                             alt={`Selected img ${index}`}

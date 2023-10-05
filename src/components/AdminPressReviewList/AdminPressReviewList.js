@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { pressReviewApi } from '~/components/ApiUrl';
@@ -14,7 +14,6 @@ function AdminPressReviewList() {
     const [author, setAuthor] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [pressPerPage] = useState(6);
-    const [totalPress, setTotalPress] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
 
@@ -29,31 +28,31 @@ function AdminPressReviewList() {
             });
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(
-                    `${pressReviewApi}?name=${pressName}&author=${author}&page=${currentPage}&per_page=${pressPerPage}`,
-                );
-                setPressReviews(response.data.data);
-                setTotalPress(response.data.total);
-                setIsLoading(false);
+    const fetchData = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(
+                `${pressReviewApi}?name=${pressName}&author=${author}&page=${currentPage}&per_page=${pressPerPage}`,
+            );
+            setPressReviews(response.data.data);
+            setIsLoading(false);
 
-                const totalPages = Math.ceil(totalPress / pressPerPage);
-                const pagesArray = [];
-                for (let i = 1; i <= totalPages; i++) {
-                    pagesArray.push(i);
-                }
-                setPages(pagesArray);
-            } catch (error) {
-                console.error('Error fetching events:', error);
-                setIsLoading(false);
+            const totalPages = Math.ceil(response.data.total / pressPerPage);
+            const pagesArray = [];
+            for (let i = 1; i <= totalPages; i++) {
+                pagesArray.push(i);
             }
-        };
+            setPages(pagesArray);
+        } catch (error) {
+            console.error('Error fetching events:', error);
+            setIsLoading(false);
+        }
+    }, [currentPage, pressPerPage, pressName, author]);
 
+    useEffect(() => {
+        // Initial data fetch when the component mounts
         fetchData();
-    }, [currentPage, pressPerPage, totalPress, pressName, author]);
+    }, [fetchData]);
 
     const handlePressNameChange = (e) => {
         setPressName(e.target.value);
@@ -81,14 +80,13 @@ function AdminPressReviewList() {
                 .delete(`${pressReviewApi}/${id}`)
                 .then((response) => {
                     setPressReviews((prevReviews) => prevReviews.filter((pressReview) => pressReview.id !== id));
+                    fetchData();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
         }
     };
-
-    console.log(pressReviews);
 
     return (
         <div className={cx('container')}>
@@ -97,18 +95,21 @@ function AdminPressReviewList() {
                 <input type="text" placeholder="Search by Title" value={pressName} onChange={handlePressNameChange} />
                 <input type="text" placeholder="Search by Author" value={author} onChange={handleAuthorChange} />
             </div>
-            <table className={cx('event-table')}>
-                <thead>
-                    <tr>
-                        <th className={cx('column-1')}>Title</th>
-                        <th className={cx('column-2')}>Author</th>
-                        <th className={cx('column-3')}>Image</th>
-                        <th className={cx('column-4')}>Action</th>
-                    </tr>
-                </thead>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
+            {isLoading ? (
+                <div className={cx('loading-container')}>
+                    <div className={cx('loading')}></div>
+                </div>
+            ) : (
+                <table className={cx('event-table')}>
+                    <thead>
+                        <tr>
+                            <th className={cx('column-1')}>Title</th>
+                            <th className={cx('column-2')}>Author</th>
+                            <th className={cx('column-3')}>Image</th>
+                            <th className={cx('column-4')}>Action</th>
+                        </tr>
+                    </thead>
+
                     <tbody>
                         {pressReviews.map((pressReview) => (
                             <tr key={pressReview.id}>
@@ -140,8 +141,8 @@ function AdminPressReviewList() {
                             </tr>
                         ))}
                     </tbody>
-                )}
-            </table>
+                </table>
+            )}
             <div className={cx('pagination')}>
                 {pages.map((pageNumber) => (
                     <button

@@ -15,7 +15,14 @@
 
 .error-message {
     color: var(--red);
+    height: 15px;
     margin-bottom: 10px;
+}
+
+.success-message {
+    height: 15px;
+    color: var(--green);
+    margin-bottom: 15px;
 }
 
 .form {
