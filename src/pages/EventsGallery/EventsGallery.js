@@ -6,6 +6,7 @@ import styles from './EventsGallery.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +15,7 @@ function EventsGallery() {
     const [isLoading, setIsLoading] = useState(true);
     const [categoryName, setCategoryName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(12);
+    const [eventsPerPage] = useState(6);
     const [totalEvents, setTotalEvents] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
@@ -57,6 +58,16 @@ function EventsGallery() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    const goToFirstPage = () => {
+        setCurrentPage(1);
+    };
+
+    const goToLastPage = () => {
+        const totalPages = Math.ceil(totalEvents / eventsPerPage);
+        setCurrentPage(totalPages);
+    };
+
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
@@ -102,7 +113,9 @@ function EventsGallery() {
                 </div>
 
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <div className={cx('loading-container')}>
+                        <div className={cx('loading')}></div>
+                    </div>
                 ) : (
                     <div className={cx('items-container')}>
                         {events.map((event, image) => (
@@ -124,17 +137,35 @@ function EventsGallery() {
                         ))}
                     </div>
                 )}
-                <div className={cx('pagination')}>
-                    {pages.map((pageNumber) => (
-                        <button
-                            key={pageNumber}
-                            onClick={() => paginate(pageNumber)}
-                            className={currentPage === pageNumber ? cx('active') : ''}
-                        >
-                            {pageNumber}
-                        </button>
-                    ))}
-                </div>
+                {!isLoading && (
+                    <div>
+                        <div className={cx('pagination')}>
+                            <button onClick={goToFirstPage}>
+                                <FontAwesomeIcon icon={faAnglesLeft} />
+                            </button>
+                            {pages.map(
+                                (pageNumber) =>
+                                    (pageNumber === currentPage ||
+                                        pageNumber === currentPage - 1 ||
+                                        pageNumber === currentPage + 1) && (
+                                        <button
+                                            key={pageNumber}
+                                            onClick={() => paginate(pageNumber)}
+                                            className={currentPage === pageNumber ? cx('active') : ''}
+                                        >
+                                            {pageNumber}
+                                        </button>
+                                    ),
+                            )}
+                            <button onClick={goToLastPage}>
+                                <FontAwesomeIcon icon={faAnglesRight} />
+                            </button>
+                        </div>
+                        <div className={cx('page-count')}>
+                            Page {currentPage} of {pages.length}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

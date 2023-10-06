@@ -49,10 +49,7 @@ function SlideShow() {
         return (
             <div className={cx('slide-show')}>
                 <div className={cx('slide-loading')}>
-                    <img
-                        src="https://takeheartevents.com/wp-content/uploads/2020/09/JC-935.jpg"
-                        alt="Loading Slide Show"
-                    />
+                    <img src="http://127.0.0.1:8000/images/1696346644.jpg" alt="Loading Slide Show" />
                     <div className={cx('overlay')}></div>
                 </div>
             </div>

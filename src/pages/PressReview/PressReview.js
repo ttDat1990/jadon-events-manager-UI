@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { pressReviewApi } from '~/components/ApiUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './PressReview.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +15,7 @@ function PressReview() {
     const [pressName, setPressName] = useState('');
     const [author, setAuthor] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [pressPerPage] = useState(12);
+    const [pressPerPage] = useState(6);
     const [totalPress, setTotalPress] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
@@ -61,6 +63,16 @@ function PressReview() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    const goToFirstPage = () => {
+        setCurrentPage(1);
+    };
+
+    const goToLastPage = () => {
+        const totalPages = Math.ceil(totalPress / pressPerPage);
+        setCurrentPage(totalPages);
+    };
+
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
@@ -81,37 +93,78 @@ function PressReview() {
                     <input type="text" placeholder="Search by Author" value={author} onChange={handleAuthorChange} />
                 </div>
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <div className={cx('loading-container')}>
+                        <div className={cx('loading')}></div>
+                    </div>
                 ) : (
+                    // <div className={cx('items-container')}>
+                    //     {presses.map((press) => (
+                    //         <div key={press.id} className={cx('item-detail')}>
+                    //             <div className={cx('item-image')}>
+                    //                 <img src={press.img_url} alt={press.title} />
+                    //                 <div className={cx('overlay')}></div>
+                    //             </div>
+                    //             <div className={cx('item-button')}>
+                    //                 <button onClick={() => handleDetail(press.id)}>More Details</button>
+                    //             </div>
+                    //             <div className={cx('item-name')}>
+                    //                 <div>{press.title}</div>
+                    //                 <div>By {press.author}</div>
+                    //             </div>
+                    //         </div>
+                    //     ))}
+                    // </div>
                     <div className={cx('items-container')}>
-                        {presses.map((press) => (
-                            <div key={press.id} className={cx('item-detail')}>
-                                <div className={cx('item-image')}>
-                                    <img src={press.img_url} alt={press.title} />
-                                    <div className={cx('overlay')}></div>
+                        {presses.length > 0 ? (
+                            presses.map((press) => (
+                                <div key={press.id} className={cx('item-detail')}>
+                                    <div className={cx('item-image')}>
+                                        <img src={press.img_url} alt={press.title} />
+                                        <div className={cx('overlay')}></div>
+                                    </div>
+                                    <div className={cx('item-button')}>
+                                        <button onClick={() => handleDetail(press.id)}>More Details</button>
+                                    </div>
+                                    <div className={cx('item-name')}>
+                                        <div>{press.title}</div>
+                                        <div>By {press.author}</div>
+                                    </div>
                                 </div>
-                                <div className={cx('item-button')}>
-                                    <button onClick={() => handleDetail(press.id)}>More Details</button>
-                                </div>
-                                <div className={cx('item-name')}>
-                                    <div>{press.title}</div>
-                                    <div>By {press.author}</div>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <div className={cx('not-found')}>Not found !</div>
+                        )}
                     </div>
                 )}
-                <div className={cx('pagination')}>
-                    {pages.map((pageNumber) => (
-                        <button
-                            key={pageNumber}
-                            onClick={() => paginate(pageNumber)}
-                            className={currentPage === pageNumber ? cx('active') : ''}
-                        >
-                            {pageNumber}
-                        </button>
-                    ))}
-                </div>
+                {!isLoading && presses.length > 0 && (
+                    <div>
+                        <div className={cx('pagination')}>
+                            <button onClick={goToFirstPage}>
+                                <FontAwesomeIcon icon={faAnglesLeft} />
+                            </button>
+                            {pages.map(
+                                (pageNumber) =>
+                                    (pageNumber === currentPage ||
+                                        pageNumber === currentPage - 1 ||
+                                        pageNumber === currentPage + 1) && (
+                                        <button
+                                            key={pageNumber}
+                                            onClick={() => paginate(pageNumber)}
+                                            className={currentPage === pageNumber ? cx('active') : ''}
+                                        >
+                                            {pageNumber}
+                                        </button>
+                                    ),
+                            )}
+                            <button onClick={goToLastPage}>
+                                <FontAwesomeIcon icon={faAnglesRight} />
+                            </button>
+                        </div>
+                        <div className={cx('page-count')}>
+                            Page {currentPage} of {pages.length}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

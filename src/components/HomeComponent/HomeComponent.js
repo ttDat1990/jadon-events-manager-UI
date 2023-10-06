@@ -284,7 +284,6 @@ function HomeComponent() {
                                 <div className={cx('item-name1')}>
                                     <div>{press.title}</div>
                                     <div>By {press.author}</div>
-                                    <div dangerouslySetInnerHTML={{ __html: press.content }}></div>
                                 </div>
                             </div>
                         ))}

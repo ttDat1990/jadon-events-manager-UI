@@ -37,9 +37,9 @@ function EventDetail() {
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
-                <div className={cx('big-title')}>
+                {/* <div className={cx('big-title')}>
                     <div>Events - Detail</div>
-                </div>
+                </div> */}
                 <div className={cx('img-overlay')}></div>
                 <img src="https://takeheartevents.com/wp-content/uploads/2019/01/WWMansion-13-of-123.jpg" alt="" />
             </div>
@@ -50,7 +50,7 @@ function EventDetail() {
                     <p>Start Date: {eventData.start_date}</p>
                     <p>End Date: {eventData.end_date}</p>
                     <p>Event type: {eventData.category.name}</p>
-                    <p>User Name: {eventData.user ? eventData.user.name : 'N/A'}</p>
+                    <p>Client: {eventData.user ? eventData.user.name : 'N/A'}</p>
 
                     {eventData.add_ons &&
                         eventData.add_ons.map((addOn, index) => (

@@ -1,7 +1,9 @@
 .footer {
-    width: 1330px;
-    margin: 0 auto;
+    margin-top: 50px;
+    width: 100%;
     background-color: var(--white-color);
+    // border-top: 1px solid rgb(185, 185, 185);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 
     .footer_box {
         width: 1220px;

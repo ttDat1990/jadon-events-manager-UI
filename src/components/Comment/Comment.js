@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 function Comment({ pressId }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
-    const [replyTo, setReplyTo] = useState(null); // Bình luận mà người dùng đang trả lời
+    const [replyTo, setReplyTo] = useState(null);
     const token = localStorage.getItem('userToken');
     const { isLoggedIn, userName } = useAuth();
 
@@ -48,7 +48,7 @@ function Comment({ pressId }) {
                 {
                     press_id: pressId,
                     content: newComment,
-                    parent_id: parentId, // Truyền parent_id khi trả lời bình luận
+                    parent_id: parentId,
                 },
                 {
                     headers: {
@@ -59,7 +59,7 @@ function Comment({ pressId }) {
             .then((response) => {
                 setComments([response.data.comment, ...comments]);
                 setNewComment('');
-                setReplyTo(null); // Đặt lại trạng thái trả lời sau khi gửi bình luận
+                setReplyTo(null);
             })
             .catch((error) => console.error('Error creating comment: ', error));
     };
@@ -76,7 +76,6 @@ function Comment({ pressId }) {
     };
 
     const handleLikeClick = (comment) => {
-        // Send a request to like/unlike the comment
         axios
             .post(`${likeApi}/${comment.id}`, null, {
                 headers: {
@@ -84,7 +83,6 @@ function Comment({ pressId }) {
                 },
             })
             .then((response) => {
-                // Update the comments with the new like information
                 const updatedComments = comments.map((c) => {
                     if (c.id === comment.id) {
                         c.likes_count = response.data.likes_count;
@@ -141,7 +139,6 @@ function Comment({ pressId }) {
             return 'now';
         }
     }
-
     return (
         <div>
             <div className={cx('title')}>Leave Us a Comment</div>

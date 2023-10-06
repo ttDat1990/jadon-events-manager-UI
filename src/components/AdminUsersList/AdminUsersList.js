@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { userApi } from '~/components/ApiUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
+import useDebounce from '~/hooks';
 import styles from './AdminUsersList.module.scss';
 
 const cx = classNames.bind(styles);
@@ -12,20 +15,22 @@ const AdminUsersList = () => {
     const [searchByName, setSearchByName] = useState('');
     const [searchByEmail, setSearchByEmail] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(6);
+    const [usersPerPage] = useState(5);
     const [totalUsers, setTotalUsers] = useState(0);
     const [pages, setPages] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [updatedUser, setUpdatedUser] = useState({});
     const [formErrors, setFormErrors] = useState({});
+    const debouncedName = useDebounce(searchByName, 500);
+    const debouncedEmail = useDebounce(searchByEmail, 500);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const response = await axios.get(
-                    `${userApi}?page=${currentPage}&per_page=${usersPerPage}&name=${searchByName}&email=${searchByEmail}`,
+                    `${userApi}?page=${currentPage}&per_page=${usersPerPage}&name=${debouncedName}&email=${debouncedEmail}`,
                 );
                 setUsers(response.data.users.data);
                 setTotalUsers(response.data.users.total);
@@ -45,7 +50,7 @@ const AdminUsersList = () => {
         };
 
         fetchData();
-    }, [searchByName, searchByEmail, currentPage, usersPerPage, totalUsers]);
+    }, [debouncedName, debouncedEmail, currentPage, usersPerPage, totalUsers]);
 
     const handleSearchByNameChange = (e) => {
         setSearchByName(e.target.value);
@@ -120,6 +125,15 @@ const AdminUsersList = () => {
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const goToFirstPage = () => {
+        setCurrentPage(1);
+    };
+
+    const goToLastPage = () => {
+        const totalPages = Math.ceil(totalUsers / usersPerPage);
+        setCurrentPage(totalPages);
     };
 
     return (
@@ -247,18 +261,35 @@ const AdminUsersList = () => {
                             </tbody>
                         </table>
                     )}
-                    <div className={cx('pagination')}>
-                        {pages.map((pageNumber) => (
-                            <button
-                                key={pageNumber}
-                                onClick={() => paginate(pageNumber)}
-                                disabled={currentPage === pageNumber}
-                                className={currentPage === pageNumber ? cx('active') : ''}
-                            >
-                                {pageNumber}
-                            </button>
-                        ))}
-                    </div>
+                    {users.length > 0 && (
+                        <div>
+                            <div className={cx('pagination')}>
+                                <button onClick={goToFirstPage}>
+                                    <FontAwesomeIcon icon={faAnglesLeft} />
+                                </button>
+                                {pages.map(
+                                    (pageNumber) =>
+                                        (pageNumber === currentPage ||
+                                            pageNumber === currentPage - 1 ||
+                                            pageNumber === currentPage + 1) && (
+                                            <button
+                                                key={pageNumber}
+                                                onClick={() => paginate(pageNumber)}
+                                                className={currentPage === pageNumber ? cx('active') : ''}
+                                            >
+                                                {pageNumber}
+                                            </button>
+                                        ),
+                                )}
+                                <button onClick={goToLastPage}>
+                                    <FontAwesomeIcon icon={faAnglesRight} />
+                                </button>
+                            </div>
+                            <div className={cx('page-count')}>
+                                Page {currentPage} of {pages.length}
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
