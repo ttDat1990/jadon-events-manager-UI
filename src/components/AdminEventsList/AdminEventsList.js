@@ -49,7 +49,7 @@ const AdminEventsList = () => {
             setIsLoading(false);
         }
     }, [debouncedEvent, currentPage, eventsPerPage, totalEvents, debouncedCategory, debouncedUser]);
-    console.log(categoryName);
+
     useEffect(() => {
         fetchData();
     }, [fetchData]);

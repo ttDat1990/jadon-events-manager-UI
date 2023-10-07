@@ -47,11 +47,8 @@ function SlideShow() {
 
     if (slides.length === 0) {
         return (
-            <div className={cx('slide-show')}>
-                <div className={cx('slide-loading')}>
-                    <img src="http://127.0.0.1:8000/images/1696346644.jpg" alt="Loading Slide Show" />
-                    <div className={cx('overlay')}></div>
-                </div>
+            <div className={cx('loading-container')}>
+                <div className={cx('loading')}></div>
             </div>
         );
     }

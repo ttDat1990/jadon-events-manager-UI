@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { userApi } from '~/components/ApiUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,32 +25,32 @@ const AdminUsersList = () => {
     const debouncedName = useDebounce(searchByName, 500);
     const debouncedEmail = useDebounce(searchByEmail, 500);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(
-                    `${userApi}?page=${currentPage}&per_page=${usersPerPage}&name=${debouncedName}&email=${debouncedEmail}`,
-                );
-                setUsers(response.data.users.data);
-                setTotalUsers(response.data.users.total);
-                setIsLoading(false);
-                setNoResults(response.data.users.data.length === 0);
+    const fetchData = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(
+                `${userApi}?page=${currentPage}&per_page=${usersPerPage}&name=${debouncedName}&email=${debouncedEmail}`,
+            );
+            setUsers(response.data.users.data);
+            setTotalUsers(response.data.users.total);
+            setIsLoading(false);
+            setNoResults(response.data.users.data.length === 0);
 
-                const totalPages = Math.ceil(totalUsers / usersPerPage);
-                const pagesArray = [];
-                for (let i = 1; i <= totalPages; i++) {
-                    pagesArray.push(i);
-                }
-                setPages(pagesArray);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-                setIsLoading(false);
+            const totalPages = Math.ceil(totalUsers / usersPerPage);
+            const pagesArray = [];
+            for (let i = 1; i <= totalPages; i++) {
+                pagesArray.push(i);
             }
-        };
-
-        fetchData();
+            setPages(pagesArray);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            setIsLoading(false);
+        }
     }, [debouncedName, debouncedEmail, currentPage, usersPerPage, totalUsers]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const handleSearchByNameChange = (e) => {
         setSearchByName(e.target.value);
@@ -69,7 +69,7 @@ const AdminUsersList = () => {
             axios
                 .delete(`${userApi}/${id}`)
                 .then((response) => {
-                    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+                    fetchData();
                 })
                 .catch((error) => {
                     console.error('Error:', error);

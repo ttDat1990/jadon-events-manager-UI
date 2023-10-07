@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import { useState, useEffect } from 'react';
+import { categoryApi } from '~/components/ApiUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import styles from './NonProfit.module.scss';
@@ -7,16 +9,22 @@ import styles from './NonProfit.module.scss';
 const cx = classNames.bind(styles);
 
 function NonProfit() {
+    const [category, setCategory] = useState('');
+    useEffect(() => {
+        fetch(`${categoryApi}/4`)
+            .then((response) => response.json())
+            .then((data) => setCategory(data));
+    }, []);
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
                 <div className={cx('big-title')}>
                     <div>
-                        <p>NON-PROFIT EVENTS</p>
+                        <p>{category.title}</p>
                     </div>
                 </div>
                 <div className={cx('img-overlay')}></div>
-                <img src="https://takeheartevents.com/wp-content/uploads/2019/06/TH-nonprofit-header.jpg" alt="" />
+                <img src={category.img_url} alt={category.name} />
             </div>
             <div className={cx('mid')}>
                 <div>

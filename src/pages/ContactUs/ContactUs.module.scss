@@ -169,14 +169,12 @@
 .contact_input_flex {
     width: 100%;
     height: 100%;
-    padding: 30px 30px;
+    padding: 0 30px;
 }
 
 .contact_input {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
-    margin-bottom: 20px;
 }
 
 .contact_input input {
@@ -211,6 +209,10 @@
 .contact_event_type_flex {
     display: flex;
     justify-content: space-evenly;
+
+    span {
+        padding-left: 5px;
+    }
 }
 
 .contact_date {
@@ -220,7 +222,7 @@
 .contact_textarea {
     margin-bottom: 20px;
     width: 100%;
-    height: 40%;
+    height: 430px;
 }
 
 .contact_word {
@@ -284,8 +286,40 @@
     background-color: var(--red);
 }
 
+.contact_btn {
+    padding-top: 30px;
+}
+
 .iframeStyle {
     width: 350px;
     height: 200px;
     border: none;
+}
+
+.error-message {
+    color: var(--red);
+    height: 15px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    height: 15px;
+    color: var(--green);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.error-message1 {
+    color: var(--red);
+    height: 15px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.error-container {
+    display: flex;
+    justify-content: space-between;
 }

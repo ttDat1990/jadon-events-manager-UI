@@ -1,10 +1,7 @@
-/* SlideShow.module.scss */
-
 .slide-show {
     position: relative;
     width: 100%;
     height: 100vh;
-    /* Chiếm toàn bộ chiều cao của màn hình */
     overflow: hidden;
 
     button {
@@ -62,21 +59,18 @@
 
 .slide.active {
     opacity: 1;
-    /* Khi active, hiển thị slide với opacity đầy đủ */
 }
 
 .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Hiển thị hình ảnh mà không bị căn chỉnh */
 }
 
 .slide-loading img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Hiển thị hình ảnh mà không bị căn chỉnh */
 }
 
 .overlay {
@@ -86,17 +80,14 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Màu nền của overlay với độ mờ 50% */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
-    /* Màu văn bản trên overlay */
     text-align: left;
     z-index: 1;
 
-    /* Đảm bảo overlay nằm phía trên hình ảnh */
     h2 {
         width: 60%;
         line-height: 8rem;
@@ -122,24 +113,33 @@
 
         .get-planning-button {
             background-color: var(--primary-color);
-            /* Màu nền của nút */
             color: white;
-            /* Màu chữ trên nút */
             font-size: 1.6rem;
             padding: 10px 20px;
             text-decoration: none;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
-            /* Hiệu ứng hover */
-
-            /* Khoảng cách từ nút đến văn bản dưới overlay */
         }
 
         .get-planning-button:hover {
             background-color: var(--primary-hover-color);
         }
     }
+}
 
+/* Loading Animation */
+.loading-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
+.loading {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--primary-color);
+    border-top: 5px solid var(--white-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
