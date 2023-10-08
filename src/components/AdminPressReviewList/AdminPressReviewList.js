@@ -7,6 +7,7 @@ import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import useDebounce from '~/hooks';
 import styles from './AdminPressReviewList.module.scss';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +18,7 @@ function AdminPressReviewList() {
     const [author, setAuthor] = useState('');
     const [noResults, setNoResults] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pressPerPage] = useState(6);
+    const [pressPerPage] = useState(5);
     const [pages, setPages] = useState([]);
     const [totalPress, setTotalPress] = useState(0);
     const navigate = useNavigate();
@@ -90,7 +91,8 @@ function AdminPressReviewList() {
         navigate(`/admin/updatePressReview/${id}`);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = (id, e) => {
+        e.stopPropagation();
         const confirmDelete = window.confirm('Are you sure you wan to delete this Press?');
 
         if (confirmDelete) {
@@ -124,42 +126,41 @@ function AdminPressReviewList() {
                     ) : (
                         <table className={cx('event-table')}>
                             <thead>
-                                <tr>
+                                <tr className={cx('row-title')}>
                                     <th className={cx('column-1')}>Title</th>
                                     <th className={cx('column-2')}>Author</th>
                                     <th className={cx('column-3')}>Image</th>
-                                    <th className={cx('column-4')}>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {pressReviews.map((pressReview) => (
-                                    <tr key={pressReview.id}>
+                                    <tr
+                                        key={pressReview.id}
+                                        onClick={() => handleUpdate(pressReview.id)}
+                                        className={cx('list-content')}
+                                    >
                                         <td>{pressReview.title}</td>
                                         <td>{pressReview.author}</td>
                                         <td>
                                             {pressReview.img_url && (
-                                                <img
-                                                    src={pressReview.img_url}
-                                                    alt={pressReview.title}
-                                                    style={{ maxWidth: '100px' }}
-                                                />
+                                                <div className={cx('img-container')}>
+                                                    <img
+                                                        src={pressReview.img_url}
+                                                        alt={pressReview.title}
+                                                        style={{ maxWidth: '100px' }}
+                                                    />
+                                                </div>
                                             )}
                                         </td>
-                                        <td>
+                                        <div className={cx('button-container')}>
                                             <button
-                                                onClick={() => handleUpdate(pressReview.id)}
-                                                className={cx('detail-button')}
-                                            >
-                                                Update
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(pressReview.id)}
+                                                onClick={(e) => handleDelete(pressReview.id, e)}
                                                 className={cx('delete-button')}
                                             >
-                                                Delete
+                                                <FontAwesomeIcon icon={faTrashCan} />
                                             </button>
-                                        </td>
+                                        </div>
                                     </tr>
                                 ))}
                             </tbody>

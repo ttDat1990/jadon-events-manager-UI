@@ -11,7 +11,10 @@ function AdminDefaultLayout({ children }) {
                 <AdminSidebar />
             </header>
 
-            <div className={cx('content')}>{children}</div>
+            <div className={cx('content')}>
+                <div className={cx('padding-bar')}></div>
+                <div className={cx('main-content')}>{children}</div>
+            </div>
         </div>
     );
 }

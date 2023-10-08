@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { eventApi } from '~/components/ApiUrl';
 import { useNavigate } from 'react-router-dom';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
@@ -18,7 +19,7 @@ const AdminEventsList = () => {
     const [userName, setUserName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [noResults, setNoResults] = useState(false);
-    const [eventsPerPage] = useState(5);
+    const [eventsPerPage] = useState(12);
     const [totalEvents, setTotalEvents] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
@@ -73,7 +74,8 @@ const AdminEventsList = () => {
         navigate(`/admin/detailEvent/${id}`);
     };
 
-    const handleDeleteEvent = async (eventId) => {
+    const handleDeleteEvent = async (eventId, e) => {
+        e.stopPropagation();
         const isConfirmed = window.confirm('Are you sure you want to delete this event?');
 
         if (isConfirmed) {
@@ -119,7 +121,7 @@ const AdminEventsList = () => {
                     <div className={cx('loading')}></div>
                 </div>
             ) : (
-                <div>
+                <div className={cx('table-container')}>
                     {noResults ? (
                         <p>No results found.</p>
                     ) : (
@@ -134,36 +136,35 @@ const AdminEventsList = () => {
                                     <th>Category</th>
                                     <th>Img</th>
                                     <th>Add</th>
-                                    <th className={cx('column-action')}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {events.map((event) => (
-                                    <tr key={event.id}>
-                                        <td>{event.name}</td>
-                                        <td>{event.user ? event.user.name : 'N/A'}</td>
-                                        <td>{event.user ? event.user.email : 'N/A'}</td>
-                                        <td>{event.start_date}</td>
-                                        <td>{event.end_date}</td>
-                                        <td>{event.category.name}</td>
-                                        <td>{`${event.images?.length || 0} img`}</td>
-                                        <td>{`${event.add_ons?.length || 0} add`}</td>
-                                        <td>
-                                            <div className={cx('button-container')}>
-                                                <button
-                                                    className={cx('detail-button')}
-                                                    onClick={() => handleDetail(event.id)}
-                                                >
-                                                    Detail
-                                                </button>
-                                                <button
-                                                    className={cx('delete-button')}
-                                                    onClick={() => handleDeleteEvent(event.id)}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
+                                    <tr
+                                        key={event.id}
+                                        onClick={() => handleDetail(event.id)}
+                                        className={cx('list-content')}
+                                    >
+                                        <td className={cx('nowrap-cell1')}>
+                                            <span className={cx('space')}></span>
+                                            {event.name}
                                         </td>
+                                        <td className={cx('nowrap-cell2')}>{event.user ? event.user.name : 'N/A'}</td>
+                                        <td className={cx('nowrap-cell3')}>{event.user ? event.user.email : 'N/A'}</td>
+                                        <td className={cx('nowrap-cell4')}>{event.start_date}</td>
+                                        <td className={cx('nowrap-cell5')}>{event.end_date}</td>
+                                        <td className={cx('nowrap-cell6')}>{event.category.name}</td>
+                                        <td className={cx('nowrap-cell7')}>{`${event.images?.length || 0} img`}</td>
+                                        <td className={cx('nowrap-cell8')}>{`${event.add_ons?.length || 0} add`}</td>
+
+                                        <div className={cx('button-container')}>
+                                            <button
+                                                className={cx('delete-button')}
+                                                onClick={(e) => handleDeleteEvent(event.id, e)}
+                                            >
+                                                <FontAwesomeIcon icon={faTrashCan} />
+                                            </button>
+                                        </div>
                                     </tr>
                                 ))}
                             </tbody>

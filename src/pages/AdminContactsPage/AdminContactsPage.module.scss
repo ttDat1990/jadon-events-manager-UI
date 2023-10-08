@@ -1,18 +1,31 @@
 .container {
-    width: 700px;
+    width: 1000px;
     text-align: center;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-container {
+    width: 50%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 20px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
 }
 
 .search-box {
-    margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 
     input {
-        width: 30%;
+        width: 40%;
         font-size: 1.6rem;
         outline: none;
         border: 1px solid #e9e9e9;
@@ -41,6 +54,10 @@
     text-align: center;
 }
 
+// .user-table tr {
+//     height: 120px;
+// }
+
 .user-table thead {
     tr {
         height: 50px;
@@ -68,7 +85,7 @@
 }
 
 .delete-button {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     outline: none;
     text-decoration: none;
     color: var(--grey);
@@ -83,43 +100,27 @@
     }
 }
 
-.save-button {
-    width: 80px;
-    padding: 3px 5px;
-    margin: 0 5px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    outline: none;
-    text-decoration: none;
-    color: var(--blue);
-    cursor: pointer;
-    background-color: var(--white-color);
-    border: 1px solid var(--blue);
-    transition: background-color 0.3s ease-in-out;
-
-    &:hover {
-        background-color: var(--blue);
-        color: var(--white-color);
-    }
+.checked {
+    font-size: 1.5rem;
+    font-weight: 500;
+    background-color: var(--green);
+    color: var(--white-color);
+    padding: 2px 0;
+    text-align: center;
 }
 
-.cancel-button {
-    width: 80px;
-    padding: 3px 5px;
-    margin: 0 5px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    outline: none;
-    text-decoration: none;
-    color: var(--red);
-    cursor: pointer;
-    background-color: var(--white-color);
-    border: 1px solid var(--red);
-    transition: background-color 0.3s ease-in-out;
+.uncheck {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--red);
+    padding: 2px 0;
+    text-align: center;
+}
 
-    &:hover {
-        background-color: var(--red);
-        color: var(--white-color);
+.action {
+    button {
+        width: 100%;
     }
 }
 
@@ -150,9 +151,8 @@
     cursor: default;
 }
 
-
 .column-name {
-    width: 300px;
+    width: 180px;
 }
 
 .input {
@@ -196,32 +196,26 @@
 
 .list-content {
     cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s ease;
-
-    .action-button {
-        opacity: 0;
-    }
-
 
     &:hover {
+        background-color: #f0f2f5;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-
-        .action-button {
-            opacity: 1;
-        }
-
     }
 }
 
-.action-button {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
+//modal
+.modal-overlay {
+    width: 50%;
+    margin-left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
 
-.action-button1 {
-    position: absolute;
-    right: 10px;
-    top: 62px;
+    div {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
 }

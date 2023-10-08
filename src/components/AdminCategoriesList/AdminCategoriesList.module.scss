@@ -1,6 +1,7 @@
 .container {
-    width: 1200px;
-    margin-top: 20px;
+    width: 1000px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .title {
@@ -38,11 +39,8 @@
 
     img {
         height: 60px;
+        width: auto;
     }
-}
-
-.id-column {
-    width: 5%;
 }
 
 .title-column {
@@ -65,13 +63,13 @@
     }
 }
 
-.img-column {
-    width: 20%;
-}
+// .img-column {
+//     width: 20%;
+// }
 
-.action-column {
-    width: 15%;
-}
+// .action-column {
+//     width: 15%;
+// }
 
 .error-message {
     color: var(--red);
@@ -79,29 +77,9 @@
     height: 15px;
 }
 
-.edit-button,
 .save-button {
     width: 80px;
-    padding: 5px;
-    font-size: 1.5rem;
-    font-weight: 500;
-    outline: none;
-    text-decoration: none;
-    color: var(--green);
-    cursor: pointer;
-    background-color: var(--white-color);
-    border: 1px solid var(--green);
-    transition: background-color 0.3s ease-in-out;
-
-    &:hover {
-        background-color: var(--green);
-        color: var(--white-color);
-    }
-}
-
-.save-button {
-    width: 80px;
-    padding: 5px;
+    padding: 0 5px;
     font-size: 1.5rem;
     font-weight: 500;
     outline: none;
@@ -120,8 +98,8 @@
 
 .cancel-button {
     width: 80px;
-    padding: 5px;
-    margin: 10px 0px;
+    padding: 0 5px;
+    margin: 10px 10px;
     font-size: 1.5rem;
     font-weight: 500;
     outline: none;
@@ -137,4 +115,20 @@
         color: var(--white-color);
     }
 
+}
+
+.list-content {
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.action-button1 {
+    position: absolute;
+    right: 10px;
+    top: 40px;
 }

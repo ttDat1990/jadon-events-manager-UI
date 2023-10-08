@@ -41,7 +41,8 @@ const AdminCategoriesList = () => {
         }
     };
 
-    const handleCancelEdit = () => {
+    const handleCancelEdit = (e) => {
+        e.stopPropagation();
         setFormErrors('');
         setEditCategoryId(null);
         setEditedData({ title: '', name: '', image: null });
@@ -107,17 +108,18 @@ const AdminCategoriesList = () => {
                 <table className={cx('table')}>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Title</th>
                             <th>Name</th>
                             <th>Image</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {categories.map((category) => (
-                            <tr key={category.id}>
-                                <td className={cx('id-column')}>{category.id}</td>
+                            <tr
+                                key={category.id}
+                                onClick={() => handleEditClick(category.id)}
+                                className={cx('list-content')}
+                            >
                                 <td className={cx('title-column')}>
                                     {editCategoryId === category.id ? (
                                         <div>
@@ -172,28 +174,20 @@ const AdminCategoriesList = () => {
                                         )
                                     )}
                                 </td>
-                                <td className={cx('action-container')}>
-                                    {editCategoryId === category.id ? (
-                                        <>
-                                            <button
-                                                onClick={() => handleSaveEdit(category.id, editedData)}
-                                                className={cx('save-button')}
-                                            >
-                                                Save
-                                            </button>
-                                            <button onClick={handleCancelEdit} className={cx('cancel-button')}>
-                                                Cancel
-                                            </button>
-                                        </>
-                                    ) : (
+
+                                {editCategoryId === category.id && (
+                                    <div className={cx('action-button1')}>
                                         <button
-                                            onClick={() => handleEditClick(category.id)}
-                                            className={cx('edit-button')}
+                                            onClick={() => handleSaveEdit(category.id, editedData)}
+                                            className={cx('save-button')}
                                         >
-                                            Edit
+                                            Save
                                         </button>
-                                    )}
-                                </td>
+                                        <button onClick={(e) => handleCancelEdit(e)} className={cx('cancel-button')}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                )}
                             </tr>
                         ))}
                     </tbody>

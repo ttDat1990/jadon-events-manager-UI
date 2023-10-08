@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { userApi } from '~/components/ApiUrl';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
@@ -15,7 +16,7 @@ const AdminUsersList = () => {
     const [searchByName, setSearchByName] = useState('');
     const [searchByEmail, setSearchByEmail] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(5);
+    const [usersPerPage] = useState(10);
     const [totalUsers, setTotalUsers] = useState(0);
     const [pages, setPages] = useState([]);
     const [noResults, setNoResults] = useState(false);
@@ -62,7 +63,8 @@ const AdminUsersList = () => {
         setCurrentPage(1);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = (id, e) => {
+        e.stopPropagation();
         const confirmDelete = window.confirm('Are you sure you want to delete this User?');
 
         if (confirmDelete) {
@@ -118,7 +120,8 @@ const AdminUsersList = () => {
             });
     };
 
-    const handleCancelEdit = () => {
+    const handleCancelEdit = (e) => {
+        e.stopPropagation();
         setEditingUser(null);
         setFormErrors('');
     };
@@ -174,12 +177,11 @@ const AdminUsersList = () => {
                                 <tr>
                                     <th className={cx('column-name')}>Name</th>
                                     <th>Email</th>
-                                    <th className={cx('column-action')}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr key={user.id}>
+                                    <tr key={user.id} onClick={() => handleUpdate(user)} className={cx('list-content')}>
                                         <td>
                                             {editingUser && editingUser.id === user.id ? (
                                                 <div>
@@ -221,41 +223,29 @@ const AdminUsersList = () => {
                                                 user.email
                                             )}
                                         </td>
-                                        <td className={cx('action')}>
-                                            <div>
-                                                {editingUser && editingUser.id === user.id ? (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleSave(user)}
-                                                            className={cx('save-button')}
-                                                        >
-                                                            Save
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleCancelEdit()}
-                                                            className={cx('cancel-button')}
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleUpdate(user)}
-                                                            className={cx('edit-button')}
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleDelete(user.id)}
-                                                            className={cx('delete-button')}
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </>
-                                                )}
+
+                                        {editingUser && editingUser.id === user.id ? (
+                                            <div className={cx('action-button1')}>
+                                                <button onClick={() => handleSave(user)} className={cx('save-button')}>
+                                                    Save
+                                                </button>
+                                                <button
+                                                    onClick={(e) => handleCancelEdit(e)}
+                                                    className={cx('cancel-button')}
+                                                >
+                                                    Cancel
+                                                </button>
                                             </div>
-                                        </td>
+                                        ) : (
+                                            <div className={cx('action-button')}>
+                                                <button
+                                                    onClick={(e) => handleDelete(user.id, e)}
+                                                    className={cx('delete-button')}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrashCan} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </tr>
                                 ))}
                             </tbody>

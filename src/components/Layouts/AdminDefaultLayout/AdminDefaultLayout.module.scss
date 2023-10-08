@@ -7,6 +7,14 @@
 }
 
 .content {
-    margin: 0 auto;
+    margin: 50px auto;
+    display: flex;
+}
 
+.padding-bar {
+    width: 300px;
+}
+
+.main-content {
+    flex: 1;
 }

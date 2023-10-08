@@ -41,7 +41,8 @@ const AdminSlidesList = () => {
         }
     };
 
-    const handleCancelEdit = () => {
+    const handleCancelEdit = (e) => {
+        e.stopPropagation();
         setFormErrors('');
         setEditSlideId(null);
         setEditedData({ title: '', content: '', image: null });
@@ -107,17 +108,14 @@ const AdminSlidesList = () => {
                 <table className={cx('table')}>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Title</th>
                             <th>Content</th>
                             <th>Image</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {slides.map((slide) => (
-                            <tr key={slide.id}>
-                                <td className={cx('id-column')}>{slide.id}</td>
+                            <tr key={slide.id} onClick={() => handleEditClick(slide.id)} className={cx('list-content')}>
                                 <td className={cx('title-column')}>
                                     {editSlideId === slide.id ? (
                                         <div>
@@ -172,25 +170,20 @@ const AdminSlidesList = () => {
                                         )
                                     )}
                                 </td>
-                                <td className={cx('action-container')}>
-                                    {editSlideId === slide.id ? (
-                                        <>
-                                            <button
-                                                onClick={() => handleSaveEdit(slide.id, editedData)}
-                                                className={cx('save-button')}
-                                            >
-                                                Save
-                                            </button>
-                                            <button onClick={handleCancelEdit} className={cx('cancel-button')}>
-                                                Cancel
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <button onClick={() => handleEditClick(slide.id)} className={cx('edit-button')}>
-                                            Edit
+
+                                {editSlideId === slide.id && (
+                                    <div className={cx('action-button1')}>
+                                        <button
+                                            onClick={() => handleSaveEdit(slide.id, editedData)}
+                                            className={cx('save-button')}
+                                        >
+                                            Save
                                         </button>
-                                    )}
-                                </td>
+                                        <button onClick={(e) => handleCancelEdit(e)} className={cx('cancel-button')}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                )}
                             </tr>
                         ))}
                     </tbody>

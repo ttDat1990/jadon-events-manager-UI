@@ -1,13 +1,13 @@
 .container {
     width: 1200px;
-    margin: auto;
     text-align: center;
-    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .search-box {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
 
@@ -50,6 +50,10 @@
     cursor: default;
 }
 
+.table-container {
+    width: 100%;
+}
+
 /* Style for the table */
 .event-table {
     width: 100%;
@@ -80,23 +84,14 @@
 }
 
 .delete-button {
-    width: 80px;
-    padding: 5px;
-    margin: 10px 0 5px 5px;
     font-size: 1.5rem;
-    font-weight: 500;
     outline: none;
     text-decoration: none;
-    color: var(--red);
+    color: var(--grey);
     cursor: pointer;
-    background-color: var(--white-color);
-    border: 1px solid var(--red);
-    transition: background-color 0.3s ease-in-out;
-
-    &:hover {
-        background-color: var(--red);
-        color: var(--white-color);
-    }
+    border: none;
+    padding: 5px;
+    background-color: transparent;
 }
 
 .event-table th,
@@ -111,10 +106,17 @@
     text-align: center;
 }
 
-.button-container {
-    display: flex;
-    flex-direction: column;
-}
+// .event-table {
+//     tbody {
+//         tr {
+//             td {
+//                 overflow: hidden;
+//                 white-space: nowrap;
+//                 text-overflow: ellipsis;
+//             }
+//         }
+//     }
+// }
 
 /* Loading Animation */
 .loading-container {
@@ -142,10 +144,73 @@
     }
 }
 
-.name-colum {
-    width: 200px;
+// .name-colum {
+//     width: 200px;
+// }
+
+// .email-colum {
+//     width: 200px;
+// }
+
+.list-content {
+    cursor: pointer;
+    position: relative;
+
+    transition: background-color 0.3s ease;
+
+    .button-container {
+        opacity: 0;
+    }
+
+    &:hover {
+
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+        .button-container {
+            opacity: 1;
+        }
+    }
 }
 
-.email-colum {
-    width: 200px;
+.button-container {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .3s ease;
+
+    &:hover {
+        background-color: #f0f2f5;
+
+    }
+}
+
+.nowrap-cell1 {
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.nowrap-cell2,
+.nowrap-cell3,
+.nowrap-cell4,
+.nowrap-cell5,
+.nowrap-cell6,
+.nowrap-cell7,
+.nowrap-cell8 {
+    max-width: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.space {
+    display: inline-block;
+    width: 30px;
 }
