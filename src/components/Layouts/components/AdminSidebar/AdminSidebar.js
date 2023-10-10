@@ -5,13 +5,17 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '~/components/AuthContext/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faBox,
+    faAddressCard,
+    faHandshakeSimple,
     faHouse,
+    faLayerGroup,
+    faPanorama,
     faRectangleList,
+    faRotate,
     faSignOutAlt,
     faSquarePlus,
-    faTable,
 } from '@fortawesome/free-solid-svg-icons';
+import { faAddressBook, faMessage, faNewspaper } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -33,8 +37,8 @@ const AdminSidebar = () => {
             </div>
             <div className={cx('sidebar-item')}>
                 <div className={cx('item-title')} onClick={() => toggleDropdown(1)}>
-                    <FontAwesomeIcon icon={faTable} />
-                    <span>Users Manager</span>
+                    <FontAwesomeIcon icon={faAddressBook} />
+                    <span>Users</span>
                 </div>
                 {openDropdownIndex === 1 && (
                     <div className={cx('dropdown-content')}>
@@ -51,8 +55,8 @@ const AdminSidebar = () => {
             </div>
             <div className={cx('sidebar-item')}>
                 <div className={cx('item-title')} onClick={() => toggleDropdown(2)}>
-                    <FontAwesomeIcon icon={faTable} />
-                    <span>Events Manager</span>
+                    <FontAwesomeIcon icon={faHandshakeSimple} />
+                    <span>Events</span>
                 </div>
                 {openDropdownIndex === 2 && (
                     <div className={cx('dropdown-content')}>
@@ -69,8 +73,8 @@ const AdminSidebar = () => {
             </div>
             <div className={cx('sidebar-item')}>
                 <div className={cx('item-title')} onClick={() => toggleDropdown(3)}>
-                    <FontAwesomeIcon icon={faTable} />
-                    <span>Press-reviews Manager</span>
+                    <FontAwesomeIcon icon={faNewspaper} />
+                    <span>Press-reviews</span>
                 </div>
                 {openDropdownIndex === 3 && (
                     <div className={cx('dropdown-content')}>
@@ -87,20 +91,32 @@ const AdminSidebar = () => {
             </div>
             <div className={cx('sidebar-item')}>
                 <Link to={'/admin/listCategory'} className={cx('item-title')}>
-                    <FontAwesomeIcon icon={faBox} />
-                    <span>Categories Manager</span>
+                    <FontAwesomeIcon icon={faLayerGroup} />
+                    <span>Categories</span>
                 </Link>
             </div>
             <div className={cx('sidebar-item')}>
                 <Link to={'/admin/listSlide'} className={cx('item-title')}>
-                    <FontAwesomeIcon icon={faBox} />
-                    <span>Slides Manager</span>
+                    <FontAwesomeIcon icon={faPanorama} />
+                    <span>Slides</span>
                 </Link>
             </div>
             <div className={cx('sidebar-item')}>
                 <Link to={'/admin/adminContacts'} className={cx('item-title')}>
-                    <FontAwesomeIcon icon={faBox} />
-                    <span>Contacts Manager</span>
+                    <FontAwesomeIcon icon={faAddressCard} />
+                    <span>Contacts</span>
+                </Link>
+            </div>
+            <div className={cx('sidebar-item')}>
+                <Link to={'/admin/adminFeedback'} className={cx('item-title')}>
+                    <FontAwesomeIcon icon={faRotate} />
+                    <span>Feedback</span>
+                </Link>
+            </div>
+            <div className={cx('sidebar-item')}>
+                <Link to={'/admin/listComments'} className={cx('item-title')}>
+                    <FontAwesomeIcon icon={faMessage} />
+                    <span>Comments</span>
                 </Link>
             </div>
             <div className={cx('sidebar-item')} onClick={logout}>

@@ -1,0 +1,224 @@
+.container {
+    width: 100%;
+    position: relative;
+}
+
+.contact_img {
+    width: 100vW;
+    height: 100vh;
+
+}
+
+.img_container {
+    position: relative;
+    width: 100%;
+    background-image: url(https://takeheartevents.com/wp-content/uploads/2019/01/DSC03714.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 1128px;
+    height: 1128px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ----------------------------------------- */
+.form_container {
+    position: absolute;
+    width: 100%;
+    top: 100px;
+    z-index: 3;
+}
+
+
+.contact_form_content {
+    width: 100%;
+    height: 100%;
+}
+
+.contact_title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    font-size: 3.4rem;
+    line-height: 44px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.contact_form_flex {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.contact_form {
+    background-color: white;
+    width: 726px;
+    height: 720px;
+    border-radius: 15px;
+}
+
+.contact_input_flex {
+    width: 100%;
+    height: 100%;
+    padding: 0 30px;
+}
+
+.contact_input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact_input input {
+    width: 48%;
+    height: 100%;
+    padding: 15px;
+    background-color: #f1f1f1;
+    color: #555;
+    box-shadow: none;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    border-radius: 0;
+    transition: border-color 0.6s ease;
+    outline: none;
+}
+
+/* .contact_input input[type="text"]:focus,
+.contact_input input[type="mail"]:focus,
+.contact_input input[type="number"]:focus{
+    font-size: 30px;
+} */
+
+.contact_event_type {
+    font-size: 1.6rem;
+    line-height: 26px;
+    font-family: var(--font-family);
+    color: #444;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.contact_event_type_flex {
+    display: flex;
+    justify-content: space-evenly;
+
+    span {
+        padding-left: 5px;
+    }
+}
+
+.contact_date {
+    margin-bottom: 20px;
+}
+
+.contact_textarea {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 430px;
+}
+
+.contact_word {
+    margin-bottom: 20px;
+}
+
+.contact_captcha {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.contact_date input,
+.contact_textarea textarea,
+.contact_captcha input {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background-color: #f1f1f1;
+    color: #555;
+    box-shadow: none;
+    border: none;
+    border-bottom: 3px solid #e0e0e0;
+    border-radius: 0;
+    transition: border-color 0.6s ease;
+    outline: none;
+}
+
+.contact_input input::placeholder,
+.contact_date input::placeholder,
+.contact_textarea textarea::placeholder,
+.contact_captcha input {
+    font-size: 1.4rem;
+    font-family: var(--font-family);
+    letter-spacing: 1px;
+}
+
+.contact_input input:focus,
+.contact_date input:focus,
+.contact_textarea textarea:focus,
+.contact_captcha input:focus {
+    border-bottom-color: var(--red);
+}
+
+.contact_btn button {
+    background-color: var(--red);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    width: 124px;
+    height: 50px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.contact_btn button:hover {
+    background-color: var(--red);
+}
+
+.contact_btn {
+    padding-top: 30px;
+}
+
+.iframeStyle {
+    width: 350px;
+    height: 200px;
+    border: none;
+}
+
+.error-message {
+    color: var(--red);
+    height: 15px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    height: 15px;
+    color: var(--green);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.error-message1 {
+    color: var(--red);
+    height: 15px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.error-container {
+    display: flex;
+    justify-content: space-between;
+}

@@ -27,6 +27,8 @@ import UserLogin from '~/pages/UserLogin';
 import Register from '~/pages/Register/Register';
 import UserEvents from '~/pages/UserEvents';
 import AdminContactsPage from '~/pages/AdminContactsPage';
+import AdminCommentsListPage from '~/pages/AdminCommentsListPage';
+import AdminFeedbackPage from '~/pages/AdminFeedbackPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -60,6 +62,8 @@ const adminRoutes = [
     { path: '/listPressReview', component: AdminPressReviewsListPage },
     { path: '/updatePressReview/:id', component: AdminPressReviewsUpdatePage },
     { path: '/adminContacts', component: AdminContactsPage },
+    { path: '/listComments', component: AdminCommentsListPage },
+    { path: '/adminFeedback', component: AdminFeedbackPage },
 ];
 
 const userRoutes = [{ path: '/user-events/:userId', component: UserEvents }];

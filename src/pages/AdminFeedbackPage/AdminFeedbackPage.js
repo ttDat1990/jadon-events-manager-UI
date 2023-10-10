@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { contactApi } from '~/components/ApiUrl';
+import { feedbackApi } from '~/components/ApiUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import useDebounce from '~/hooks';
-import styles from './AdminContactsPage.module.scss';
+import styles from './AdminFeedbackPage.module.scss';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const AdminContactsPage = () => {
-    const [contacts, setContacts] = useState([]);
+const AdminFeedbackPage = () => {
+    const [feedbacks, setFeedback] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchByName, setSearchByName] = useState('');
     const [searchByEmail, setSearchByEmail] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [contactsPerPage] = useState(10);
-    const [totalContacts, setTotalContacts] = useState(0);
+    const [feedbacksPerPage] = useState(10);
+    const [totalFeedbacks, setTotalFeedback] = useState(0);
     const [pages, setPages] = useState([]);
     const [noResults, setNoResults] = useState(false);
-    const [selectedContact, setSelectedContact] = useState(null);
+    const [selectedFeedback, setSelectedFeedback] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const debouncedName = useDebounce(searchByName, 500);
     const debouncedEmail = useDebounce(searchByEmail, 500);
@@ -29,24 +29,24 @@ const AdminContactsPage = () => {
         setIsLoading(true);
         try {
             const response = await axios.get(
-                `${contactApi}?page=${currentPage}&per_page=${contactsPerPage}&name=${debouncedName}&email=${debouncedEmail}`,
+                `${feedbackApi}?page=${currentPage}&per_page=${feedbacksPerPage}&name=${debouncedName}&email=${debouncedEmail}`,
             );
-            setContacts(response.data.data);
-            setTotalContacts(response.data.total);
+            setFeedback(response.data.data);
+            setTotalFeedback(response.data.total);
             setIsLoading(false);
             setNoResults(response.data.length === 0);
 
-            const totalPages = Math.ceil(totalContacts / contactsPerPage);
+            const totalPages = Math.ceil(totalFeedbacks / feedbacksPerPage);
             const pagesArray = [];
             for (let i = 1; i <= totalPages; i++) {
                 pagesArray.push(i);
             }
             setPages(pagesArray);
         } catch (error) {
-            console.error('Error fetching contacts:', error);
+            console.error('Error fetching feedbacks:', error);
             setIsLoading(false);
         }
-    }, [debouncedName, debouncedEmail, currentPage, contactsPerPage, totalContacts]);
+    }, [debouncedName, debouncedEmail, currentPage, feedbacksPerPage, totalFeedbacks]);
 
     useEffect(() => {
         fetchData();
@@ -63,11 +63,11 @@ const AdminContactsPage = () => {
     };
 
     const handleDelete = (id) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this Contact?');
+        const confirmDelete = window.confirm('Are you sure you want to delete this Feedback?');
 
         if (confirmDelete) {
             axios
-                .delete(`${contactApi}/${id}`)
+                .delete(`${feedbackApi}/${id}`)
                 .then((response) => {
                     fetchData();
                 })
@@ -77,19 +77,19 @@ const AdminContactsPage = () => {
         }
     };
 
-    const updateContactChecked = (contactId, isChecked) => {
-        setContacts((prevContacts) =>
-            prevContacts.map((contact) => (contact.id === contactId ? { ...contact, isChecked } : contact)),
+    const updateFeedbackChecked = (feedbackId, isChecked) => {
+        setFeedback((prevFeedbacks) =>
+            prevFeedbacks.map((feedback) => (feedback.id === feedbackId ? { ...feedback, isChecked } : feedback)),
         );
     };
 
     const handleCheck = (id) => {
         axios
-            .get(`${contactApi}/${id}`)
+            .get(`${feedbackApi}/${id}`)
             .then((response) => {
-                setSelectedContact(response.data.contact);
+                setSelectedFeedback(response.data.feedback);
                 setIsModalOpen(true);
-                updateContactChecked(id, true);
+                updateFeedbackChecked(id, true);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -105,7 +105,7 @@ const AdminContactsPage = () => {
     };
 
     const goToLastPage = () => {
-        const totalPages = Math.ceil(totalContacts / contactsPerPage);
+        const totalPages = Math.ceil(totalFeedbacks / feedbacksPerPage);
         setCurrentPage(totalPages);
     };
 
@@ -113,7 +113,7 @@ const AdminContactsPage = () => {
         <div className={cx('container')}>
             <div className={cx('content-container')}>
                 <div className={cx('table-container')}>
-                    <h2>Contacts List</h2>
+                    <h2>Feedbacks List</h2>
                     <div className={cx('search-box')}>
                         <input
                             type="text"
@@ -152,14 +152,14 @@ const AdminContactsPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {contacts.map((contact) => (
+                                        {feedbacks.map((feedback) => (
                                             <tr
-                                                key={contact.id}
+                                                key={feedback.id}
                                                 className={cx('list-content')}
-                                                onClick={() => handleCheck(contact.id)}
+                                                onClick={() => handleCheck(feedback.id)}
                                             >
-                                                <td>{contact.name}</td>
-                                                {contact.isChecked ? (
+                                                <td>{feedback.name}</td>
+                                                {feedback.isChecked ? (
                                                     <td>
                                                         <div className={cx('checked')}>Checked</div>
                                                     </td>
@@ -170,7 +170,7 @@ const AdminContactsPage = () => {
                                                 )}
                                                 <td className={cx('action')}>
                                                     <button
-                                                        onClick={() => handleDelete(contact.id)}
+                                                        onClick={() => handleDelete(feedback.id)}
                                                         className={cx('delete-button')}
                                                     >
                                                         <FontAwesomeIcon icon={faTrashCan} />
@@ -181,7 +181,7 @@ const AdminContactsPage = () => {
                                     </tbody>
                                 </table>
                             )}
-                            {contacts.length > 0 && (
+                            {feedbacks.length > 0 && (
                                 <div>
                                     <div className={cx('pagination')}>
                                         <button onClick={goToFirstPage}>
@@ -215,33 +215,22 @@ const AdminContactsPage = () => {
                 </div>
                 {isModalOpen ? (
                     <div className={cx('modal-overlay')}>
-                        <h2>Contact Details</h2>
+                        <h2>Feedback Details</h2>
+
                         <div>
-                            Name: <div className={cx('content-details')}>{selectedContact?.name}</div>
+                            Name: <div className={cx('content-details')}>{selectedFeedback?.name}</div>
                         </div>
                         <div>
-                            Email: <div className={cx('content-details')}>{selectedContact?.email}</div>
+                            Email: <div className={cx('content-details')}>{selectedFeedback?.email}</div>
                         </div>
                         <div>
-                            Phone: <div className={cx('content-details')}>{selectedContact?.phone}</div>
-                        </div>
-                        <div>
-                            Company Name: <div className={cx('content-details')}>{selectedContact?.company_name}</div>
-                        </div>
-                        <div>
-                            Event type: <div className={cx('content-details')}>{selectedContact?.event_type}</div>
-                        </div>
-                        <div>
-                            Date Start: <div className={cx('content-details')}>{selectedContact?.date_start}</div>
-                        </div>
-                        <div>
-                            Content: <div className={cx('content-details')}>{selectedContact?.content}</div>
+                            Content: <div className={cx('content-details')}>{selectedFeedback?.content}</div>
                         </div>
                     </div>
                 ) : (
                     <div className={cx('modal-overlay')}>
-                        <h2>Contact Details</h2>
-                        <div>Choose 1 contact for details</div>
+                        <h2>Feedback Details</h2>
+                        <div>Choose 1 feedback for details</div>
                     </div>
                 )}
             </div>
@@ -249,4 +238,4 @@ const AdminContactsPage = () => {
     );
 };
 
-export default AdminContactsPage;
+export default AdminFeedbackPage;
