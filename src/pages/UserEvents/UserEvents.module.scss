@@ -76,6 +76,7 @@
 
 .content-container {
     max-width: 1100px;
+    min-height: 583px;
     margin: auto;
 }
 
@@ -204,4 +205,15 @@
 
 .active1 {
     color: var(--primary-color) !important;
+}
+
+.no-items {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.icon {
+    margin: 0 10px;
+    color: var(--black-color);
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { contactApi } from '~/components/ApiUrl';
 import styles from './ContactUs.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +30,8 @@ function ContactUs() {
 
     const [successMessage, setSuccessMessage] = useState('');
     const [formErrors, setFormErrors] = useState({});
+    const [captchaValue, setCaptchaValue] = useState(null);
+    const contactFormRef = useRef(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -46,8 +49,17 @@ function ContactUs() {
         });
     };
 
+    const handleCaptchaChange = (value) => {
+        setCaptchaValue(value);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!captchaValue) {
+            alert('Please complete the CAPTCHA to submit your comment.');
+            return;
+        }
 
         const requestBody = {
             name: formData.name,
@@ -57,6 +69,7 @@ function ContactUs() {
             event_type: formData.event_type,
             date_start: formData.date_start,
             content: formData.content,
+            captchaValue: captchaValue,
         };
 
         axios
@@ -94,13 +107,17 @@ function ContactUs() {
                     setFormErrors({ general: 'Errors!' });
                 }
             });
+
+        if (contactFormRef.current) {
+            contactFormRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     return (
         <div className={cx('container')}>
             <div className={cx('form_container')}>
                 <div className={cx('contact_form_content')}>
-                    <h2 className={cx('contact_title')}>
+                    <h2 className={cx('contact_title')} ref={contactFormRef}>
                         To get started planning, please tell us a bit <br /> more about your event
                     </h2>
                     <div className={cx('contact_form_flex')}>
@@ -253,6 +270,10 @@ function ContactUs() {
                                     </div>
                                     <div className={cx('contact_btn')}>
                                         <button type="submit">Send</button>
+                                        <ReCAPTCHA
+                                            sitekey="6LcoRJMoAAAAAPbwgdOax4fJN6oqOCbyxijTJw6T"
+                                            onChange={handleCaptchaChange}
+                                        />
                                     </div>
                                 </div>
                             </form>

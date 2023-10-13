@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { userEventsApi } from '~/components/ApiUrl';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './UserEvents.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -114,7 +115,7 @@ function UserEvents() {
 
                 {isLoading ? (
                     <p>Loading...</p>
-                ) : (
+                ) : events.length > 0 ? (
                     <div className={cx('items-container')}>
                         {events.map((event, image) => (
                             <div key={event.id} className={cx('item-detail')}>
@@ -133,6 +134,11 @@ function UserEvents() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                ) : (
+                    <div className={cx('no-items')}>
+                        You do not have event! <FontAwesomeIcon icon={faArrowRightLong} className={cx('icon')} />
+                        <Link to={'/contact-us'}>Contact us now!</Link>
                     </div>
                 )}
                 <div className={cx('pagination')}>

@@ -228,14 +228,30 @@
     div {
         width: 100%;
         text-align: left;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         font-weight: 500;
         color: var(--primary-admin-color);
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
 
     h2 {
         margin-bottom: 10px;
+    }
+
+    button {
+        margin-top: 10px;
+        border: 1px solid var(--primary-color);
+        background-color: var(--white-color);
+        padding: 5px 15px;
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: var(--primary-color);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
     }
 }
 

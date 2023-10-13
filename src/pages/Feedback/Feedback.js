@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import ReCAPTCHA from 'react-google-recaptcha';
 import classNames from 'classnames/bind';
 import { feedbackApi } from '~/components/ApiUrl';
 import styles from './Feedback.module.scss';
@@ -16,6 +17,7 @@ function Feedback() {
 
     const [successMessage, setSuccessMessage] = useState('');
     const [formErrors, setFormErrors] = useState({});
+    const [captchaValue, setCaptchaValue] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,13 +27,23 @@ function Feedback() {
         });
     };
 
+    const handleCaptchaChange = (value) => {
+        setCaptchaValue(value);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!captchaValue) {
+            alert('Please complete the CAPTCHA to submit your comment.');
+            return;
+        }
 
         const requestBody = {
             name: formData.name,
             email: formData.email,
             content: formData.content,
+            captchaValue: captchaValue,
         };
 
         axios
@@ -124,6 +136,10 @@ function Feedback() {
                                     </div>
                                     <div className={cx('contact_btn')}>
                                         <button type="submit">Send</button>
+                                        <ReCAPTCHA
+                                            sitekey="6LcoRJMoAAAAAPbwgdOax4fJN6oqOCbyxijTJw6T"
+                                            onChange={handleCaptchaChange}
+                                        />
                                     </div>
                                 </div>
                             </form>

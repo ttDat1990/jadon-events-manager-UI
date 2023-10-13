@@ -87,13 +87,16 @@ const AdminFeedbackPage = () => {
         axios
             .get(`${feedbackApi}/${id}`)
             .then((response) => {
-                setSelectedFeedback(response.data.feedback);
-                setIsModalOpen(true);
                 updateFeedbackChecked(id, true);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+    };
+
+    const handleChoose = (index, id) => {
+        setSelectedFeedback(feedbacks[index]);
+        setIsModalOpen(true);
     };
 
     const paginate = (pageNumber) => {
@@ -152,11 +155,11 @@ const AdminFeedbackPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {feedbacks.map((feedback) => (
+                                        {feedbacks.map((feedback, index) => (
                                             <tr
                                                 key={feedback.id}
                                                 className={cx('list-content')}
-                                                onClick={() => handleCheck(feedback.id)}
+                                                onClick={() => handleChoose(index)}
                                             >
                                                 <td>{feedback.name}</td>
                                                 {feedback.isChecked ? (
@@ -226,6 +229,9 @@ const AdminFeedbackPage = () => {
                         <div>
                             Content: <div className={cx('content-details')}>{selectedFeedback?.content}</div>
                         </div>
+                        {!selectedFeedback.isChecked && (
+                            <button onClick={() => handleCheck(selectedFeedback.id)}>Marked as checked</button>
+                        )}
                     </div>
                 ) : (
                     <div className={cx('modal-overlay')}>

@@ -166,7 +166,7 @@ function NavigationBar() {
                         </li>
                     ) : (
                         <Link to={'/user/login'} className={cx('nav-item')}>
-                            <div className={navLink()}>
+                            <div className={navLink('/user/login')}>
                                 <FontAwesomeIcon icon={faUser} className={cx('nav-item-size')} />
                                 <span className={cx('text')}>Log in</span>
                             </div>

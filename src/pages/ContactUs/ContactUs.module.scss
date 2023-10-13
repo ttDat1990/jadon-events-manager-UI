@@ -131,7 +131,7 @@
 .form_container {
     position: absolute;
     width: 100%;
-    top: 150px;
+    top: 120px;
 }
 
 
@@ -146,11 +146,10 @@
     text-align: center;
     justify-content: center;
     color: white;
-    margin-bottom: 20px;
     font-size: 3.4rem;
     line-height: 44px;
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .contact_form_flex {
@@ -162,7 +161,7 @@
 .contact_form {
     background-color: white;
     width: 726px;
-    height: 980px;
+    height: 1000px;
     border-radius: 15px;
 }
 
@@ -288,6 +287,8 @@
 
 .contact_btn {
     padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .iframeStyle {

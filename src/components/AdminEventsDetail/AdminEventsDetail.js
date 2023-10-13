@@ -22,6 +22,9 @@ function AdminEventsDetail() {
     const [categories, setCategories] = useState([]);
     const [formErrors, setFormErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
+    const [oldImages, setOldImages] = useState([]);
+    const [deletedImages, setDeletedImages] = useState([]);
+    const [isFirst, setIsFirst] = useState(false);
 
     const { id } = useParams(); // Get the event ID from the URL params
 
@@ -39,6 +42,7 @@ function AdminEventsDetail() {
                 .get(`${eventApi}/${id}`)
                 .then((response) => {
                     setFormData(response.data); // Set the form data with the fetched event data
+                    setOldImages(response.data.images);
                 })
                 .catch((error) => {
                     console.error('Error fetching event data:', error);
@@ -46,6 +50,17 @@ function AdminEventsDetail() {
         }
     }, [id]);
 
+    const handleRemoveOldImage = (indexToRemove) => {
+        const deletedImageId = oldImages[indexToRemove].id;
+        // Create a copy of deletedImages and add the ID of the deleted image
+        const updatedDeletedImages = [...deletedImages, deletedImageId];
+        setDeletedImages(updatedDeletedImages);
+
+        // Create a copy of oldImages and remove the selected image
+        const updatedOldImages = [...oldImages];
+        updatedOldImages.splice(indexToRemove, 1);
+        setOldImages(updatedOldImages);
+    };
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -54,6 +69,9 @@ function AdminEventsDetail() {
     const handleImageChange = (event) => {
         const images = Array.from(event.target.files);
         setFormData({ ...formData, images });
+        if (!isFirst) {
+            setIsFirst(true);
+        }
     };
 
     const handleAddOnChange = (event, index) => {
@@ -100,6 +118,7 @@ function AdminEventsDetail() {
         formDataToSend.append('end_date', formData.end_date);
         formDataToSend.append('category_id', formData.category_id);
         formDataToSend.append('user_id', formData.user_id);
+        formDataToSend.append('deleted_images', deletedImages.join(','));
 
         const newImagesSelected = checkInputStatus();
 
@@ -221,7 +240,7 @@ function AdminEventsDetail() {
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="images" className={cx('label-img')}>
-                        Select Images
+                        Add new Images
                     </label>
                     <input
                         type="file"
@@ -234,7 +253,8 @@ function AdminEventsDetail() {
                     />
                 </div>
                 <div className={cx('selected-images')}>
-                    {formData.images &&
+                    {isFirst &&
+                        formData.images &&
                         formData.images.map((image, index) => (
                             <div key={index} className={cx('selected-image-container')}>
                                 <img
@@ -262,6 +282,21 @@ function AdminEventsDetail() {
                             </div>
                         ),
                 )}
+                <div className={cx('selected-images')}>
+                    {oldImages &&
+                        oldImages.map((image, index) => (
+                            <div key={index} className={cx('selected-image-container')}>
+                                <img src={image.image_url} alt={`Old img ${index}`} className={cx('selected-image')} />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveOldImage(index)}
+                                    className={cx('remove-image-button')}
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                            </div>
+                        ))}
+                </div>
                 <div className={cx('add-ons')}>
                     <h3 className={cx('add-ons-title')}>Add-ons</h3>
                     {formData.add_ons &&

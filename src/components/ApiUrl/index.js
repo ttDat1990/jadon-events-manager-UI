@@ -25,6 +25,8 @@ const contactApi = 'http://127.0.0.1:8000/api/contacts';
 
 const feedbackApi = 'http://127.0.0.1:8000/api/feedbacks';
 
+const reviewApi = 'http://127.0.0.1:8000/api/reviews';
+
 export {
     slidesApi,
     adminLoginUrl,
@@ -41,4 +43,5 @@ export {
     likeApi,
     contactApi,
     feedbackApi,
+    reviewApi,
 };

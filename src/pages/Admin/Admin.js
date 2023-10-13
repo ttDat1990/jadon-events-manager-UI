@@ -35,7 +35,12 @@ function Admin() {
                 setPresses(pressResponse.data);
                 setUsers(userResponse.data.users);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                if (error.response && error.response.status === 429) {
+                    const retryAfter = error.response.headers['Retry-After'];
+                    setTimeout(() => fetchData(), retryAfter * 1000);
+                } else {
+                    console.error('Error fetching data:', error);
+                }
             }
         };
         fetchData();

@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './HomeComponent.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGem, faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faGem, faHeart, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { faMartiniGlass, faPeopleGroup, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import SlideReviews from '../SlideReviews';
 
 const cx = classNames.bind(styles);
 
@@ -240,27 +241,14 @@ function HomeComponent() {
                 </div>
             </div>
             <div className={cx('home_review')}>
-                <div className={cx('home_review_icon')}>
-                    <i>
-                        <FontAwesomeIcon icon={faQuoteLeft} />
-                    </i>
-                </div>
-                <div className={cx('home_review_slide')}>
-                    <div className={cx('home_review_slide_cmt')}>
-                        <p>
-                            I served on the event committee for a nonprofit fundraiser, and we hired Chelsea's company
-                            for event planning. It was a large, complicated event, and we are a demanding group. She
-                            listened well, was patient and calm, and executed beautifully. I highly recommend her
-                            company.
-                        </p>
-                        <h5>Shelly</h5>
-                    </div>
-                </div>
+                <SlideReviews />
                 <div className={cx('home_review_btn')}>
                     <h4>How did we do? Leave us a review!</h4>
                     <a href="/">
                         <span>REVIEW US</span>
-                        <i className={cx('fa-regular', 'fa-thumbs-up')}></i>
+                        <i>
+                            <FontAwesomeIcon icon={faThumbsUp} />
+                        </i>
                     </a>
                 </div>
             </div>

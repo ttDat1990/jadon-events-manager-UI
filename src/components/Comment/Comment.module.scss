@@ -172,3 +172,14 @@
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     margin-right: 7px;
 }
+
+.unactive {
+    cursor: default;
+    text-decoration: line-through;
+
+    &:hover {
+        cursor: default !important;
+        text-decoration: line-through !important;
+        color: #65676B !important;
+    }
+}

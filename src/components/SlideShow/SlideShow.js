@@ -12,6 +12,15 @@ function SlideShow() {
     const [slides, setSlides] = useState([]);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
+    useEffect(() => {
+        fetch(slidesApi)
+            .then((response) => response.json())
+            .then((data) => {
+                setSlides(data);
+            })
+            .catch((error) => console.error('Error:', error));
+    }, []);
+
     const nextSlide = useCallback(() => {
         if (currentSlideIndex < slides.slides.length - 1) {
             setCurrentSlideIndex(currentSlideIndex + 1);
@@ -27,15 +36,6 @@ function SlideShow() {
             setCurrentSlideIndex(slides.slides.length - 1);
         }
     }, [currentSlideIndex, slides]);
-
-    useEffect(() => {
-        fetch(slidesApi)
-            .then((response) => response.json())
-            .then((data) => {
-                setSlides(data);
-            })
-            .catch((error) => console.error('Error:', error));
-    }, []);
 
     useEffect(() => {
         const slideInterval = setInterval(() => {

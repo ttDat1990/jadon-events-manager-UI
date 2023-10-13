@@ -87,13 +87,16 @@ const AdminContactsPage = () => {
         axios
             .get(`${contactApi}/${id}`)
             .then((response) => {
-                setSelectedContact(response.data.contact);
-                setIsModalOpen(true);
                 updateContactChecked(id, true);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+    };
+
+    const handleChoose = (index) => {
+        setSelectedContact(contacts[index]);
+        setIsModalOpen(true);
     };
 
     const paginate = (pageNumber) => {
@@ -152,11 +155,11 @@ const AdminContactsPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {contacts.map((contact) => (
+                                        {contacts.map((contact, index) => (
                                             <tr
                                                 key={contact.id}
                                                 className={cx('list-content')}
-                                                onClick={() => handleCheck(contact.id)}
+                                                onClick={() => handleChoose(index)}
                                             >
                                                 <td>{contact.name}</td>
                                                 {contact.isChecked ? (
@@ -237,6 +240,9 @@ const AdminContactsPage = () => {
                         <div>
                             Content: <div className={cx('content-details')}>{selectedContact?.content}</div>
                         </div>
+                        {!selectedContact.isChecked && (
+                            <button onClick={() => handleCheck(selectedContact.id)}>Marked as checked</button>
+                        )}
                     </div>
                 ) : (
                     <div className={cx('modal-overlay')}>

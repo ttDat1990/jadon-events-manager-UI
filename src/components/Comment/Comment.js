@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '~/components/AuthContext/AuthContext';
 import { commentApi, likeApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
+import ReCAPTCHA from 'react-google-recaptcha';
 import styles from './Comment.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -17,6 +18,7 @@ function Comment({ pressId }) {
     const [replyTo, setReplyTo] = useState(null);
     const token = localStorage.getItem('userToken');
     const { isLoggedIn, userName } = useAuth();
+    const [captchaValue, setCaptchaValue] = useState(null);
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -35,11 +37,20 @@ function Comment({ pressId }) {
         setNewComment(event.target.value);
     };
 
+    const handleCaptchaChange = (value) => {
+        setCaptchaValue(value);
+    };
+
     const handleCommentSubmit = () => {
         let parentId = null;
 
         if (replyTo) {
             parentId = replyTo.id;
+        }
+
+        if (!captchaValue) {
+            alert('Please complete the CAPTCHA to submit your comment.');
+            return;
         }
 
         axios
@@ -49,6 +60,7 @@ function Comment({ pressId }) {
                     press_id: pressId,
                     content: newComment,
                     parent_id: parentId,
+                    captchaValue: captchaValue,
                 },
                 {
                     headers: {
@@ -99,7 +111,7 @@ function Comment({ pressId }) {
         const sorted = [];
 
         for (const comment of comments) {
-            if (comment.parent_id === parentId) {
+            if (comment.parent_id === parentId && comment.isChecked) {
                 comment.level = level;
                 sorted.push(comment);
                 const childComments = sortComments(comments, comment.id, level + 1);
@@ -156,6 +168,7 @@ function Comment({ pressId }) {
                     <button className={cx('button')} onClick={handleCommentSubmit}>
                         <FontAwesomeIcon icon={faAnglesRight} />
                     </button>
+                    <ReCAPTCHA sitekey="6LcoRJMoAAAAAPbwgdOax4fJN6oqOCbyxijTJw6T" onChange={handleCaptchaChange} />
                 </div>
             )}
             {!isLoggedIn && <Link to={'/user/login'}>Login to comment</Link>}
@@ -175,10 +188,22 @@ function Comment({ pressId }) {
                         <div className={cx('content')}>
                             <div className={cx('comment-name')}>{comment.name}</div>
                             <div className={cx('comment-content')}>{comment.content}</div>
-                            {isLoggedIn && comment.level < 4 && (
+                            {isLoggedIn && comment.level < 4 ? (
                                 <div className={cx('button-1')}>
                                     <button onClick={() => handleLikeClick(comment)}>Like</button>
                                     <button onClick={() => handleReplyClick(comment)}>Reply</button>
+                                    <div className={cx('date-create')}>
+                                        {calculateTimeDifference(comment.created_at)}
+                                    </div>
+                                    <div className={cx('likes-count')}>
+                                        <FontAwesomeIcon icon={faThumbsUp} className={cx('likes-icon')} />
+                                        {comment.likes_count}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={cx('button-1')}>
+                                    <button onClick={() => handleLikeClick(comment)}>Like</button>
+                                    <button className={cx('unactive')}>Reply</button>
                                     <div className={cx('date-create')}>
                                         {calculateTimeDifference(comment.created_at)}
                                     </div>

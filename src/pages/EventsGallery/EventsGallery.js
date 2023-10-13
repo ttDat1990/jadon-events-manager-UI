@@ -4,28 +4,29 @@ import { eventApi } from '~/components/ApiUrl';
 import classNames from 'classnames/bind';
 import styles from './EventsGallery.module.scss';
 import { useNavigate } from 'react-router-dom';
+import useDebounce from '~/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function EventsGallery() {
     const [events, setEvents] = useState([]);
+    const [search, setSearch] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [categoryName, setCategoryName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(6);
+    const [eventsPerPage] = useState(18);
     const [totalEvents, setTotalEvents] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
-
+    const debouncedEvent = useDebounce(search, 500);
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const response = await axios.get(
-                    `${eventApi}?category_name=${categoryName}&page=${currentPage}&per_page=${eventsPerPage}`,
+                    `${eventApi}?category_name=${categoryName}&event_name=${debouncedEvent}&page=${currentPage}&per_page=${eventsPerPage}`,
                 );
                 setEvents(response.data.data);
                 setTotalEvents(response.data.total);
@@ -44,10 +45,15 @@ function EventsGallery() {
         };
 
         fetchData();
-    }, [currentPage, eventsPerPage, totalEvents, categoryName]);
+    }, [currentPage, eventsPerPage, totalEvents, categoryName, debouncedEvent]);
 
     const handleUpdate = (id) => {
         navigate(`/event-details/${id}`);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        setCurrentPage(1);
     };
 
     const handleCategoryChange = (category) => {
@@ -68,6 +74,11 @@ function EventsGallery() {
         setCurrentPage(totalPages);
     };
 
+    function formatDate(dateString) {
+        const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('vi-VN', options);
+    }
+
     return (
         <div className={cx('container')}>
             <div className={cx('img-header')}>
@@ -79,37 +90,47 @@ function EventsGallery() {
             </div>
             <div className={cx('content-container')}>
                 <div className={cx('filter-bar')}>
-                    <div>Sort events:</div>
-                    <button
-                        onClick={() => handleCategoryChange('')}
-                        className={categoryName === '' ? cx('active1') : ''}
-                    >
-                        All
-                    </button>
-                    <button
-                        onClick={() => handleCategoryChange('CORPORATE')}
-                        className={categoryName === 'CORPORATE' ? cx('active1') : ''}
-                    >
-                        Corporate
-                    </button>
-                    <button
-                        onClick={() => handleCategoryChange('NON-PROFIT')}
-                        className={categoryName === 'NON-PROFIT' ? cx('active1') : ''}
-                    >
-                        Non-Profit
-                    </button>
-                    <button
-                        onClick={() => handleCategoryChange('SOCIAL')}
-                        className={categoryName === 'SOCIAL' ? cx('active1') : ''}
-                    >
-                        Social
-                    </button>
-                    <button
-                        onClick={() => handleCategoryChange('WEDDING')}
-                        className={categoryName === 'WEDDING' ? cx('active1') : ''}
-                    >
-                        Weddings
-                    </button>
+                    <div className={cx('search-box')}>
+                        <input
+                            type="text"
+                            placeholder="Search by Event Name"
+                            value={search}
+                            onChange={handleSearchChange}
+                        />
+                    </div>
+                    <div>
+                        <div>Sort events:</div>
+                        <button
+                            onClick={() => handleCategoryChange('')}
+                            className={categoryName === '' ? cx('active1') : ''}
+                        >
+                            All
+                        </button>
+                        <button
+                            onClick={() => handleCategoryChange('CORPORATE')}
+                            className={categoryName === 'CORPORATE' ? cx('active1') : ''}
+                        >
+                            Corporate
+                        </button>
+                        <button
+                            onClick={() => handleCategoryChange('NON-PROFIT')}
+                            className={categoryName === 'NON-PROFIT' ? cx('active1') : ''}
+                        >
+                            Non-Profit
+                        </button>
+                        <button
+                            onClick={() => handleCategoryChange('SOCIAL')}
+                            className={categoryName === 'SOCIAL' ? cx('active1') : ''}
+                        >
+                            Social
+                        </button>
+                        <button
+                            onClick={() => handleCategoryChange('WEDDING')}
+                            className={categoryName === 'WEDDING' ? cx('active1') : ''}
+                        >
+                            Weddings
+                        </button>
+                    </div>
                 </div>
 
                 {isLoading ? (
@@ -129,9 +150,7 @@ function EventsGallery() {
                                 </div>
                                 <div className={cx('item-name')}>
                                     <div>{event.name}</div>
-                                    <span>
-                                        <FontAwesomeIcon icon={faHeart} />
-                                    </span>
+                                    <div className={cx('item-date')}>Start Date: {formatDate(event.start_date)}</div>
                                 </div>
                             </div>
                         ))}
