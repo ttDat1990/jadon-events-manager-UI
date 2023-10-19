@@ -115,7 +115,11 @@ const AdminSlidesList = () => {
                     </thead>
                     <tbody>
                         {slides.map((slide) => (
-                            <tr key={slide.id} onClick={() => handleEditClick(slide.id)} className={cx('list-content')}>
+                            <tr
+                                key={slide.id}
+                                onClick={editSlideId !== null ? null : () => handleEditClick(slide.id)}
+                                className={cx('list-content')}
+                            >
                                 <td className={cx('title-column')}>
                                     {editSlideId === slide.id ? (
                                         <div>

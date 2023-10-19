@@ -117,7 +117,7 @@ const AdminCategoriesList = () => {
                         {categories.map((category) => (
                             <tr
                                 key={category.id}
-                                onClick={() => handleEditClick(category.id)}
+                                onClick={editCategoryId !== null ? null : () => handleEditClick(category.id)}
                                 className={cx('list-content')}
                             >
                                 <td className={cx('title-column')}>

@@ -181,7 +181,11 @@ const AdminUsersList = () => {
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr key={user.id} onClick={() => handleUpdate(user)} className={cx('list-content')}>
+                                    <tr
+                                        key={user.id}
+                                        onClick={editingUser !== null ? null : () => handleUpdate(user)}
+                                        className={cx('list-content')}
+                                    >
                                         <td>
                                             {editingUser && editingUser.id === user.id ? (
                                                 <div>
